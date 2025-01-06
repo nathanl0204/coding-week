@@ -5,9 +5,19 @@ import javafx.scene.effect.ColorAdjust;
 public abstract class Card {
     
     private CardType cardType;
+    private Boolean guessed;
 
     public Card(CardType cardType){
         this.cardType = cardType;
+        this.guessed = false;
+    }
+
+    public void guessed(){
+        guessed = true;
+    }
+
+    public Boolean isGuessed(){
+        return guessed;
     }
 
     public ColorAdjust getColorAdjust() {

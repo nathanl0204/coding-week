@@ -2,23 +2,25 @@ package codenames.structure;
 
 public class Statistics {
     private double averageTimePerTurn;
-    private double averageWordsPerTurn;
+    private double averageCardsPerTurn;
     private int numberOfErrors;
     private int numberOfTurns;
+    private int numberOfGuess;
 
     public Statistics() {
         this.averageTimePerTurn = 0;
-        this.averageWordsPerTurn = 0;
+        this.averageCardsPerTurn = 0;
         this.numberOfErrors = 0;
         this.numberOfTurns = 0;
+        this.numberOfGuess = 0;
     }
 
     public double getAverageTimePerTurn() {
         return averageTimePerTurn;
     }
 
-    public double getAverageWordsPerTurn() {
-        return averageWordsPerTurn;
+    public double getAverageCardsPerTurn() {
+        return averageCardsPerTurn;
     }
 
     public int getNumberOfErrors() {
@@ -37,12 +39,16 @@ public class Statistics {
         this.numberOfErrors += 1;
     }
 
+    public void incrNumberOfGuess() {
+        this.numberOfGuess += 1;
+    }
+
     public String toString() {
-        return "Average time per turn: " + averageTimePerTurn + " seconds\nAverage words per turn: " + averageWordsPerTurn + "\n Number of errors: " + numberOfErrors;
+        return "Average time per turn: " + averageTimePerTurn + " seconds\nAverage words per turn: " + averageCardsPerTurn + "\n Number of errors: " + numberOfErrors;
     }
 
     public void calcul(){
         averageTimePerTurn /= numberOfTurns;
-        averageWordsPerTurn /= numberOfTurns;
+        averageCardsPerTurn /= numberOfTurns;
     }
 }
