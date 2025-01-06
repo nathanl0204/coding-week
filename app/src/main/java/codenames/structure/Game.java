@@ -21,6 +21,10 @@ public class Game implements Serializable {
         blueTurn = true;
     }
 
+    public int getCols(){
+        return cols;
+    }
+
     public Statistics getBlueStatistics(){
         return blueStat;
     }

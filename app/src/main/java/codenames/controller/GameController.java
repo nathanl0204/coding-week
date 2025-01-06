@@ -2,14 +2,13 @@ package codenames.controller;
 
 import java.util.Optional;
 
+import codenames.structure.Card;
 import codenames.structure.Game;
 import codenames.structure.ImageCard;
 import codenames.structure.TextCard;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -19,8 +18,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
-public abstract class GameController {
+public class GameController {
 
     @FXML GridPane gridPane;
 
@@ -33,116 +35,98 @@ public abstract class GameController {
     }
 
     @FXML 
-    public void initialize(){
+public void initialize() {
+    
+    int cols = game.getCols();
+    final int[] currentPos = {0, 0};
 
-        ObservableList<Node> childrens = gridPane.getChildren();
+    game.getListCard().getCards().forEach(card -> {
 
-        game.getListCard().getCards().forEach(card -> {
+        if (card instanceof TextCard) {
+            Label label = new Label(((TextCard) card).getText());
 
-            if (card instanceof TextCard){
-                Label label = new Label( ((TextCard) card).getText() );
-                label.setOnMouseClicked( new EventHandler<Event>() {
-                    @Override
-                    public void handle(Event event) {
-                        if (event instanceof MouseEvent) {
-                            MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+            StackPane stackPane = new StackPane();
+            stackPane.getChildren().add(label);
 
-                                label.setEffect( card.getColorAdjust());
-                                card.guessed();
 
-                                switch (card.getCardType()) {
-                                    case Black:
-                                        alertWrongGuest("Black Card selected, you lose");
-                                        game.wrongGuess();
-                                        game.calculStat();
-                                        break;
-                                    case White:
-                                        game.wrongGuess();
-                                        alertWrongGuest("White Card selected, your turn ends");
-                                        break;
-                                    case Blue:
-                                        if (game.isBlueTurn()){
-                                            game.correctGuess();
-                                        }
-                                        else {
-                                            game.wrongGuess();
-                                            alertWrongGuest("Red Card selected, your turn ends");
-                                        }
-                                        break;
-                                    case Red:
-                                        if (!game.isBlueTurn()){
-                                            game.correctGuess();
-                                        }
-                                        else {
-                                            game.wrongGuess();
-                                            alertWrongGuest("Blue Card selected, your turn ends");
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-                            }
+            label.setOnMouseClicked(new EventHandler<Event>() {
+                @Override
+                public void handle(Event event) {
+                    if (event instanceof MouseEvent) {
+                        MouseEvent mouseEvent = (MouseEvent) event;
+                        if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+                            Rectangle transparency = new Rectangle(label.getWidth(), label.getHeight());
+                            transparency.setFill(Color.RED.deriveColor(0, 1, 1, 0.5));
+                            stackPane.getChildren().add(transparency);
+                            card.guessed();
+                            processCardSelection(card);
                         }
                     }
-                });
-                childrens.add(label);
-            }
+                }
+            });
+           
+            gridPane.add(label, currentPos[1], currentPos[0]);
 
-            else {
-                ImageView imgView = new ImageView( new Image( ((ImageCard) card).getUrl() ) );
-                imgView.setOnMouseClicked( new EventHandler<Event>() {
-                    @Override
-                    public void handle(Event event) {
-                        if (event instanceof MouseEvent) {
-                            MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-
-                                imgView.setEffect( card.getColorAdjust());
-
-                                switch (card.getCardType()) {
-                                    case Black:
-                                        alertWrongGuest("Black Card selected, you lose");
-                                        game.wrongGuess();
-                                        game.calculStat();
-                                        break;
-                                    case White:
-                                        game.wrongGuess();
-                                        alertWrongGuest("White Card selected, your turn ends");
-                                        break;
-                                    case Blue:
-                                        if (game.isBlueTurn()){
-                                            game.correctGuess();
-                                        }
-                                        else {
-                                            game.wrongGuess();
-                                            alertWrongGuest("Red Card selected, your turn ends");
-                                        }
-                                        break;
-                                    case Red:
-                                        if (!game.isBlueTurn()){
-                                            game.correctGuess();
-                                        }
-                                        else {
-                                            game.wrongGuess();
-                                            alertWrongGuest("Blue Card selected, your turn ends");
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-
-                            }
+        } else {
+            ImageView imgView = new ImageView(new Image(((ImageCard) card).getUrl()));
+            imgView.setOnMouseClicked(new EventHandler<Event>() {
+                @Override
+                public void handle(Event event) {
+                    if (event instanceof MouseEvent) {
+                        MouseEvent mouseEvent = (MouseEvent) event;
+                        if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+                            
+                            card.guessed();
+                            processCardSelection(card);
                         }
                     }
-                });
-                childrens.add(imgView);
-            }
+                }
+                
+            });
 
-        });
-        
+            // Ajouter l'image dans le GridPane à la position (currentPos[1], currentPos[0])
+            gridPane.add(imgView, currentPos[1], currentPos[0]);
+        }
+
+        // Mettre à jour la position pour la prochaine carte
+        currentPos[1]++; // Incrementer la colonne
+        if (currentPos[1] >= cols) {
+            currentPos[1] = 0; // Réinitialiser la colonne
+            currentPos[0]++;  // Passer à la ligne suivante
+        }
+    });
+}
+
+    private void processCardSelection(Card card) {
+        switch (card.getCardType()) {
+            case Black:
+                alertWrongGuest("Black Card selected, you lose");
+                game.wrongGuess();
+                game.calculStat();
+                break;
+            case White:
+                game.wrongGuess();
+                alertWrongGuest("White Card selected, your turn ends");
+                break;
+            case Blue:
+                if (game.isBlueTurn()) {
+                    game.correctGuess();
+                } else {
+                    game.wrongGuess();
+                    alertWrongGuest("Red Card selected, your turn ends");
+                }
+                break;
+            case Red:
+                if (!game.isBlueTurn()) {
+                    game.correctGuess();
+                } else {
+                    game.wrongGuess();
+                    alertWrongGuest("Blue Card selected, your turn ends");
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     private void alertWrongGuest(String message){
