@@ -1,29 +1,73 @@
-@startuml
+@startuml classes
 
 class Partie {
   
 }
 
-interface Carte {
-  
+abstract class Card {
+
+    + CardType getCardType()
 }
 
-class TextCarte implements Carte[
-    String text;
+Card o-- CardType
 
-]
-class ImageCarte implements Carte {
-    String url
+enum CardType { 
+    Black 
+    White 
+    Red 
+    Blue
 }
 
-class Statistique
+class ListCard {
+    - int id
 
-class ListeMot {
-    ListeMot extract(int n)
+    + ListCard getListCard()
+    + void addCard(Card card)
+    + ListCard extract(int n)
 }
 
-class Equipe
+ListCard -- "*" Card
+Partie o-- ListCard
 
-Voiture o-- Moteur : "a un"
+class TextCard extends Card {
+    - String text
+
+    + ImageText(String text)
+    + String getText()
+}
+
+class ImageCard extends Card {
+    - String url
+
+    + ImageCard(String url)
+    + String getUrl()
+}
+
+class ListCardDB {
+
+    + ListCard load()
+    + Boolean save(ListCard listCard)
+    + Boolean delete(int id)
+}
+
+ListCardDB - ListCard
+
+class Statistique {
+    int tempsmoyenpartour
+    int nbmotmoyenpartour
+    int nberreur
+}
+
+
+Partie o-- Statistique
+
+class Equipe {
+    - String name
+
+    + Equipe(String name)
+    + String getName()
+}
+
+Partie o-- "2" Equipe
 
 @enduml
