@@ -6,13 +6,15 @@ public class Game implements Serializable {
 
     private int id;
     
-    private Statistics blueStat;
-    private Statistics redStat;
+    private Statistics blueStat,redStat;
     private ListCard cards;
     private Boolean blueTurn;
     private int remainingCardGuess;
+    private int rows,cols;
 
-    public Game(ListCard cards){
+    public Game(int rows, int cols, ListCard cards){
+        this.rows = rows;
+        this.cols = cols;
         blueStat = new Statistics();
         redStat = new Statistics();
         this.cards = cards;
@@ -59,7 +61,19 @@ public class Game implements Serializable {
 
     public void changeTurn(int n){
         blueTurn = !blueTurn;
+        if (blueTurn) blueStat.incrNumberOfTurns();
+        else redStat.incrNumberOfTurns();
         remainingCardGuess = n;
+    }
+
+    public void ends(){
+        blueStat.calcul();
+        redStat.calcul();
+    }
+
+    public void wrongGuess(){
+        if (blueTurn) blueStat.incrNumberOfErrors();
+        else redStat.incrNumberOfErrors();
     }
 
 }
