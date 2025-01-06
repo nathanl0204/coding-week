@@ -1,6 +1,7 @@
 package codenames.structure;
 
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.paint.Color;
 
 public abstract class Card {
     
@@ -46,5 +47,20 @@ public abstract class Card {
 
     public CardType getCardType(){
         return cardType;
+    }
+
+    public Color getColor(){
+        switch (cardType) {
+            case Black:
+                return Color.BLACK;
+            case White:
+                return Color.WHITE;
+            case Red:
+                return Color.RED;
+            case Blue:
+                return Color.BLUE;
+            default:
+                return null;
+        }
     }
 }

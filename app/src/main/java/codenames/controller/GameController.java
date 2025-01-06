@@ -2,6 +2,8 @@ package codenames.controller;
 
 import java.util.Optional;
 
+import javax.swing.plaf.synth.SynthEditorPaneUI;
+
 import codenames.structure.Card;
 import codenames.structure.Game;
 import codenames.structure.ImageCard;
@@ -9,6 +11,7 @@ import codenames.structure.TextCard;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -35,67 +38,72 @@ public class GameController {
     }
 
     @FXML 
-public void initialize() {
-    
-    int cols = game.getCols();
-    final int[] currentPos = {0, 0};
+    public void initialize() {
+        
+        int cols = game.getCols();
+        final int[] currentPos = {0, 0};
 
-    game.getListCard().getCards().forEach(card -> {
+        game.getListCard().getCards().forEach(card -> {
 
-        if (card instanceof TextCard) {
-            Label label = new Label(((TextCard) card).getText());
+            StackPane stackPane = new StackPane();  
 
-            StackPane stackPane = new StackPane();
-            stackPane.getChildren().add(label);
+            if (card instanceof TextCard) {
+                Label label = new Label(((TextCard) card).getText());
+                stackPane.getChildren().add(label);
+                label.applyCss();
+                label.layout();
 
+                System.out.println(label.getWidth()+""+label.getHeight());
 
-            label.setOnMouseClicked(new EventHandler<Event>() {
-                @Override
-                public void handle(Event event) {
-                    if (event instanceof MouseEvent) {
-                        MouseEvent mouseEvent = (MouseEvent) event;
-                        if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
-                            Rectangle transparency = new Rectangle(label.getWidth(), label.getHeight());
-                            transparency.setFill(Color.RED.deriveColor(0, 1, 1, 0.5));
-                            stackPane.getChildren().add(transparency);
-                            card.guessed();
-                            processCardSelection(card);
+                Rectangle transparency = new Rectangle(label.getWidth(), label.getHeight());
+                transparency.setFill(card.getColor().deriveColor(0,1,1,0.5));
+
+                label.setOnMouseClicked(new EventHandler<Event>() {
+                    @Override
+                    public void handle(Event event) {
+                        if (event instanceof MouseEvent) {
+                            MouseEvent mouseEvent = (MouseEvent) event;
+                            if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+                                stackPane.getChildren().add(transparency);
+                                stackPane.layout();
+                                card.guessed();
+                                processCardSelection(card);
+                            }
                         }
                     }
-                }
-            });
-           
-            gridPane.add(label, currentPos[1], currentPos[0]);
+                });
 
-        } else {
-            ImageView imgView = new ImageView(new Image(((ImageCard) card).getUrl()));
-            imgView.setOnMouseClicked(new EventHandler<Event>() {
-                @Override
-                public void handle(Event event) {
-                    if (event instanceof MouseEvent) {
-                        MouseEvent mouseEvent = (MouseEvent) event;
-                        if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
-                            
-                            card.guessed();
-                            processCardSelection(card);
+            } else {
+                ImageView imgView = new ImageView(new Image(((ImageCard) card).getUrl()));
+                stackPane.getChildren().add(imgView);
+
+                Rectangle transparency = new Rectangle(imgView.getFitWidth(), imgView.getFitHeight());
+                transparency.setFill(card.getColor().deriveColor(0,1,1,0.5));
+
+                imgView.setOnMouseClicked(new EventHandler<Event>() {
+                    @Override
+                    public void handle(Event event) {
+                        if (event instanceof MouseEvent) {
+                            MouseEvent mouseEvent = (MouseEvent) event;
+                            if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+                                stackPane.getChildren().add(transparency);
+                                card.guessed();
+                                processCardSelection(card);
+                            }
                         }
                     }
-                }
-                
-            });
+                });
+            }
 
-            // Ajouter l'image dans le GridPane à la position (currentPos[1], currentPos[0])
-            gridPane.add(imgView, currentPos[1], currentPos[0]);
-        }
+            gridPane.add(stackPane, currentPos[1], currentPos[0]);
 
-        // Mettre à jour la position pour la prochaine carte
-        currentPos[1]++; // Incrementer la colonne
-        if (currentPos[1] >= cols) {
-            currentPos[1] = 0; // Réinitialiser la colonne
-            currentPos[0]++;  // Passer à la ligne suivante
-        }
-    });
-}
+            currentPos[1]++; 
+            if (currentPos[1] >= cols) {
+                currentPos[1] = 0;
+                currentPos[0]++;  
+            }
+        });
+    }
 
     private void processCardSelection(Card card) {
         switch (card.getCardType()) {
