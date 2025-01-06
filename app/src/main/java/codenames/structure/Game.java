@@ -12,10 +12,10 @@ public class Game implements Serializable {
     private int remainingCardGuess;
     private int cols;
 
-    public Game(int cols, ListCard cards){
+    public Game(int cols, ListCard cards,int numberOfBlueCard, int numberOfRedCard){
         this.cols = cols;
-        blueStat = new Statistics();
-        redStat = new Statistics();
+        blueStat = new Statistics(numberOfBlueCard);
+        redStat = new Statistics(numberOfRedCard);
         this.cards = cards;
         blueTurn = true;
     }
@@ -70,15 +70,39 @@ public class Game implements Serializable {
     }
 
     public void correctGuess(){
-        if (blueTurn) blueStat.incrNumberOfGuess();
-        else redStat.incrNumberOfGuess();
-        remainingCardGuess -= 1;
+        if (blueTurn) {
+            blueStat.incrNumberOfGuess();
+            blueStat.decrNumberOfRemainingCardsToFind();
+        }
+        else {
+            redStat.incrNumberOfGuess();
+            redStat.decrNumberOfRemainingCardsToFind();
+        } 
+        remainingCardGuess--;
+        
     }
 
     public void wrongGuess(){
-        if (blueTurn) blueStat.incrNumberOfErrors();
-        else redStat.incrNumberOfErrors();
+        remainingCardGuess = 0;
+        if (blueTurn) {
+            blueStat.incrNumberOfErrors();
+            redStat.decrNumberOfRemainingCardsToFind();
+        }
+        else {
+            redStat.incrNumberOfErrors();
+            blueStat.decrNumberOfRemainingCardsToFind();
+        }
         // temps
+    }
+
+    public int getNumberOfOpponentRemainingCardsToFind() {
+        if (blueTurn) return redStat.getNumberOfRemainingCardsToFind();
+        else return blueStat.getNumberOfRemainingCardsToFind();
+    }
+
+    public int getNumberOfRemainingCardsToFind() {
+        if (blueTurn) return blueStat.getNumberOfRemainingCardsToFind();
+        else return redStat.getNumberOfRemainingCardsToFind();
     }
 
 }

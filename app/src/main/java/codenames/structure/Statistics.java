@@ -7,12 +7,24 @@ public class Statistics {
     private int numberOfTurns;
     private int numberOfGuess;
 
-    public Statistics() {
+    private int numberOfRemainingCardsToFind;
+
+    public Statistics(int numberOfCard) {
         this.averageTimePerTurn = 0;
         this.averageCardsPerTurn = 0;
         this.numberOfErrors = 0;
         this.numberOfTurns = 0;
         this.numberOfGuess = 0;
+        numberOfRemainingCardsToFind = numberOfCard;
+
+    }
+
+    public int getNumberOfRemainingCardsToFind(){
+        return numberOfRemainingCardsToFind;
+    }
+
+    public void decrNumberOfRemainingCardsToFind(){
+        numberOfRemainingCardsToFind--;
     }
 
     public double getAverageTimePerTurn() {

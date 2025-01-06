@@ -4,10 +4,12 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"  spacing="20" alignment="CENTER">
     <children>
         <GridPane hgap="10" vgap="10" fx:id="gridPane" alignment="CENTER"/>
-        <Button text="Next Turn" onAction="#handleChangeTurn"/>
+        <Button text="Next Turn" fx:id="button" onAction="#handleChangeTurn"/>
+        <Label fx:id="info"/>
     </children>
 </VBox>

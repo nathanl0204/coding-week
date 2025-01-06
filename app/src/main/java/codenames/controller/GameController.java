@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -24,6 +25,8 @@ import javafx.scene.shape.Rectangle;
 public class GameController {
 
     @FXML GridPane gridPane;
+    @FXML Button button;
+    @FXML Label info;
 
     private Game game;
 
@@ -35,7 +38,7 @@ public class GameController {
 
     @FXML 
     public void initialize() {
-        
+        info.setText("Blue turn = "+game.isBlueTurn());
         int cols = game.getCols();
         final int[] currentPos = {0, 0};
 
@@ -131,6 +134,11 @@ public class GameController {
             default:
                 break;
         }
+        if (game.getNumberOfRemainingCardsToFind() == 0){
+            if (game.isBlueTurn()) info.setText("Blue Team win");
+            else info.setText("Red Team win");
+            button.setVisible(false);
+        }
     }
 
     private void alertWrongGuest(String message){
@@ -143,10 +151,21 @@ public class GameController {
 
     @FXML 
     public void handleChangeTurn(){
+        
         if (game.getRemainingCardGuess() == 0){
             askForNumberGuess().ifPresent( n -> {
                 int N = Integer.parseInt(n);
-                if (N > 0) game.changeTurn(N);
+                if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind()) game.changeTurn(N);
+                else {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information");
+                    alert.setHeaderText("Wrong Number Of Cards");
+                    alert.setContentText("Please enter a number less than the number of cards you have left to guess");
+                    alert.showAndWait();
+                }
+
+                if (game.isBlueTurn()) info.setText("Blue turn");
+                else info.setText("Red turn");
             });
             
         }

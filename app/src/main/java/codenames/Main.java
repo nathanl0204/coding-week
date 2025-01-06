@@ -47,7 +47,7 @@ public class Main extends Application {
             i++;
         }
 
-        return new Game( 3, listCard);
+        return new Game( 3, listCard,5,4);
 
 
 
