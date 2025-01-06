@@ -1,8 +1,18 @@
 @startuml classes
 
-class Partie {
-  
+class Partie implements Serializable {  
+    - int id
+
+    + int getId()
 }
+
+class PartieDB {
+    + Partie load(int id)
+    + Boolean save(ListCard listCard)
+    + Boolean delete(int id)
+}
+
+PartieDB - Partie
 
 abstract class Card {
 
@@ -18,7 +28,7 @@ enum CardType {
     Blue
 }
 
-class ListCard {
+class ListCard implements Serializable {
     - int id
 
     + ListCard getListCard()
@@ -53,21 +63,12 @@ class ListCardDB {
 ListCardDB - ListCard
 
 class Statistique {
-    int tempsmoyenpartour
-    int nbmotmoyenpartour
-    int nberreur
+    - double averageTimePerTurn;
+    - double averageWordsPerTurn;
+    - int numberOfErrors;
+
 }
 
-
-Partie o-- Statistique
-
-class Equipe {
-    - String name
-
-    + Equipe(String name)
-    + String getName()
-}
-
-Partie o-- "2" Equipe
+Partie o-- "2" Statistique
 
 @enduml
