@@ -2,8 +2,6 @@ package codenames.controller;
 
 import java.util.Optional;
 
-import javax.swing.plaf.synth.SynthEditorPaneUI;
-
 import codenames.structure.Card;
 import codenames.structure.Game;
 import codenames.structure.ImageCard;
@@ -45,18 +43,14 @@ public class GameController {
 
         game.getListCard().getCards().forEach(card -> {
 
-            StackPane stackPane = new StackPane();  
+
+
 
             if (card instanceof TextCard) {
                 Label label = new Label(((TextCard) card).getText());
+                StackPane stackPane = new StackPane();
+                gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(label);
-                label.applyCss();
-                label.layout();
-
-                System.out.println(label.getWidth()+""+label.getHeight());
-
-                Rectangle transparency = new Rectangle(label.getWidth(), label.getHeight());
-                transparency.setFill(card.getColor().deriveColor(0,1,1,0.5));
 
                 label.setOnMouseClicked(new EventHandler<Event>() {
                     @Override
@@ -64,21 +58,21 @@ public class GameController {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
                             if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+                                Rectangle transparency = new Rectangle(label.getWidth(),label.getHeight());
+                                transparency.setFill(card.getColor().deriveColor(0,1,1,0.5));
                                 stackPane.getChildren().add(transparency);
-                                stackPane.layout();
                                 card.guessed();
                                 processCardSelection(card);
                             }
                         }
                     }
                 });
-
+                
             } else {
                 ImageView imgView = new ImageView(new Image(((ImageCard) card).getUrl()));
+                StackPane stackPane = new StackPane();
+                gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(imgView);
-
-                Rectangle transparency = new Rectangle(imgView.getFitWidth(), imgView.getFitHeight());
-                transparency.setFill(card.getColor().deriveColor(0,1,1,0.5));
 
                 imgView.setOnMouseClicked(new EventHandler<Event>() {
                     @Override
@@ -86,6 +80,8 @@ public class GameController {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
                             if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+                                Rectangle transparency = new Rectangle(imgView.getFitWidth(),imgView.getFitHeight());
+                                transparency.setFill(card.getColor().deriveColor(0,1,1,0.5));
                                 stackPane.getChildren().add(transparency);
                                 card.guessed();
                                 processCardSelection(card);
@@ -93,9 +89,11 @@ public class GameController {
                         }
                     }
                 });
-            }
-
-            gridPane.add(stackPane, currentPos[1], currentPos[0]);
+                
+                
+            }   
+            
+            
 
             currentPos[1]++; 
             if (currentPos[1] >= cols) {
