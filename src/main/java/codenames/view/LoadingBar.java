@@ -20,13 +20,13 @@ public class LoadingBar extends StackPane {
         background.setArcWidth(15);
         background.setArcHeight(15);
 
-        bar = new Rectangle(0, height); // Initial width is 0
+        bar = new Rectangle(width, height);
         bar.setFill(Color.DODGERBLUE);
         bar.setArcWidth(15);
         bar.setArcHeight(15);
 
-        // Align the bar to the left
-        bar.setTranslateX(-width / 2);
+        Rectangle clip = new Rectangle(0, height);
+        bar.setClip(clip);
 
         getChildren().addAll(background, bar);
     }
@@ -37,16 +37,19 @@ public class LoadingBar extends StackPane {
         }
 
         isComplete = false;
-        bar.setWidth(0); // Reset the width
+        Rectangle clip = (Rectangle) bar.getClip();
+        clip.setWidth(0);
         bar.setFill(Color.DODGERBLUE);
 
         timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(bar.widthProperty(), 0)),
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(clip.widthProperty(), 0)),
+                new KeyFrame(Duration.seconds(seconds * 0.8), // Change la couleur à 80% du temps
+                        event -> bar.setFill(Color.RED)),
                 new KeyFrame(Duration.seconds(seconds), event -> {
-                    bar.setFill(Color.RED);
                     isComplete = true;
                     stop();
-                }, new KeyValue(bar.widthProperty(), background.getWidth())) // Target full width
+                }, new KeyValue(clip.widthProperty(), background.getWidth()))
         );
 
         timeline.play();
@@ -61,7 +64,8 @@ public class LoadingBar extends StackPane {
     public void reset() {
         stop();
         isComplete = false;
-        bar.setWidth(0);
+        Rectangle clip = (Rectangle) bar.getClip();
+        clip.setWidth(0);
         bar.setFill(Color.DODGERBLUE);
     }
 
