@@ -52,11 +52,10 @@ public abstract class GameController {
 
                                 switch (card.getCardType()) {
                                     case Black:
-                                        //Alert fin de partie
                                         handleWrongGuest("Black Card selected, you lose");
+                                        game.ends();
                                         break;
                                     case White:
-                                        //Alert fin de tour
                                         handleWrongGuest("White Card selected, your turn ends");
                                         break;
                                     case Blue:
@@ -66,7 +65,6 @@ public abstract class GameController {
                                         }
                                         else {
                                             handleWrongGuest("Red Card selected, your turn ends");
-                                            //Alert fin de tour car erreur 
                                         }
                                         break;
                                     case Red:
@@ -76,7 +74,6 @@ public abstract class GameController {
                                         }
                                         else {
                                             handleWrongGuest("Blue Card selected, your turn ends");
-                                            //Alert fin de tour car erreur 
                                         }
                                         break;
                                     default:

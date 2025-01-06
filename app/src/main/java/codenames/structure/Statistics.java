@@ -17,24 +17,12 @@ public class Statistics {
         return averageTimePerTurn;
     }
 
-    public void setAverageTimePerTurn(int averageTimePerTurn) {
-        this.averageTimePerTurn = averageTimePerTurn;
-    }
-
     public double getAverageWordsPerTurn() {
         return averageWordsPerTurn;
     }
 
-    public void setAverageWordsPerTurn(int averageWordsPerTurn) {
-        this.averageWordsPerTurn = averageWordsPerTurn;
-    }
-
     public int getNumberOfErrors() {
         return numberOfErrors;
-    }
-
-    public void setNumberOfErrors(int numberOfErrors) {
-        this.numberOfErrors = numberOfErrors;
     }
 
     public int getNumberOfTurns() {
@@ -45,7 +33,16 @@ public class Statistics {
         this.numberOfTurns += 1;
     }
 
+    public void incrNumberOfErrors() {
+        this.numberOfErrors += 1;
+    }
+
     public String toString() {
         return "Average time per turn: " + averageTimePerTurn + " seconds\nAverage words per turn: " + averageWordsPerTurn + "\n Number of errors: " + numberOfErrors;
+    }
+
+    public void calcul(){
+        averageTimePerTurn /= numberOfTurns;
+        averageWordsPerTurn /= numberOfTurns;
     }
 }
