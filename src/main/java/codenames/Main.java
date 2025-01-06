@@ -1,33 +1,28 @@
 package codenames;
 
+import codenames.view.LoadingBar;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.paint.Color;
-
-import codenames.view.Hourglass;
 
 public class Main extends Application {
     @Override
-    public void start(Stage stage) throws Exception {
-        BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: lightgray;");
+    public void start(Stage primaryStage) {
+        LoadingBar loadingBar = new LoadingBar(300, 30);
+        loadingBar.start(30); // 30 seconds timer
 
-        Hourglass timer = new Hourglass(100, 200, 60);
-        timer.setStyle("-fx-background-color: white;");
+        VBox root = new VBox(20);
+        root.setStyle("-fx-padding: 20px;");
+        root.getChildren().add(loadingBar);
 
-        root.setRight(timer);
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("Codenames Timer");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
-        timer.startTimer();
-
-        timer.setOnTimeUp(() -> {
-            System.out.println("Temps écoulé !");
-        });
-
-        Scene scene = new Scene(root, 1000, 1000);
-        stage.setTitle("Codenames");
-        stage.setScene(scene);
-        stage.show();
+    public static void main(String[] args) {
+        launch(args);
     }
 }
