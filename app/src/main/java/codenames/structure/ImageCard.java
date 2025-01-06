@@ -12,4 +12,5 @@ public class ImageCard extends Card{
     public String getUrl(){
         return url;
     }
+    
 }

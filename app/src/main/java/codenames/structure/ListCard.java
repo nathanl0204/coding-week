@@ -22,6 +22,10 @@ public class ListCard implements Serializable {
         cards.add(card);
     }
 
+    public List<Card> getCards(){
+        return cards;
+    }
+
     private ListCard(List<Card> cards){
         this.cards = cards;
     }

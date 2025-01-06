@@ -1,21 +1,21 @@
 @startuml classes
 
-class Partie implements Serializable {  
+class Game implements Serializable {  
     - int id
 
     + int getId()
+    + String getQrCode()
 }
 
-class PartieDB {
-    + Partie load(int id)
+class GameDB {
+    + Game load(int id)
     + Boolean save(ListCard listCard)
     + Boolean delete(int id)
 }
 
-PartieDB - Partie
+GameDB - Game
 
 abstract class Card {
-
     + CardType getCardType()
 }
 
@@ -37,7 +37,7 @@ class ListCard implements Serializable {
 }
 
 ListCard -- "*" Card
-Partie o-- ListCard
+Game o-- ListCard
 
 class TextCard extends Card {
     - String text
@@ -66,9 +66,10 @@ class Statistique {
     - double averageTimePerTurn;
     - double averageWordsPerTurn;
     - int numberOfErrors;
+    - int numberOfTurns;
 
 }
 
-Partie o-- "2" Statistique
+Game o-- "2" Statistique
 
 @enduml

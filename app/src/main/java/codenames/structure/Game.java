@@ -2,7 +2,8 @@ package codenames.structure;
 
 import java.io.Serializable;
 
-public class Partie implements Serializable {
+public class Game implements Serializable {
+    
     private int id;
     
     private Statistics blueStat;
@@ -10,7 +11,7 @@ public class Partie implements Serializable {
     private ListCard cards;
     private Boolean blueTurn;
 
-    public Partie(ListCard cards){
+    public Game(ListCard cards){
         blueStat = new Statistics();
         redStat = new Statistics();
         this.cards = cards;
@@ -35,6 +36,10 @@ public class Partie implements Serializable {
 
     public Boolean isBlueTurn(){
         return blueTurn;
+    }
+
+    public void changeTurn(){
+        blueTurn = !blueTurn;
     }
 
 }

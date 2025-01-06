@@ -1,6 +1,6 @@
 package codenames.structure;
 
-public class PartieDB {
+public class GameDB {
 
     /* 
     public static ListCard load(int id){
