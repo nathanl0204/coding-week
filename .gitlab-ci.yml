@@ -1,11 +1,14 @@
-pages:
+stages:
+  - deploy
+
+deploy:
   stage: deploy
   script:
-    - mkdir .public
-    - cp -r * .public/
-  artifacts:
-    paths:
-      - .public
+    - apk add --no-cache bash
+    - apk add --no-cache git
+    - cp -r public/* /usr/share/nginx/html/
   only:
     - thibaultP
-
+  environment:
+    name: production
+    url: https://gitlab.telecomnancy.univ-lorraine.fr/projets/2425/pcd2k25/codingweek/grp05
