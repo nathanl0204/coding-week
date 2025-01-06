@@ -9,7 +9,6 @@ import codenames.structure.TextCard;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -20,7 +19,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class GameController {
@@ -43,12 +41,12 @@ public class GameController {
 
         game.getListCard().getCards().forEach(card -> {
 
-
-
+            StackPane stackPane = new StackPane();
 
             if (card instanceof TextCard) {
                 Label label = new Label(((TextCard) card).getText());
-                StackPane stackPane = new StackPane();
+                label.setTextFill(card.getColor());
+                
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(label);
 
@@ -70,7 +68,7 @@ public class GameController {
                 
             } else {
                 ImageView imgView = new ImageView(new Image(((ImageCard) card).getUrl()));
-                StackPane stackPane = new StackPane();
+
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(imgView);
 

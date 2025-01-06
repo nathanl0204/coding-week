@@ -44,7 +44,7 @@ public class Statistics {
     }
 
     public String toString() {
-        return "Average time per turn: " + averageTimePerTurn + " seconds\nAverage words per turn: " + averageCardsPerTurn + "\n Number of errors: " + numberOfErrors;
+        return "Average time per turn: " + averageTimePerTurn + " seconds\nAverage words per turn: " + averageCardsPerTurn + "\n Number of errors: " + numberOfErrors + "\n Number of guess: " + numberOfGuess;
     }
 
     public void calcul(){

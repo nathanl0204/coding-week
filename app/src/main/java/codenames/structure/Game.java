@@ -10,10 +10,9 @@ public class Game implements Serializable {
     private ListCard cards;
     private Boolean blueTurn;
     private int remainingCardGuess;
-    private int rows,cols;
+    private int cols;
 
-    public Game(int rows, int cols, ListCard cards){
-        this.rows = rows;
+    public Game(int cols, ListCard cards){
         this.cols = cols;
         blueStat = new Statistics();
         redStat = new Statistics();
