@@ -18,6 +18,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class GameController {
@@ -42,13 +44,20 @@ public void initialize() {
 
         if (card instanceof TextCard) {
             Label label = new Label(((TextCard) card).getText());
+
+            StackPane stackPane = new StackPane();
+            stackPane.getChildren().add(label);
+
+
             label.setOnMouseClicked(new EventHandler<Event>() {
                 @Override
                 public void handle(Event event) {
                     if (event instanceof MouseEvent) {
                         MouseEvent mouseEvent = (MouseEvent) event;
                         if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
-                            label.setEffect(card.getColorAdjust());
+                            Rectangle transparency = new Rectangle(label.getWidth(), label.getHeight());
+                            transparency.setFill(Color.RED.deriveColor(0, 1, 1, 0.5));
+                            stackPane.getChildren().add(transparency);
                             card.guessed();
                             processCardSelection(card);
                         }
@@ -66,7 +75,7 @@ public void initialize() {
                     if (event instanceof MouseEvent) {
                         MouseEvent mouseEvent = (MouseEvent) event;
                         if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
-                            imgView.setEffect(card.getColorAdjust());
+                            
                             card.guessed();
                             processCardSelection(card);
                         }
