@@ -46,34 +46,37 @@ public abstract class GameController {
                     public void handle(Event event) {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0) {
+                            if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
 
                                 label.setEffect( card.getColorAdjust());
+                                card.guessed();
 
                                 switch (card.getCardType()) {
                                     case Black:
-                                        handleWrongGuest("Black Card selected, you lose");
-                                        game.ends();
+                                        alertWrongGuest("Black Card selected, you lose");
+                                        game.wrongGuess();
+                                        game.calculStat();
                                         break;
                                     case White:
-                                        handleWrongGuest("White Card selected, your turn ends");
+                                        game.wrongGuess();
+                                        alertWrongGuest("White Card selected, your turn ends");
                                         break;
                                     case Blue:
                                         if (game.isBlueTurn()){
-                                            //MAJ des stats bleu
-                                            game.decrRemainingCardGuess();
+                                            game.correctGuess();
                                         }
                                         else {
-                                            handleWrongGuest("Red Card selected, your turn ends");
+                                            game.wrongGuess();
+                                            alertWrongGuest("Red Card selected, your turn ends");
                                         }
                                         break;
                                     case Red:
                                         if (!game.isBlueTurn()){
-                                            game.decrRemainingCardGuess();
-                                            //MAJ des stats rouge
+                                            game.correctGuess();
                                         }
                                         else {
-                                            handleWrongGuest("Blue Card selected, your turn ends");
+                                            game.wrongGuess();
+                                            alertWrongGuest("Blue Card selected, your turn ends");
                                         }
                                         break;
                                     default:
@@ -98,18 +101,37 @@ public abstract class GameController {
 
                                 imgView.setEffect( card.getColorAdjust());
 
-
-
-
-
-
-
-
-
-
-
-
-
+                                switch (card.getCardType()) {
+                                    case Black:
+                                        alertWrongGuest("Black Card selected, you lose");
+                                        game.wrongGuess();
+                                        game.calculStat();
+                                        break;
+                                    case White:
+                                        game.wrongGuess();
+                                        alertWrongGuest("White Card selected, your turn ends");
+                                        break;
+                                    case Blue:
+                                        if (game.isBlueTurn()){
+                                            game.correctGuess();
+                                        }
+                                        else {
+                                            game.wrongGuess();
+                                            alertWrongGuest("Red Card selected, your turn ends");
+                                        }
+                                        break;
+                                    case Red:
+                                        if (!game.isBlueTurn()){
+                                            game.correctGuess();
+                                        }
+                                        else {
+                                            game.wrongGuess();
+                                            alertWrongGuest("Blue Card selected, your turn ends");
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
 
 
                             }
@@ -123,8 +145,7 @@ public abstract class GameController {
         
     }
 
-    private void handleWrongGuest(String message){
-        game.setRemainingCardGuess(0);
+    private void alertWrongGuest(String message){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText("Wrong Card");

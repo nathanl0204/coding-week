@@ -37,11 +37,6 @@ public class Game implements Serializable {
         this.remainingCardGuess = remainingCardGuess;
     }
 
-    public void decrRemainingCardGuess(){
-        remainingCardGuess -= 1;
-    }
-
-
     public int getId(){
         return id;
     }
@@ -66,14 +61,21 @@ public class Game implements Serializable {
         remainingCardGuess = n;
     }
 
-    public void ends(){
+    public void calculStat(){
         blueStat.calcul();
         redStat.calcul();
+    }
+
+    public void correctGuess(){
+        if (blueTurn) blueStat.incrNumberOfGuess();
+        else redStat.incrNumberOfGuess();
+        remainingCardGuess -= 1;
     }
 
     public void wrongGuess(){
         if (blueTurn) blueStat.incrNumberOfErrors();
         else redStat.incrNumberOfErrors();
+        // temps
     }
 
 }
