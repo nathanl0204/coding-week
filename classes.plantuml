@@ -1,0 +1,29 @@
+@startuml
+
+class Partie {
+  
+}
+
+interface Carte {
+  
+}
+
+class TextCarte implements Carte[
+    String text;
+
+]
+class ImageCarte implements Carte {
+    String url
+}
+
+class Statistique
+
+class ListeMot {
+    ListeMot extract(int n)
+}
+
+class Equipe
+
+Voiture o-- Moteur : "a un"
+
+@enduml
