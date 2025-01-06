@@ -1,5 +1,7 @@
 package codenames.controller;
 
+import java.util.Optional;
+
 import codenames.structure.Game;
 import codenames.structure.ImageCard;
 import codenames.structure.TextCard;
@@ -8,7 +10,10 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -41,8 +46,43 @@ public abstract class GameController {
                     public void handle(Event event) {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                            if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0) {
+
                                 label.setEffect( card.getColorAdjust());
+
+                                switch (card.getCardType()) {
+                                    case Black:
+                                        //Alert fin de partie
+                                        handleWrongGuest("Black Card selected, you lose");
+                                        break;
+                                    case White:
+                                        //Alert fin de tour
+                                        handleWrongGuest("White Card selected, your turn ends");
+                                        break;
+                                    case Blue:
+                                        if (game.isBlueTurn()){
+                                            //MAJ des stats bleu
+                                            game.decrRemainingCardGuess();
+                                        }
+                                        else {
+                                            handleWrongGuest("Red Card selected, your turn ends");
+                                            //Alert fin de tour car erreur 
+                                        }
+                                        break;
+                                    case Red:
+                                        if (!game.isBlueTurn()){
+                                            game.decrRemainingCardGuess();
+                                            //MAJ des stats rouge
+                                        }
+                                        else {
+                                            handleWrongGuest("Blue Card selected, your turn ends");
+                                            //Alert fin de tour car erreur 
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+
                             }
                         }
                     }
@@ -58,7 +98,23 @@ public abstract class GameController {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
                             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+
                                 imgView.setEffect( card.getColorAdjust());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             }
                         }
                     }
@@ -70,11 +126,34 @@ public abstract class GameController {
         
     }
 
-    @FXML 
-    public void handleChangeTurn(){
-        game.changeTurn();
+    private void handleWrongGuest(String message){
+        game.setRemainingCardGuess(0);
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText("Wrong Card");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
+    @FXML 
+    public void handleChangeTurn(){
+        if (game.getRemainingCardGuess() == 0){
+            askForNumberGuess().ifPresent( n -> {
+                int N = Integer.parseInt(n);
+                if (N > 0) game.changeTurn(N);
+            });
+            
+        }
+    }
+
+    private Optional<String> askForNumberGuess(){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Number of guess");
+        dialog.setHeaderText("Enter the number of guess");
+        dialog.setContentText("Number :");
+
+        return dialog.showAndWait();
+    }
 
 
 

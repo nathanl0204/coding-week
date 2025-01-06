@@ -8,9 +8,9 @@ class Game implements Serializable {
 }
 
 class GameDB {
-    + Game load(int id)
-    + Boolean save(ListCard listCard)
-    + Boolean delete(int id)
+    + {static} Game load(int id)
+    + {static} Boolean save(ListCard listCard)
+    + {static} Boolean delete(int id)
 }
 
 GameDB - Game
@@ -55,9 +55,9 @@ class ImageCard extends Card {
 
 class ListCardDB {
 
-    + ListCard load()
-    + Boolean save(ListCard listCard)
-    + Boolean delete(int id)
+    + {static} ListCard load()
+    + {static} Boolean save(ListCard listCard)
+    + {static} Boolean delete(int id)
 }
 
 ListCardDB - ListCard

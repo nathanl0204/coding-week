@@ -3,13 +3,14 @@ package codenames.structure;
 import java.io.Serializable;
 
 public class Game implements Serializable {
-    
+
     private int id;
     
     private Statistics blueStat;
     private Statistics redStat;
     private ListCard cards;
     private Boolean blueTurn;
+    private int remainingCardGuess;
 
     public Game(ListCard cards){
         blueStat = new Statistics();
@@ -26,6 +27,19 @@ public class Game implements Serializable {
         return redStat;
     }
 
+    public int getRemainingCardGuess(){
+        return remainingCardGuess;
+    }
+
+    public void setRemainingCardGuess(int remainingCardGuess){
+        this.remainingCardGuess = remainingCardGuess;
+    }
+
+    public void decrRemainingCardGuess(){
+        remainingCardGuess -= 1;
+    }
+
+
     public int getId(){
         return id;
     }
@@ -38,8 +52,14 @@ public class Game implements Serializable {
         return blueTurn;
     }
 
-    public void changeTurn(){
+    public CardType getColorTurn(){
+        if (blueTurn) return CardType.Blue;
+        else return CardType.Red;
+    }
+
+    public void changeTurn(int n){
         blueTurn = !blueTurn;
+        remainingCardGuess = n;
     }
 
 }
