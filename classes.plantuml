@@ -1,0 +1,75 @@
+@startuml classes
+
+class Game implements Serializable {  
+    - int id
+
+    + int getId()
+    + String getQrCode()
+}
+
+class GameDB {
+    + {static} Game load(int id)
+    + {static} Boolean save(ListCard listCard)
+    + {static} Boolean delete(int id)
+}
+
+GameDB - Game
+
+abstract class Card {
+    + CardType getCardType()
+}
+
+Card o-- CardType
+
+enum CardType { 
+    Black 
+    White 
+    Red 
+    Blue
+}
+
+class ListCard implements Serializable {
+    - int id
+
+    + ListCard getListCard()
+    + void addCard(Card card)
+    + ListCard extract(int n)
+}
+
+ListCard -- "*" Card
+Game o-- ListCard
+
+class TextCard extends Card {
+    - String text
+
+    + ImageText(String text)
+    + String getText()
+}
+
+class ImageCard extends Card {
+    - String url
+
+    + ImageCard(String url)
+    + String getUrl()
+}
+
+class ListCardDB {
+
+    + {static} ListCard load()
+    + {static} Boolean save(ListCard listCard)
+    + {static} Boolean delete(int id)
+}
+
+ListCardDB - ListCard
+
+class Statistique {
+    - double averageTimePerTurn;
+    - double averageWordsPerTurn;
+    - int numberOfErrors;
+    - int numberOfTurns;
+
+}
+
+Game o-- "2" Statistique
+
+@enduml
