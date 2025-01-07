@@ -1,6 +1,18 @@
 package codenames.structure;
 
+import java.util.List;
 import java.io.Serializable;
+import java.awt.image.BufferedImage;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
+import java.nio.file.Path;
 
 public class Game implements Serializable {
 
@@ -12,6 +24,8 @@ public class Game implements Serializable {
     private Boolean blueTurn;
     private int remainingCardGuess;
     private int cols;
+    private Image QRCode;
+
 
     public Game(int cols, ListCard cards,int numberOfBlueCard, int numberOfRedCard){
         this.cols = cols;
@@ -19,7 +33,15 @@ public class Game implements Serializable {
         redStat = new Statistics(numberOfRedCard);
         this.cards = cards;
         blueTurn = true;
-        onGoing = true;
+        generateQRCode();
+    }
+
+    public Image getQRCode() {
+        return QRCode;
+    }
+
+    public void setQRCode(Image QRCode) {
+        this.QRCode = QRCode;
     }
 
     public int getCols(){
@@ -110,4 +132,34 @@ public class Game implements Serializable {
         else return redStat.getNumberOfRemainingCardsToFind();
     }
 
+    public String generateColorsString() {
+        StringBuilder colors = new StringBuilder();
+
+        for (Card card : cards.getCards()) {
+            colors.append(card.getColorCode());
+        }
+
+        return colors.toString();
+    }
+
+    public String generateURL() {
+        return "https://gibson-pages.telecomnancy.univ-lorraine.fr/grp05-851491?rows=" + cards.getCards().size() / getCols() + "&columns=" + getCols() + "&colors=" + generateColorsString();
+    }
+
+
+    public void generateQRCode() {
+        String url = generateURL();
+        try {
+            QRCodeWriter writer = new QRCodeWriter();
+            BitMatrix matrix = writer.encode(url, BarcodeFormat.QR_CODE, 300, 300);
+
+            BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(matrix);
+
+            //MatrixToImageWriter.writeToPath(matrix, "PNG", Path.of("qrcode.png")); IF YOU WANT TO SAVE THE QRCODE (FOR DEBUGGING PURPOSES) UNCOMMENT THIS ! THE QR CODE WILL BE SAVED IN app/qrcode.png
+            setQRCode(SwingFXUtils.toFXImage(bufferedImage, null));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

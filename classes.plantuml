@@ -9,15 +9,19 @@ class Game implements Serializable {
     - Boolean blueTurn
     - int remainingCardGuess
     - int cols
+    - Image QRCode
 
     + Game(int cols, ListCard cards,int numberOfBlueCard, int numberOfRedCard)
 
+    + Image getQRCode()
+    + void setQRCode()
     + int getCols()
     + Statistics getBlueStatistics()
     + Statistics getRedStatistics()
     + int getRemainingCardGuess()
     + void setRemainingCardGuess(int remainingCardGuess)
     + int getId()
+    + ListCard getListCard()
     + Boolean isBlueTurn()
     + CardType getColorTurn()
     + void changeTurn(int remainingCardGuess)
@@ -27,7 +31,9 @@ class Game implements Serializable {
     + void wrongGuess()
     + int getNumberOfOpponentRemainingCardsToFind()
     + int getNumberOfRemainingCardsToFind()
-    + ListCard getListCard()
+    + generateColorsString()
+    + String generateURL()
+    + void generateQRCode()
 }
 
 class GameDB {
@@ -52,13 +58,15 @@ class GameController {
 }
 
 abstract class Card {
-    - Boolean isGuessed
+    - CardType cardType
+    - Boolean guessed
 
     + Card(CardType cardType)
-    + CardType getCardType()
     + void guessed()
     + Boolean isGuessed()
+    + CardType getCardType()
     + Color getColor()
+    + char getColorCode()
 }
 
 Card o-- CardType

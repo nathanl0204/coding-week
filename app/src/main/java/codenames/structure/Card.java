@@ -38,4 +38,19 @@ public abstract class Card {
                 return null;
         }
     }
+
+    public char getColorCode() {
+        switch (cardType) {
+            case Black:
+                return 'a';
+            case White:
+                return 'w';
+            case Red:
+                return 'r';
+            case Blue:
+                return 'b';
+            default:
+                return 'w';
+        }
+    }
 }
