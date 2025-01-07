@@ -1,6 +1,6 @@
 package codenames;
 
-import codenames.controller.GameController;
+import codenames.controller.GameDuoController;
 import codenames.structure.CardType;
 import codenames.structure.Game;
 import codenames.structure.ListCard;
@@ -23,7 +23,7 @@ public class Main extends Application {
         
         Game game = testGame();
 
-        GameController controller = new GameController(game);
+        GameDuoController controller = new GameDuoController(game);
 
         loader.setController(controller);
 
