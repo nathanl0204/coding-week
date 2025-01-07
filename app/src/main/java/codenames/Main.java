@@ -35,19 +35,25 @@ public class Main extends Application {
         ListCard listCard = new ListCard();
 
         String[] texts = {
-            "Apple", "Banana", "Cherry", "Dog", "Elephant", 
-            "Football", "Guitar", "Helicopter", "Igloo"
+            "Apple", "Banana", "Cherry",
+            "Dog", "Elephant", "Football", 
+            "Guitar", "Helicopter", "Igloo"
+        };
+
+        CardType[] cardTypes = { 
+            CardType.Red,CardType.Red,CardType.Blue,
+            CardType.Black,CardType.White,CardType.Blue,
+            CardType.Blue,CardType.Red,CardType.White
         };
 
         int i = 0;
 
         for (String text : texts) {
-            if (i % 2 == 0) listCard.addCard(new TextCard(CardType.Blue,text));
-            else listCard.addCard(new TextCard(CardType.Red,text));
+            listCard.addCard(new TextCard(cardTypes[i],text));
             i++;
         }
 
-        return new Game( 3, listCard,5,4);
+        return new Game( 3, listCard,3,3);
 
 
 

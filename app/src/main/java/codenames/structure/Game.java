@@ -12,11 +12,13 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.nio.file.Path;
 
 public class Game implements Serializable {
 
     private int id;
     
+    private Boolean onGoing;
     private Statistics blueStat,redStat;
     private ListCard cards;
     private Boolean blueTurn;
@@ -79,16 +81,21 @@ public class Game implements Serializable {
         else return CardType.Red;
     }
 
-    public void changeTurn(int n){
+    public void changeTurn(int remainingCardGuess){
         blueTurn = !blueTurn;
         if (blueTurn) blueStat.incrNumberOfTurns();
         else redStat.incrNumberOfTurns();
-        remainingCardGuess = n;
+        this.remainingCardGuess = remainingCardGuess;
     }
 
-    public void calculStat(){
-        blueStat.calcul();
-        redStat.calcul();
+    public void ends(){
+        onGoing = false;
+        blueStat.calculStat();
+        redStat.calculStat();
+    }
+
+    public Boolean isOnGoing(){
+        return onGoing && remainingCardGuess > 0;
     }
 
     public void correctGuess(){
@@ -150,6 +157,7 @@ public class Game implements Serializable {
 
             BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(matrix);
 
+            //MatrixToImageWriter.writeToPath(matrix, "PNG", Path.of("qrcode.png")); IF YOU WANT TO SAVE THE QRCODE (FOR DEBUGGING PURPOSES) UNCOMMENT THIS ! THE QR CODE WILL BE SAVED IN app/qrcode.png
             setQRCode(SwingFXUtils.toFXImage(bufferedImage, null));
         } catch (Exception e) {
             e.printStackTrace();

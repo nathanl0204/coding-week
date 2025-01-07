@@ -1,10 +1,39 @@
 @startuml classes
 
-class Game implements Serializable {  
-    - int id
+class Game implements Serializable {
 
+    - int id
+    - Boolean onGoing
+    - Statistics blueStat,redStat
+    - ListCard cards
+    - Boolean blueTurn
+    - int remainingCardGuess
+    - int cols
+    - Image QRCode
+
+    + Game(int cols, ListCard cards,int numberOfBlueCard, int numberOfRedCard)
+
+    + Image getQRCode()
+    + void setQRCode()
+    + int getCols()
+    + Statistics getBlueStatistics()
+    + Statistics getRedStatistics()
+    + int getRemainingCardGuess()
+    + void setRemainingCardGuess(int remainingCardGuess)
     + int getId()
-    + String getQrCode()
+    + ListCard getListCard()
+    + Boolean isBlueTurn()
+    + CardType getColorTurn()
+    + void changeTurn(int remainingCardGuess)
+    + void ends()
+    + Boolean isOnGoing()
+    + void correctGuess()
+    + void wrongGuess()
+    + int getNumberOfOpponentRemainingCardsToFind()
+    + int getNumberOfRemainingCardsToFind()
+    + generateColorsString()
+    + String generateURL()
+    + void generateQRCode()
 }
 
 class GameDB {
@@ -15,24 +44,50 @@ class GameDB {
 
 GameDB - Game
 
+GameController -- Game
+
+class GameController {
+
+    + GameController()
+    + GameController(Game game)
+    + void initialize()
+    - void processCardSelection(Card card)
+    - void alertWrongGuest(String message)
+    + void handleChangeTurn()
+    - Optional<String> askForNumberGuess()
+}
+
 abstract class Card {
+    - CardType cardType
+    - Boolean guessed
+
+    + Card(CardType cardType)
+    + void guessed()
+    + Boolean isGuessed()
     + CardType getCardType()
+    + Color getColor()
+    + char getColorCode()
 }
 
 Card o-- CardType
 
-enum CardType { 
-    Black 
-    White 
-    Red 
+enum CardType {
+
+    Black
+    White
+    Red
     Blue
 }
 
 class ListCard implements Serializable {
     - int id
 
+    + ListCard()
+    + int getId()
     + ListCard getListCard()
-    + void addCard(Card card)
+    + void addCard(Card card)*
+    + List<Card> getCards()
+    - ListCard(List<Card> cards)
     + ListCard extract(int n)
 }
 
@@ -42,14 +97,14 @@ Game o-- ListCard
 class TextCard extends Card {
     - String text
 
-    + ImageText(String text)
+    + TextCard(CardType cardType, String text)
     + String getText()
 }
 
 class ImageCard extends Card {
     - String url
 
-    + ImageCard(String url)
+    + ImageCard(CardType cardType, String url)
     + String getUrl()
 }
 
@@ -62,14 +117,29 @@ class ListCardDB {
 
 ListCardDB - ListCard
 
-class Statistique {
-    - double averageTimePerTurn;
-    - double averageWordsPerTurn;
-    - int numberOfErrors;
-    - int numberOfTurns;
+class Statistics {
+    - double averageTimePerTurn
+    - double averageCardsPerTurn
+    - int numberOfErrors
+    - int numberOfTurns
+    - int numberOfGuess
+    - int numberOfRemainingCardsToFind
+
+    + Statistics(int numberOfCard)
+    + int getNumberOfRemainingCardsToFind()
+    + void decrNumberOfRemainingCardsToFind()
+    + double getAverageTimePerTurn()
+    + double getAverageCardsPerTurn()
+    + int getNumberOfErrors()
+    + void incrNumberOfErrors()
+    + int getNumberOfTurns()
+    + void incrNumberOfTurns()
+    + void incrNumberOfGuess()
+    + String toString() 
+    + void calculStat()
 
 }
 
-Game o-- "2" Statistique
+Game o-- "2" Statistics
 
 @enduml

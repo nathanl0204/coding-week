@@ -38,7 +38,7 @@ public class GameController {
 
     @FXML 
     public void initialize() {
-        info.setText("Blue turn = "+game.isBlueTurn());
+        info.setText("Click above to start");
         int cols = game.getCols();
         final int[] currentPos = {0, 0};
 
@@ -58,7 +58,7 @@ public class GameController {
                     public void handle(Event event) {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !card.isGuessed() && game.isOnGoing()) {
                                 Rectangle transparency = new Rectangle(label.getWidth(),label.getHeight());
                                 transparency.setFill(card.getColor().deriveColor(0,1,1,0.5));
                                 stackPane.getChildren().add(transparency);
@@ -80,7 +80,7 @@ public class GameController {
                     public void handle(Event event) {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !card.isGuessed() && game.isOnGoing()) {
                                 Rectangle transparency = new Rectangle(imgView.getFitWidth(),imgView.getFitHeight());
                                 transparency.setFill(card.getColor().deriveColor(0,1,1,0.5));
                                 stackPane.getChildren().add(transparency);
@@ -94,8 +94,6 @@ public class GameController {
                 
             }   
             
-            
-
             currentPos[1]++; 
             if (currentPos[1] >= cols) {
                 currentPos[1] = 0;
@@ -109,7 +107,10 @@ public class GameController {
             case Black:
                 alertWrongGuest("Black Card selected, you lose");
                 game.wrongGuess();
-                game.calculStat();
+                game.ends();
+                if (game.isBlueTurn()) info.setText("Red Team win");
+                else info.setText("Blue Team win");
+                button.setVisible(false);
                 break;
             case White:
                 game.wrongGuess();
@@ -134,7 +135,16 @@ public class GameController {
             default:
                 break;
         }
+        if (game.getRemainingCardGuess() == 0){
+            if (game.isBlueTurn()) info.setText("Red turn");
+            else info.setText("Blue turn");
+        }
+
+
+
+
         if (game.getNumberOfRemainingCardsToFind() == 0){
+            game.ends();
             if (game.isBlueTurn()) info.setText("Blue Team win");
             else info.setText("Red Team win");
             button.setVisible(false);
