@@ -45,22 +45,35 @@ public class LoadingBar extends StackPane {
         clip.setWidth(0);
         bar.setFill(Color.DODGERBLUE);
 
-        timeline = new Timeline(
+        timeline = new Timeline();
+
+        // Animation de la barre de progression
+        timeline.getKeyFrames().addAll(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(clip.widthProperty(), 0)),
                 new KeyFrame(Duration.seconds(seconds * 0.8), // Change la couleur à 80% du temps
                         event -> bar.setFill(Color.RED)),
-                new KeyFrame(Duration.seconds(seconds), event -> {
-                    isComplete = true;
-                    stop();
-                }, new KeyValue(clip.widthProperty(), background.getWidth()))
+                new KeyFrame(Duration.seconds(seconds),
+                        new KeyValue(clip.widthProperty(), background.getWidth()))
         );
 
-        // Ajouter un Keyframe pour mettre à jour elapsedSeconds chaque seconde
-        timeline.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(1), event -> elapsedSeconds++, new KeyValue[0])
-        );
-        timeline.setCycleCount((int) seconds);
+        // Mise à jour du temps écoulé
+        KeyFrame updateFrame = new KeyFrame(Duration.seconds(1), event -> {
+            elapsedSeconds++;
+            if (elapsedSeconds >= totalSeconds) {
+                isComplete = true;
+                stop();
+            }
+        });
+
+        Timeline updateTimeline = new Timeline(updateFrame);
+        updateTimeline.setCycleCount(seconds);
+        updateTimeline.play();
+
+        timeline.setOnFinished(event -> {
+            isComplete = true;
+            stop();
+        });
 
         timeline.play();
     }
