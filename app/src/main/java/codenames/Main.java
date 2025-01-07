@@ -1,9 +1,12 @@
 package codenames;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import codenames.controller.GameDuoController;
 import codenames.structure.CardType;
-import codenames.structure.Game;
-import codenames.structure.ListCard;
+import codenames.structure.GameDuo;
+import codenames.structure.PlayableCard;
 import codenames.structure.TextCard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +24,7 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
         
-        Game game = testGame();
+        GameDuo game = testGame();
 
         GameDuoController controller = new GameDuoController(game);
 
@@ -35,8 +38,8 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private Game testGame(){
-        ListCard listCard = new ListCard();
+    private GameDuo testGame(){
+        List<PlayableCard> listCard = new  ArrayList<PlayableCard>();
 
         String[] texts = {
             "Apple", "Banana", "Cherry", "Dog", "Elephant", "Football", 
@@ -57,11 +60,11 @@ public class Main extends Application {
         int i = 0;
 
         for (String text : texts) {
-            listCard.addCard(new TextCard(cardTypes[i],text));
+            listCard.add(new PlayableCard(new TextCard(text), cardTypes[i]));
             i++;
         }
 
-        return new Game( 5, listCard,9,9);
+        return new GameDuo( 5, listCard,9,9);
 
     }
 }

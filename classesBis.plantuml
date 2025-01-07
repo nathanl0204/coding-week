@@ -1,0 +1,149 @@
+@startuml classes
+
+class ThemedCard
+
+ThemedCard o-- Card
+
+
+interface Card {
+    
+}
+
+class TextCard implements Card {
+    - String text
+
+    + TextCard(String text)
+    + String getText()
+}
+
+class ImageCard implements Card {
+    - String url
+
+    + ImageCard(String url)
+    + String getUrl()
+}
+
+class PlayableCard {
+    - Boolean guessed
+
+    + Card(CardType cardType)
+    + void guessed()
+    + Boolean isGuessed()
+    + CardType getCardType()
+    + Color getColor()
+}
+
+PlayableCard o--- CardType
+PlayableCard o--- Card
+
+enum CardType {
+    Black
+    White
+    Red
+    Blue
+}
+
+class Deck
+
+Deck o--- "*" PlayableThemedSubDeck
+
+class PlayableThemedSubDeck
+
+PlayableThemedSubDeck o--- "*" PlayableCard
+GameDuo o--- "*" PlayableCard
+
+abstract class GameController {
+
+}
+
+class GameDuoController extends GameController {
+    + GameDuoController()
+    + GameDuoController(Game game)
+
+    + void initialize()
+    - void processCardSelection(Card card)
+    - void alertWrongGuest(String message)
+    + void handleChangeTurn()
+    - Optional<String> askForNumberGuess()
+}
+
+abstract class Game {
+    - int id
+    - Boolean onGoing
+    - int cols
+    
+    + int getCols()
+    + int getId()
+    + void ends()
+    + Boolean isOnGoing()
+}
+
+class GameDuo extends Game {
+    
+    - Statistics blueStat,redStat
+    - ListCard cards
+    - Boolean blueTurn
+    - int remainingCardGuess
+    - Image QRCode
+
+    + GameDuo(int cols, ListCard cards,int numberOfBlueCard, int numberOfRedCard)
+
+    + Image getQRCode()
+    + void setQRCode()
+    + Statistics getBlueStatistics()
+    + Statistics getRedStatistics()
+    + int getRemainingCardGuess()
+    + void setRemainingCardGuess(int remainingCardGuess)
+    + ListCard getListCard()
+    + Boolean isBlueTurn()
+    + CardType getColorTurn()
+    + void changeTurn(int remainingCardGuess)
+    + void correctGuess()
+    + void wrongGuess()
+    + int getNumberOfOpponentRemainingCardsToFind()
+    + int getNumberOfRemainingCardsToFind()
+    + generateColorsString()
+    + String generateURL()
+    + void generateQRCode()
+}
+
+GameDuoController o--- GameDuo
+
+class GameSolo extends Game
+
+GameSoloController o- OpponentIA
+
+interface OpponentIA
+
+GameSoloController o--- GameSolo
+
+class GameSoloController extends GameController
+
+GameSolo o--- Deck
+
+Game o-- "2" Statistics
+
+class Statistics {
+    - double averageTimePerTurn
+    - double averageCardsPerTurn
+    - int numberOfErrors
+    - int numberOfTurns
+    - int numberOfGuess
+    - int numberOfRemainingCardsToFind
+
+    + Statistics(int numberOfCard)
+    + int getNumberOfRemainingCardsToFind()
+    + void decrNumberOfRemainingCardsToFind()
+    + double getAverageTimePerTurn()
+    + double getAverageCardsPerTurn()
+    + int getNumberOfErrors()
+    + void incrNumberOfErrors()
+    + int getNumberOfTurns()
+    + void incrNumberOfTurns()
+    + void incrNumberOfGuess()
+    + String toString() 
+    + void calculStat()
+
+}
+
+@enduml

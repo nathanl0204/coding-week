@@ -3,9 +3,9 @@ package codenames.controller;
 import java.io.IOException;
 import java.util.Optional;
 
-import codenames.structure.Card;
-import codenames.structure.Game;
+import codenames.structure.GameDuo;
 import codenames.structure.ImageCard;
+import codenames.structure.PlayableCard;
 import codenames.structure.TextCard;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -34,11 +34,11 @@ public class GameDuoController {
     @FXML Label info;
     @FXML ImageView imageView;
 
-    private Game game;
+    private GameDuo game;
 
     public GameDuoController(){}
     
-    public GameDuoController(Game game){
+    public GameDuoController(GameDuo game){
         this.game = game;
     }
 
@@ -49,13 +49,13 @@ public class GameDuoController {
         int cols = game.getCols();
         final int[] currentPos = {0, 0};
 
-        game.getListCard().getCards().forEach(card -> {
+        game.getDeck().forEach(playableCard -> {
 
             StackPane stackPane = new StackPane();
 
-            if (card instanceof TextCard) {
-                Label label = new Label(((TextCard) card).getText());
-                label.setTextFill(card.getColor());
+            if (playableCard.getCard() instanceof TextCard) {
+                Label label = new Label(((TextCard) playableCard.getCard() ).getText());
+                label.setTextFill(playableCard.getColor());
                 
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(label);
@@ -65,19 +65,19 @@ public class GameDuoController {
                     public void handle(Event event) {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !card.isGuessed() && game.isOnGoing()) {
+                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed() && game.isOnGoing()) {
                                 Rectangle transparency = new Rectangle(label.getWidth(),label.getHeight());
-                                transparency.setFill(card.getColor().deriveColor(0,1,1,0.5));
+                                transparency.setFill(playableCard.getColor().deriveColor(0,1,1,0.5));
                                 stackPane.getChildren().add(transparency);
-                                card.guessed();
-                                processCardSelection(card);
+                                playableCard.guessed();
+                                processCardSelection(playableCard);
                             }
                         }
                     }
                 });
                 
             } else {
-                ImageView imgView = new ImageView(new Image(((ImageCard) card).getUrl()));
+                ImageView imgView = new ImageView(new Image(((ImageCard) playableCard.getCard() ).getUrl()));
 
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(imgView);
@@ -87,12 +87,12 @@ public class GameDuoController {
                     public void handle(Event event) {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !card.isGuessed() && game.isOnGoing()) {
+                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed() && game.isOnGoing()) {
                                 Rectangle transparency = new Rectangle(imgView.getFitWidth(),imgView.getFitHeight());
-                                transparency.setFill(card.getColor().deriveColor(0,1,1,0.5));
+                                transparency.setFill(playableCard.getColor().deriveColor(0,1,1,0.5));
                                 stackPane.getChildren().add(transparency);
-                                card.guessed();
-                                processCardSelection(card);
+                                playableCard.guessed();
+                                processCardSelection(playableCard);
                             }
                         }
                     }
@@ -109,7 +109,7 @@ public class GameDuoController {
         });
     }
 
-    private void processCardSelection(Card card) {
+    private void processCardSelection(PlayableCard card) {
         switch (card.getCardType()) {
             case Black:
                 alertWrongGuest("Black Card selected, you lose");

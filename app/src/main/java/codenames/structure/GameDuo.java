@@ -1,6 +1,7 @@
 package codenames.structure;
 
 import java.io.Serializable;
+import java.util.List;
 import java.awt.image.BufferedImage;
 
 import javafx.embed.swing.SwingFXUtils;
@@ -11,25 +12,26 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-public class Game implements Serializable {
+public class GameDuo implements Serializable {
 
     private int id;
     
     private Boolean onGoing;
     private Statistics blueStat,redStat;
-    private ListCard cards;
+    private List<PlayableCard> cards;
     private Boolean blueTurn;
     private int remainingCardGuess;
     private int cols;
     private Image QRCode;
 
 
-    public Game(int cols, ListCard cards,int numberOfBlueCard, int numberOfRedCard){
+    public GameDuo(int cols, List<PlayableCard> cards,int numberOfBlueCard, int numberOfRedCard){
         this.cols = cols;
         blueStat = new Statistics(numberOfBlueCard);
         redStat = new Statistics(numberOfRedCard);
         this.cards = cards;
         blueTurn = true;
+        onGoing = true;
         generateQRCode();
     }
 
@@ -65,7 +67,7 @@ public class Game implements Serializable {
         return id;
     }
 
-    public ListCard getListCard(){
+    public List<PlayableCard> getDeck(){
         return cards;
     }
 
@@ -132,15 +134,13 @@ public class Game implements Serializable {
     public String generateColorsString() {
         StringBuilder colors = new StringBuilder();
 
-        for (Card card : cards.getCards()) {
-            colors.append(card.getColorCode());
-        }
-
+        cards.forEach( card -> colors.append(card.getColorCode()));
+            
         return colors.toString();
     }
 
     public String generateURL() {
-        return "https://gibson-pages.telecomnancy.univ-lorraine.fr/grp05-851491?rows=" + cards.getCards().size() / getCols() + "&columns=" + getCols() + "&colors=" + generateColorsString();
+        return "https://gibson-pages.telecomnancy.univ-lorraine.fr/grp05-851491?rows=" + cards.size() / getCols() + "&columns=" + getCols() + "&colors=" + generateColorsString();
     }
 
 
