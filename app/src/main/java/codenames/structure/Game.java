@@ -6,6 +6,7 @@ public class Game implements Serializable {
 
     private int id;
     
+    private Boolean onGoing;
     private Statistics blueStat,redStat;
     private ListCard cards;
     private Boolean blueTurn;
@@ -18,6 +19,7 @@ public class Game implements Serializable {
         redStat = new Statistics(numberOfRedCard);
         this.cards = cards;
         blueTurn = true;
+        onGoing = true;
     }
 
     public int getCols(){
@@ -64,9 +66,14 @@ public class Game implements Serializable {
         remainingCardGuess = n;
     }
 
-    public void calculStat(){
+    public void ends(){
+        onGoing = false;
         blueStat.calcul();
         redStat.calcul();
+    }
+
+    public Boolean isOnGoing(){
+        return onGoing && remainingCardGuess > 0;
     }
 
     public void correctGuess(){

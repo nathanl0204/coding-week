@@ -29,7 +29,7 @@ public abstract class Card {
             case Black:
                 return Color.BLACK;
             case White:
-                return Color.WHITE;
+                return Color.GREY;
             case Red:
                 return Color.RED;
             case Blue:
