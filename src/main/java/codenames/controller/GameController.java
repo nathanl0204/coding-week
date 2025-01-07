@@ -9,26 +9,31 @@ import codenames.structure.TextCard;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.util.Duration;
+import java.io.File;
+import javafx.application.Platform;
 
 public class GameController {
 
-    @FXML GridPane gridPane;
-    @FXML Button button;
-    @FXML Label info;
+    @FXML private GridPane gridPane;
+    @FXML private Button button;
+    @FXML private Label info;
+    @FXML private Label timerLabel;
+    @FXML private VBox timerContainer;
 
     private Game game;
+    private LoadingBar loadingBar;
+    private boolean blitzMode = false;
+    private static final int DEFAULT_TURN_TIME = 60; // 60 seconds per turn
 
     public GameController(){}
     
@@ -38,6 +43,14 @@ public class GameController {
 
     @FXML 
     public void initialize() {
+        // Initialize loading bar
+        loadingBar = new LoadingBar(200, 20);
+        timerContainer.getChildren().add(loadingBar);
+
+        // Initialize timer label
+        timerLabel = new Label("Temps restant : 60s");
+        timerContainer.getChildren().add(timerLabel);
+
         info.setText("Blue turn = "+game.isBlueTurn());
         int cols = game.getCols();
         final int[] currentPos = {0, 0};
@@ -102,6 +115,65 @@ public class GameController {
                 currentPos[0]++;  
             }
         });
+
+        if (blitzMode) {
+            startTimer();
+        }
+    }
+
+    private void startTimer() {
+        loadingBar.reset();
+        loadingBar.start(DEFAULT_TURN_TIME);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), event -> {
+                    timerLabel.setText("Temps restant : " + loadingBar.getRemainingSeconds() + "s");
+
+                    if (loadingBar.isComplete()) {
+                        handleTimerComplete();
+                    }
+                })
+        );
+        timeline.setCycleCount(DEFAULT_TURN_TIME);
+        timeline.play();
+    }
+
+    private void handleTimerComplete() {
+        if (game.getRemainingCardGuess() > 0) {
+            // Time's up, switch turns
+            Platform.runLater(() -> {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Temps écoulé");
+                alert.setHeaderText(null);
+                alert.setContentText("Le temps est écoulé ! Au tour de l'équipe suivante.");
+                alert.showAndWait();
+
+                game.setRemainingCardGuess(0);
+                handleChangeTurn();
+            });
+        }
+    }
+
+    public void setBlitzMode(boolean enabled) {
+        this.blitzMode = enabled;
+        if (enabled && game != null) {
+            startTimer();
+        } else {
+            loadingBar.stop();
+            timerLabel.setText("");
+        }
+    }
+
+    public void startNewGame() {
+        // Implement new game logic
+    }
+
+    public void loadGame(File file) {
+        // Implement load game logic
+    }
+
+    public void saveGame(File file) {
+        // Implement save game logic
     }
 
     private void processCardSelection(Card card) {
@@ -155,8 +227,12 @@ public class GameController {
         if (game.getRemainingCardGuess() == 0){
             askForNumberGuess().ifPresent( n -> {
                 int N = Integer.parseInt(n);
-                if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind()) game.changeTurn(N);
-                else {
+                if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind()) {
+                    game.changeTurn(N);
+                    if (blitzMode) {
+                        startTimer();
+                    }
+                } else {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information");
                     alert.setHeaderText("Wrong Number Of Cards");

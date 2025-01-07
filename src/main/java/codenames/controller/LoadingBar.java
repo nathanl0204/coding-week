@@ -13,6 +13,8 @@ public class LoadingBar extends StackPane {
     private final Rectangle bar;
     private Timeline timeline;
     private boolean isComplete = false;
+    private int elapsedSeconds = 0;
+    private int totalSeconds = 0;
 
     public LoadingBar(double width, double height) {
         background = new Rectangle(width, height);
@@ -37,6 +39,8 @@ public class LoadingBar extends StackPane {
         }
 
         isComplete = false;
+        elapsedSeconds = 0;
+        totalSeconds = seconds;
         Rectangle clip = (Rectangle) bar.getClip();
         clip.setWidth(0);
         bar.setFill(Color.DODGERBLUE);
@@ -52,6 +56,12 @@ public class LoadingBar extends StackPane {
                 }, new KeyValue(clip.widthProperty(), background.getWidth()))
         );
 
+        // Ajouter un Keyframe pour mettre à jour elapsedSeconds chaque seconde
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(1), event -> elapsedSeconds++, new KeyValue[0])
+        );
+        timeline.setCycleCount((int) seconds);
+
         timeline.play();
     }
 
@@ -64,6 +74,7 @@ public class LoadingBar extends StackPane {
     public void reset() {
         stop();
         isComplete = false;
+        elapsedSeconds = 0;
         Rectangle clip = (Rectangle) bar.getClip();
         clip.setWidth(0);
         bar.setFill(Color.DODGERBLUE);
@@ -71,5 +82,9 @@ public class LoadingBar extends StackPane {
 
     public boolean isComplete() {
         return isComplete;
+    }
+
+    public int getRemainingSeconds() {
+        return totalSeconds - elapsedSeconds;
     }
 }
