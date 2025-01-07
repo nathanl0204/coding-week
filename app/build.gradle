@@ -4,7 +4,7 @@ plugins {
     id 'java'
 }
 
-group = 'codename'
+group = 'codenames'
 version = '1.0-SNAPSHOT'
 
 repositories {

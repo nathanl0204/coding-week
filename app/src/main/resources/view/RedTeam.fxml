@@ -1,4 +1,11 @@
-<VBox prefWidth="250.0" spacing="20.0" style="-fx-background-color: #b80000;" BorderPane.alignment="CENTER" fx:controller="codenames.controller.TeamView" fx:id="self">
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #b80000;" BorderPane.alignment="CENTER" fx:controller="codenames.controller.TeamView" fx:id="self">
          <children>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
