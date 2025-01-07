@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"  spacing="20">
-    <VBox spacing="20" alignment="CENTER">
-        <VBox fx:id="timerContainer" alignment="CENTER" spacing="10">
-            <!-- LoadingBar and timerLabel will be added here programmatically -->
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+
+    
+    <top>
+        <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="200.0" preserveRatio="true"/>
+    </top>
+
+    <center>
+        <VBox spacing="20" alignment="CENTER">
+            <children>
+                <GridPane hgap="10" vgap="10" fx:id="gridPane" alignment="CENTER"/>
+                <Button text="Next Turn" fx:id="button" onAction="#handleChangeTurn"/>
+                <Label fx:id="info"/>
+            </children>
         </VBox>
+    </center>
 
-        <GridPane fx:id="gridPane" hgap="10" vgap="10" alignment="CENTER"/>
-        <Button text="Tour suivant" fx:id="button" onAction="#handleChangeTurn"/>
-        <Label fx:id="info"/>
-    </VBox>
-
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-</VBox>
+    <bottom>
+    </bottom>
+</BorderPane>
