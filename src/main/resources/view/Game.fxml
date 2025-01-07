@@ -5,8 +5,6 @@
 <?import javafx.scene.control.*?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"  spacing="20">
-    <fx:include source="MenuBar.fxml" />
-
     <VBox spacing="20" alignment="CENTER">
         <VBox fx:id="timerContainer" alignment="CENTER" spacing="10">
             <!-- LoadingBar and timerLabel will be added here programmatically -->
