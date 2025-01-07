@@ -12,6 +12,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.nio.file.Path;
 
 public class Game implements Serializable {
 
@@ -156,6 +157,7 @@ public class Game implements Serializable {
 
             BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(matrix);
 
+            //MatrixToImageWriter.writeToPath(matrix, "PNG", Path.of("qrcode.png")); IF YOU WANT TO SAVE THE QRCODE (FOR DEBUGGING PURPOSES) UNCOMMENT THIS ! THE QR CODE WILL BE SAVED IN app/qrcode.png
             setQRCode(SwingFXUtils.toFXImage(bufferedImage, null));
         } catch (Exception e) {
             e.printStackTrace();
