@@ -1,6 +1,7 @@
 package codenames;
 
 import codenames.controller.*;
+import codenames.controller.view.ManageWordView;
 import codenames.structure.CardType;
 import codenames.structure.Game;
 import codenames.structure.ListCard;
@@ -8,13 +9,20 @@ import codenames.structure.TextCard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/manageword.fxml"));
+        ManageWordView manageWordView = new ManageWordView();
+
+        BorderPane test = new ManageWordView().getGraphic();
+        assert test != null : "Main window is null";
+        primaryStage.setScene(new Scene(test, 1180.0D, 795.0D));
+        primaryStage.show();
+        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/manageword.fxml"));
         
         ManageWordController controller = new ManageWordController();
         loader.setController(controller);
@@ -24,7 +32,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.setTitle("CodeName");
-        primaryStage.show();
+        primaryStage.show();*/
     }
 
     public static void main(String[] args) {
