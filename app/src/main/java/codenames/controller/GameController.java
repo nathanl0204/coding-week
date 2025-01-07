@@ -32,7 +32,7 @@ public class GameController {
     @FXML GridPane gridPane;
     @FXML Button button;
     @FXML Label info;
-    @FXML Image image;
+    @FXML ImageView imageView;
 
     private Game game;
 
@@ -44,6 +44,7 @@ public class GameController {
 
     @FXML 
     public void initialize() {
+        imageView.setImage(game.getQRCode());
         info.setText("Click above to start");
         int cols = game.getCols();
         final int[] currentPos = {0, 0};
