@@ -1,4 +1,4 @@
-package codenames.view;
+package codenames.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

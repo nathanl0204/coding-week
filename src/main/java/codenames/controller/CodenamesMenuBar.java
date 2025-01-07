@@ -1,6 +1,5 @@
-package codenames.view;
+package codenames.controller;
 
-import com.sun.javafx.menu.SeparatorMenuItemBase;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCombination;
 
