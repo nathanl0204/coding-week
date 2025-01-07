@@ -1,22 +1,19 @@
 package codenames.structure;
 
 public class Statistics {
-    private double averageTimePerTurn;
-    private double averageCardsPerTurn;
+    private double sumTimePerTurn;
     private int numberOfErrors;
     private int numberOfTurns;
-    private int numberOfGuess;
+    private int numberOfCorrectGuess;
 
     private int numberOfRemainingCardsToFind;
 
     public Statistics(int numberOfCard) {
-        this.averageTimePerTurn = 0;
-        this.averageCardsPerTurn = 0;
+        this.sumTimePerTurn = 0;
         this.numberOfErrors = 0;
         this.numberOfTurns = 0;
-        this.numberOfGuess = 0;
+        this.numberOfCorrectGuess = 0;
         numberOfRemainingCardsToFind = numberOfCard;
-
     }
 
     public int getNumberOfRemainingCardsToFind(){
@@ -27,16 +24,25 @@ public class Statistics {
         numberOfRemainingCardsToFind--;
     }
 
+    public double addTimePerTurn(double time) {
+        return sumTimePerTurn + time;
+    }
+
     public double getAverageTimePerTurn() {
-        return averageTimePerTurn;
+        return numberOfTurns != 0 ? sumTimePerTurn/numberOfTurns : 0;
     }
 
     public double getAverageCardsPerTurn() {
-        return averageCardsPerTurn;
+        return numberOfTurns != 0 ? numberOfCorrectGuess/numberOfTurns : 0;
+        
     }
 
     public int getNumberOfErrors() {
         return numberOfErrors;
+    }
+
+    public void incrNumberOfErrors() {
+        this.numberOfErrors += 1;
     }
 
     public int getNumberOfTurns() {
@@ -47,20 +53,16 @@ public class Statistics {
         this.numberOfTurns += 1;
     }
 
-    public void incrNumberOfErrors() {
-        this.numberOfErrors += 1;
+    public int getNumberOfCorrectGuess() {
+        return numberOfCorrectGuess;
     }
 
-    public void incrNumberOfGuess() {
-        this.numberOfGuess += 1;
+    public void incrNumberOfCorrectGuess() {
+        this.numberOfCorrectGuess += 1;
     }
 
     public String toString() {
-        return "Average time per turn: " + averageTimePerTurn + " seconds\nAverage words per turn: " + averageCardsPerTurn + "\n Number of errors: " + numberOfErrors + "\n Number of guess: " + numberOfGuess;
+        return "Average time per turn: " + getAverageTimePerTurn() + " seconds\nAverage words per turn: " + getAverageCardsPerTurn() + "\n Number of errors: " + numberOfErrors + "\n Number of guess: " + numberOfCorrectGuess;
     }
 
-    public void calculStat(){
-        averageTimePerTurn /= numberOfTurns;
-        averageCardsPerTurn /= numberOfTurns;
-    }
 }

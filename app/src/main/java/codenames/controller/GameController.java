@@ -1,5 +1,6 @@
 package codenames.controller;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import codenames.structure.Card;
@@ -9,6 +10,8 @@ import codenames.structure.TextCard;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -19,14 +22,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 public class GameController {
 
     @FXML GridPane gridPane;
     @FXML Button button;
     @FXML Label info;
+    @FXML Image image;
 
     private Game game;
 
@@ -111,6 +117,7 @@ public class GameController {
                 if (game.isBlueTurn()) info.setText("Red Team win");
                 else info.setText("Blue Team win");
                 button.setVisible(false);
+                displayStatistics();
                 break;
             case White:
                 game.wrongGuess();
@@ -135,16 +142,14 @@ public class GameController {
             default:
                 break;
         }
-        if (game.getRemainingCardGuess() == 0){
+        if (game.getRemainingCardGuess() == 0 && game.isOnGoing()){
             if (game.isBlueTurn()) info.setText("Red turn");
             else info.setText("Blue turn");
         }
 
-
-
-
-        if (game.getNumberOfRemainingCardsToFind() == 0){
+        if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()){
             game.ends();
+            displayStatistics();
             if (game.isBlueTurn()) info.setText("Blue Team win");
             else info.setText("Red Team win");
             button.setVisible(false);
@@ -190,6 +195,26 @@ public class GameController {
         return dialog.showAndWait();
     }
 
+    private void displayStatistics(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Statistics.fxml"));
 
+        StatisticsController controller = new StatisticsController(game.getBlueStatistics(),game.getRedStatistics());
 
+        loader.setController(controller);
+
+        HBox hbox = null;
+        try {
+            hbox = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(hbox);
+
+        Stage newStage = new Stage();
+        newStage.setScene(scene);
+        newStage.setMaximized(false);
+        newStage.setResizable(false);
+        newStage.setTitle("Statistics");
+        newStage.show();
+    }
 }

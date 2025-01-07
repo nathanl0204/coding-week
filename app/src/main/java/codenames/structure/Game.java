@@ -68,9 +68,7 @@ public class Game implements Serializable {
 
     public void ends(){
         onGoing = false;
-        blueStat.calculStat();
-        redStat.calculStat();
-    }
+    } 
 
     public Boolean isOnGoing(){
         return onGoing && remainingCardGuess > 0;
@@ -78,11 +76,11 @@ public class Game implements Serializable {
 
     public void correctGuess(){
         if (blueTurn) {
-            blueStat.incrNumberOfGuess();
+            blueStat.incrNumberOfCorrectGuess();
             blueStat.decrNumberOfRemainingCardsToFind();
         }
         else {
-            redStat.incrNumberOfGuess();
+            redStat.incrNumberOfCorrectGuess();
             redStat.decrNumberOfRemainingCardsToFind();
         } 
         remainingCardGuess--;
