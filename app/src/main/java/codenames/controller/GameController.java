@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import codenames.structure.Card;
+import codenames.structure.CardType;
 import codenames.structure.Game;
 import codenames.structure.ImageCard;
 import codenames.structure.TextCard;
@@ -113,7 +114,7 @@ public class GameController {
         switch (card.getCardType()) {
             case Black:
                 alertWrongGuest("Black Card selected, you lose");
-                game.wrongGuess();
+                game.wrongGuess(CardType.Black);
                 game.ends();
                 if (game.isBlueTurn()) info.setText("Red Team win");
                 else info.setText("Blue Team win");
@@ -121,23 +122,23 @@ public class GameController {
                 displayStatistics();
                 break;
             case White:
-                game.wrongGuess();
+                game.wrongGuess(CardType.White);
                 alertWrongGuest("White Card selected, your turn ends");
                 break;
             case Blue:
                 if (game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess();
-                    alertWrongGuest("Red Card selected, your turn ends");
+                    game.wrongGuess(CardType.Blue);
+                    alertWrongGuest("Blue Card selected, your turn ends");
                 }
                 break;
             case Red:
                 if (!game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess();
-                    alertWrongGuest("Blue Card selected, your turn ends");
+                    game.wrongGuess(CardType.Red);
+                    alertWrongGuest("Red Card selected, your turn ends");
                 }
                 break;
             default:

@@ -22,6 +22,7 @@ public class Statistics {
 
     public void decrNumberOfRemainingCardsToFind(){
         numberOfRemainingCardsToFind--;
+        System.out.println("Appel");
     }
 
     public double addTimePerTurn(double time) {
@@ -29,11 +30,11 @@ public class Statistics {
     }
 
     public double getAverageTimePerTurn() {
-        return numberOfTurns != 0 ? sumTimePerTurn/numberOfTurns : 0;
+        return numberOfTurns != 0 ? ((double) sumTimePerTurn)/numberOfTurns : 0;
     }
 
     public double getAverageCardsPerTurn() {
-        return numberOfTurns != 0 ? numberOfCorrectGuess/numberOfTurns : 0;
+        return numberOfTurns != 0 ? ((double) numberOfCorrectGuess)/numberOfTurns : 0;
         
     }
 
@@ -42,7 +43,7 @@ public class Statistics {
     }
 
     public void incrNumberOfErrors() {
-        this.numberOfErrors += 1;
+        numberOfErrors++;
     }
 
     public int getNumberOfTurns() {
@@ -50,7 +51,7 @@ public class Statistics {
     }
 
     public void incrNumberOfTurns() {
-        this.numberOfTurns += 1;
+        numberOfTurns++;
     }
 
     public int getNumberOfCorrectGuess() {
@@ -58,7 +59,7 @@ public class Statistics {
     }
 
     public void incrNumberOfCorrectGuess() {
-        this.numberOfCorrectGuess += 1;
+        numberOfCorrectGuess++;
     }
 
     public String toString() {

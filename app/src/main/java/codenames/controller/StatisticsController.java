@@ -34,14 +34,15 @@ public class StatisticsController {
         blueAverageTimeLabel.setText("Average Time Per Round: " + blueTeamStatistics.getAverageTimePerTurn() + " seconds");
         blueAverageCardsLabel.setText("Average Cards Per Round: " + blueTeamStatistics.getAverageCardsPerTurn());
         blueNumberOfErrorsLabel.setText("Errors: " + blueTeamStatistics.getNumberOfErrors());
-        blueNumberOfGuessLabel.setText("Guesses: " + blueTeamStatistics.getNumberOfCorrectGuess());
+        blueNumberOfGuessLabel.setText("Correct Guesses: " + blueTeamStatistics.getNumberOfCorrectGuess());
         blueNumberOfTurnsLabel.setText("Turns: " + blueTeamStatistics.getNumberOfTurns());
         blueRemainingCardsLabel.setText("Remaining Cards: " + blueTeamStatistics.getNumberOfRemainingCardsToFind());
+
         redAverageTimeLabel.setText("Average Time Per Round: " + redTeamStatistics.getAverageTimePerTurn() + " seconds");
         redAverageCardsLabel.setText("Average Cards Per Round: " + redTeamStatistics.getAverageCardsPerTurn());
         redNumberOfErrorsLabel.setText("Errors: " + redTeamStatistics.getNumberOfErrors());
-        redNumberOfGuessLabel.setText("Guesses: " + redTeamStatistics.getNumberOfCorrectGuess());
+        redNumberOfGuessLabel.setText("Correct Guesses: " + redTeamStatistics.getNumberOfCorrectGuess());
         redNumberOfTurnsLabel.setText("Turns: " + redTeamStatistics.getNumberOfTurns());
-        redRemainingCardsLabel.setText("Remaining Cards: " + blueTeamStatistics.getNumberOfRemainingCardsToFind());
+        redRemainingCardsLabel.setText("Remaining Cards: " + redTeamStatistics.getNumberOfRemainingCardsToFind());
     }
 }

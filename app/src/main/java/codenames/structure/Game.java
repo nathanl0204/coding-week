@@ -31,6 +31,7 @@ public class Game implements Serializable {
         this.cards = cards;
         blueTurn = true;
         generateQRCode();
+        onGoing = true;
     }
 
     public Image getQRCode() {
@@ -106,15 +107,15 @@ public class Game implements Serializable {
         
     }
 
-    public void wrongGuess(){
+    public void wrongGuess(CardType cardType){
         remainingCardGuess = 0;
         if (blueTurn) {
             blueStat.incrNumberOfErrors();
-            redStat.decrNumberOfRemainingCardsToFind();
+            if (cardType == CardType.Red) redStat.decrNumberOfRemainingCardsToFind();
         }
         else {
             redStat.incrNumberOfErrors();
-            blueStat.decrNumberOfRemainingCardsToFind();
+            if (cardType == CardType.Blue) blueStat.decrNumberOfRemainingCardsToFind();
         }
         // temps
     }
