@@ -47,15 +47,19 @@ public class LoadingBar extends StackPane {
 
         timeline = new Timeline();
 
-        // Animation de la barre de progression
-        timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO,
-                        new KeyValue(clip.widthProperty(), 0)),
-                new KeyFrame(Duration.seconds(seconds * 0.8), // Change la couleur à 80% du temps
-                        event -> bar.setFill(Color.RED)),
-                new KeyFrame(Duration.seconds(seconds),
-                        new KeyValue(clip.widthProperty(), background.getWidth()))
-        );
+        // Ajout des keyframes pour la progression et le changement de couleur
+        for (int i = 0; i <= seconds; i++) {
+            double progress = (double) i / seconds;
+            Color color = interpolateColor(Color.DODGERBLUE, Color.RED, progress);
+
+            timeline.getKeyFrames().add(
+                    new KeyFrame(
+                            Duration.seconds(i),
+                            new KeyValue(clip.widthProperty(), background.getWidth() * progress),
+                            new KeyValue(bar.fillProperty(), color)
+                    )
+            );
+        }
 
         // Mise à jour du temps écoulé
         KeyFrame updateFrame = new KeyFrame(Duration.seconds(1), event -> {
@@ -76,6 +80,13 @@ public class LoadingBar extends StackPane {
         });
 
         timeline.play();
+    }
+
+    private Color interpolateColor(Color startColor, Color endColor, double progress) {
+        double red = startColor.getRed() + (endColor.getRed() - startColor.getRed()) * progress;
+        double green = startColor.getGreen() + (endColor.getGreen() - startColor.getGreen()) * progress;
+        double blue = startColor.getBlue() + (endColor.getBlue() - startColor.getBlue()) * progress;
+        return new Color(red, green, blue, 1.0);
     }
 
     public void stop() {
