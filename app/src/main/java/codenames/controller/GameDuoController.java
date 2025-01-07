@@ -28,7 +28,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class GameController {
+public class GameDuoController {
 
     @FXML GridPane gridPane;
     @FXML Button button;
@@ -37,9 +37,9 @@ public class GameController {
 
     private Game game;
 
-    public GameController(){}
+    public GameDuoController(){}
     
-    public GameController(Game game){
+    public GameDuoController(Game game){
         this.game = game;
     }
 

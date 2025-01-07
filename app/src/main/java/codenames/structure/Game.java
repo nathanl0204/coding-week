@@ -160,4 +160,31 @@ public class Game implements Serializable {
         }
 
     }
+
+    /* 
+    game.simuleOpponent(){
+        // blueTurn = false;
+        // temps artificiel
+        // pick nb random de case a retourner
+        // pick des cartes aleatoirement
+        // blueTurn = true;
+    }
+
+    */
+
+    /* 
+    game.simuleCoequipier(){
+        // changer la structure des mots
+        // et renvoie un int (nb de carte) et un string (indice)
+        parmi les differents liste de mots du jeu
+    }
+     
+    */
+
+    /* utilisation du pattern strategy pour different type d'ia
+
+
+        creer nouvelle classe pour gameSoloController
+
+     */
 }

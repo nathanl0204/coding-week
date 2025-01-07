@@ -8,6 +8,7 @@ import java.util.List;
 public class ListCard implements Serializable {
     private int id;
     private List<Card> cards;
+    //private List<String> indice;
 
     public ListCard(){
         this.id = hashCode();
