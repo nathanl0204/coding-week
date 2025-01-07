@@ -1,0 +1,37 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+.grid-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.grid {
+    display: grid;
+    gap: 8px;
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
+
+.cell:hover {
+    transform: scale(1.05);
+}
+
+.red { background-color: #ff4444; }
+.blue { background-color: #4444ff; }
+.neutral { background-color: #d4d4d4; }
+.assassin { background-color: #333333; }
