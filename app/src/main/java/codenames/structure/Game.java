@@ -17,6 +17,7 @@ public class Game implements Serializable {
 
     private int id;
     
+    private Boolean onGoing;
     private Statistics blueStat,redStat;
     private ListCard cards;
     private Boolean blueTurn;
@@ -79,16 +80,21 @@ public class Game implements Serializable {
         else return CardType.Red;
     }
 
-    public void changeTurn(int n){
+    public void changeTurn(int remainingCardGuess){
         blueTurn = !blueTurn;
         if (blueTurn) blueStat.incrNumberOfTurns();
         else redStat.incrNumberOfTurns();
-        remainingCardGuess = n;
+        this.remainingCardGuess = remainingCardGuess;
     }
 
-    public void calculStat(){
-        blueStat.calcul();
-        redStat.calcul();
+    public void ends(){
+        onGoing = false;
+        blueStat.calculStat();
+        redStat.calculStat();
+    }
+
+    public Boolean isOnGoing(){
+        return onGoing && remainingCardGuess > 0;
     }
 
     public void correctGuess(){

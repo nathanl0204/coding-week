@@ -59,7 +59,7 @@ public class Statistics {
         return "Average time per turn: " + averageTimePerTurn + " seconds\nAverage words per turn: " + averageCardsPerTurn + "\n Number of errors: " + numberOfErrors + "\n Number of guess: " + numberOfGuess;
     }
 
-    public void calcul(){
+    public void calculStat(){
         averageTimePerTurn /= numberOfTurns;
         averageCardsPerTurn /= numberOfTurns;
     }
