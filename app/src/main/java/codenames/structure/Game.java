@@ -59,17 +59,17 @@ public class Game implements Serializable {
         else return CardType.Red;
     }
 
-    public void changeTurn(int n){
+    public void changeTurn(int remainingCardGuess){
         blueTurn = !blueTurn;
         if (blueTurn) blueStat.incrNumberOfTurns();
         else redStat.incrNumberOfTurns();
-        remainingCardGuess = n;
+        this.remainingCardGuess = remainingCardGuess;
     }
 
     public void ends(){
         onGoing = false;
-        blueStat.calcul();
-        redStat.calcul();
+        blueStat.calculStat();
+        redStat.calculStat();
     }
 
     public Boolean isOnGoing(){
