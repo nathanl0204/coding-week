@@ -40,7 +40,7 @@ testlogger {
 }
 
 javafx {
-    version = "22.0.1"
+    version = "23.0.1"
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media' ]
 }
 
