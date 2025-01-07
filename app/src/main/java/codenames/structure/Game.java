@@ -1,7 +1,5 @@
 package codenames.structure;
 
-import java.nio.file.Path;
-
 import java.util.List;
 import java.io.Serializable;
 import java.awt.image.BufferedImage;
@@ -145,14 +143,10 @@ public class Game implements Serializable {
 
 
     public void generateQRCode() {
-        System.out.println("AAAAAAAAAAAAAAa");
         String url = generateURL();
         try {
             QRCodeWriter writer = new QRCodeWriter();
             BitMatrix matrix = writer.encode(url, BarcodeFormat.QR_CODE, 300, 300);
-
-            MatrixToImageWriter.writeToPath(matrix, "PNG", Path.of("qrcode.png"));
-            System.out.println("QR code generated as qrcode.png");
 
             BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(matrix);
 
