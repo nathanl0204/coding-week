@@ -3,9 +3,10 @@ package codenames;
 import java.util.ArrayList;
 import java.util.List;
 
-import codenames.controller.GameDuoController;
+import codenames.controller.GameTwoTeamsController;
 import codenames.structure.CardType;
-import codenames.structure.Game;
+import codenames.structure.DeckTwoTeams;
+import codenames.structure.GameTwoTeams;
 import codenames.structure.PlayableCard;
 import codenames.structure.TextCard;
 import javafx.application.Application;
@@ -24,9 +25,9 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
         
-        Game game = testGame();
+        GameTwoTeams game = testGame();
 
-        GameDuoController controller = new GameDuoController(game);
+        GameTwoTeamsController controller = new GameTwoTeamsController(game);
 
         loader.setController(controller);
 
@@ -38,7 +39,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private Game testGame(){
+    private GameTwoTeams testGame(){
         List<PlayableCard> listCard = new  ArrayList<PlayableCard>();
 
         String[] texts = {
@@ -64,7 +65,7 @@ public class Main extends Application {
             i++;
         }
 
-        return new Game( 5, listCard,9,9);
+        return new GameTwoTeams( new DeckTwoTeams(listCard),5, 9,9);
 
     }
 }

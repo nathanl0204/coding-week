@@ -1,26 +1,36 @@
 package codenames.controller;
 
-import codenames.structure.Game;
+import java.util.Optional;
+
+import codenames.structure.CardType;
+import codenames.structure.GameTwoTeams;
 import codenames.structure.PlayableCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextInputDialog;
 
-public class GameSoloController extends GameController{
+public class GameTwoTeamsController extends GameController {
 
-    public GameSoloController(){
+    public GameTwoTeamsController(){
         super();
     }
     
-    public GameSoloController(Game game){
+    public GameTwoTeamsController(GameTwoTeams game){
         super(game);
+    }
+
+    @FXML 
+    public void initialize() {
+        imageView.setImage( ((GameTwoTeams) game).getQRCode());
+        super.initialize();
     }
 
     void processCardSelection(PlayableCard card) {
         switch (card.getCardType()) {
             case Black:
                 alertWrongGuest("Black Card selected, you lose");
-                game.wrongGuess();
+                game.wrongGuess(CardType.Black);
                 game.ends();
                 if (game.isBlueTurn()) info.setText("Red Team win");
                 else info.setText("Blue Team win");
@@ -28,14 +38,14 @@ public class GameSoloController extends GameController{
                 displayStatistics();
                 break;
             case White:
-                game.wrongGuess();
+                game.wrongGuess(CardType.White);
                 alertWrongGuest("White Card selected, your turn ends");
                 break;
             case Blue:
                 if (game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess();
+                    game.wrongGuess(CardType.Blue);
                     alertWrongGuest("Red Card selected, your turn ends");
                 }
                 break;
@@ -43,7 +53,7 @@ public class GameSoloController extends GameController{
                 if (!game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess();
+                    game.wrongGuess(CardType.Red);
                     alertWrongGuest("Blue Card selected, your turn ends");
                 }
                 break;
@@ -59,16 +69,15 @@ public class GameSoloController extends GameController{
             else info.setText("Red Team win");
             button.setVisible(false);
         }
-        else if (game.getRemainingCardGuess() == 0 && game.isBlueTurn() && game.isOnGoing()){
-            // l'IA opponent joue
-            // l'IA equipier joue
+        else if (game.getRemainingCardGuess() == 0 && game.isOnGoing()){
+            if (game.isBlueTurn()) info.setText("Red turn");
+            else info.setText("Blue turn");
         }
     }
 
     @FXML 
     public void handleButton(){
-        
-        if (game.isBlueTurn()){
+        if (game.getRemainingCardGuess() == 0){
             askForNumberGuess().ifPresent( n -> {
                 int N = Integer.parseInt(n);
                 if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind()) game.changeTurn(N);
@@ -79,9 +88,20 @@ public class GameSoloController extends GameController{
                     alert.setContentText("Please enter a number less than the number of cards you have left to guess");
                     alert.showAndWait();
                 }
+
+                if (game.isBlueTurn()) info.setText("Blue turn");
+                else info.setText("Red turn");
             });
+            
         }
-        
     }
 
+    private Optional<String> askForNumberGuess(){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Number of guess");
+        dialog.setHeaderText("Enter the number of guess");
+        dialog.setContentText("Number :");
+
+        return dialog.showAndWait();
+    }
 }
