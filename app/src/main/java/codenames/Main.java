@@ -1,27 +1,42 @@
 package codenames;
 
 import codenames.controller.GameDuoController;
-import codenames.controller.MenuBarController;
 import codenames.structure.CardType;
 import codenames.structure.Game;
 import codenames.structure.ListCard;
 import codenames.structure.TextCard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         Game game = testGame();
+
+        /*FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/Board.fxml"));
+        loader.setControllerFactory(iC->new BoardView(game));
+        root.setCenter(loader.load());
+
+        FXMLLoader loader2 = new FXMLLoader();
+        loader2.setLocation(getClass().getResource("/view/Menu.fxml"));
+        loader2.setControllerFactory(iC->new MenuView(game));
+        root.setTop(loader2.load());
+
+        FXMLLoader loader3 = new FXMLLoader();
+        loader3.setLocation(getClass().getResource("/view/BlueTeam.fxml"));
+        TeamView blueTeamView = new TeamView(game);
+        loader3.setControllerFactory(iC->blueTeamView);
+        root.setLeft(loader3.load());
+
+        FXMLLoader loader4 = new FXMLLoader();
+        loader4.setLocation(getClass().getResource("/view/RedTeam.fxml"));
+        TeamView redTeamView = new TeamView(game);
+        loader4.setControllerFactory(iC->redTeamView);
+        root.setRight(loader4.load());*/
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
         loader.setControllerFactory(iC->new GameDuoController(game));

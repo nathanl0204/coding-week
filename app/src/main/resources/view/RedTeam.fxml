@@ -1,0 +1,39 @@
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #b80000;" BorderPane.alignment="CENTER" fx:controller="codenames.controller.TeamView" fx:id="self">
+         <children>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="points" alignment="CENTER" text="0" textFill="WHITE">
+                     <font>
+                        <Font size="77.0" />
+                     </font>
+                     <padding>
+                        <Insets right="80.0" />
+                     </padding></Label>
+                  <ImageView fx:id="teamPicture" fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <StackPane.margin>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </StackPane.margin></ImageView>
+               </children>
+            </StackPane>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Maitre-espions" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font></Label>
+            <ListView fx:id="spymastersList" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00000000;" />
+            <Label text="Agents secrets" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font></Label>
+            <ListView fx:id="spyList" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00000000;" />
+         </children>
+         <padding>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+         </padding>
+      </VBox>

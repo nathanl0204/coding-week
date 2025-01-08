@@ -2,7 +2,9 @@ package codenames.structure;
 
 import java.io.Serializable;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
+import codenames.controller.Observer;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
@@ -12,9 +14,9 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 public class Game implements Serializable {
-
+    ArrayList<Observer> observers;
     private int id;
-    
+
     private Boolean onGoing;
     private Statistics blueStat,redStat;
     private ListCard cards;
@@ -32,6 +34,17 @@ public class Game implements Serializable {
         blueTurn = true;
         generateQRCode();
         onGoing = true;
+        this.observers = new ArrayList<>();
+    }
+
+    public void addObserver(Observer obs) {
+        this.observers.add(obs);
+    }
+
+    public void notifyObservers() {
+        for (int i = 0; i<this.observers.size(); i++) {
+            this.observers.get(i).react();
+        }
     }
 
     public Image getQRCode() {
@@ -102,9 +115,9 @@ public class Game implements Serializable {
         else {
             redStat.incrNumberOfCorrectGuess();
             redStat.decrNumberOfRemainingCardsToFind();
-        } 
+        }
         remainingCardGuess--;
-        
+
     }
 
     public void wrongGuess(CardType cardType){
