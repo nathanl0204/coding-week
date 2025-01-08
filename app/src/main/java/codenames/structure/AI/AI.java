@@ -9,5 +9,5 @@ public abstract class AI {
         this.gameController = gameController;
     }
 
-    protected abstract void play();
+    public abstract void play();
 }

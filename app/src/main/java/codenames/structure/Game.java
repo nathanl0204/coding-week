@@ -3,134 +3,140 @@ package codenames.structure;
 public abstract class Game {
 
     protected int id;
-    
+
     protected Boolean onGoing;
-    protected Statistics blueStat,redStat;
+    protected Statistics blueStat, redStat;
     protected Boolean blueTurn;
     protected int remainingCardGuess;
     protected int cols;
 
-    public Game(int cols, int numberOfBlueCard, int numberOfRedCard){
+    public Game(int cols, int numberOfBlueCard, int numberOfRedCard) {
         this.cols = cols;
         blueStat = new Statistics(numberOfBlueCard);
         redStat = new Statistics(numberOfRedCard);
-        blueTurn = true;
+        blueTurn = false;
         onGoing = true;
     }
 
-
-    public int getCols(){
+    public int getCols() {
         return cols;
     }
 
-    public Statistics getBlueStatistics(){
+    public Statistics getBlueStatistics() {
         return blueStat;
     }
 
-    public Statistics getRedStatistics(){
+    public Statistics getRedStatistics() {
         return redStat;
     }
 
-    public int getRemainingCardGuess(){
+    public int getRemainingCardGuess() {
         return remainingCardGuess;
     }
 
-    public void setRemainingCardGuess(int remainingCardGuess){
+    public void setRemainingCardGuess(int remainingCardGuess) {
         this.remainingCardGuess = remainingCardGuess;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
     public abstract Deck getDeck();
-    
 
-    public Boolean isBlueTurn(){
+    public Boolean isBlueTurn() {
         return blueTurn;
     }
 
-    public CardType getColorTurn(){
-        if (blueTurn) return CardType.Blue;
-        else return CardType.Red;
+    public CardType getColorTurn() {
+        if (blueTurn)
+            return CardType.Blue;
+        else
+            return CardType.Red;
     }
 
-    public void changeTurn(int remainingCardGuess){
+    public void changeTurn(int remainingCardGuess) {
         blueTurn = !blueTurn;
-        if (blueTurn) blueStat.incrNumberOfTurns();
-        else redStat.incrNumberOfTurns();
+        if (blueTurn)
+            blueStat.incrNumberOfTurns();
+        else
+            redStat.incrNumberOfTurns();
         this.remainingCardGuess = remainingCardGuess;
     }
 
-    public void ends(){
+    public void ends() {
         onGoing = false;
     }
 
-    public Boolean isOnGoing(){
-        return onGoing && remainingCardGuess > 0;
+    public Boolean isOnGoing() {
+        return onGoing;
     }
 
-    public void correctGuess(){
+    public void correctGuess() {
         if (blueTurn) {
             blueStat.incrNumberOfCorrectGuess();
             blueStat.decrNumberOfRemainingCardsToFind();
-        }
-        else {
+        } else {
             redStat.incrNumberOfCorrectGuess();
             redStat.decrNumberOfRemainingCardsToFind();
-        } 
+        }
         remainingCardGuess--;
-        
+
     }
 
-    public void wrongGuess(CardType cardType){
+    public void wrongGuess(CardType cardType) {
         remainingCardGuess = 0;
         if (blueTurn) {
             blueStat.incrNumberOfErrors();
-            if (cardType == CardType.Red) redStat.decrNumberOfRemainingCardsToFind();
-        }
-        else {
+            if (cardType == CardType.Red)
+                redStat.decrNumberOfRemainingCardsToFind();
+        } else {
             redStat.incrNumberOfErrors();
-            if (cardType == CardType.Blue) blueStat.decrNumberOfRemainingCardsToFind();
+            if (cardType == CardType.Blue)
+                blueStat.decrNumberOfRemainingCardsToFind();
         }
         // temps
     }
 
     public int getNumberOfOpponentRemainingCardsToFind() {
-        if (blueTurn) return redStat.getNumberOfRemainingCardsToFind();
-        else return blueStat.getNumberOfRemainingCardsToFind();
+        if (blueTurn)
+            return redStat.getNumberOfRemainingCardsToFind();
+        else
+            return blueStat.getNumberOfRemainingCardsToFind();
     }
 
     public int getNumberOfRemainingCardsToFind() {
-        if (blueTurn) return blueStat.getNumberOfRemainingCardsToFind();
-        else return redStat.getNumberOfRemainingCardsToFind();
+        if (blueTurn)
+            return blueStat.getNumberOfRemainingCardsToFind();
+        else
+            return redStat.getNumberOfRemainingCardsToFind();
     }
-
 
     /*
-    game.simuleOpponent(){
-        // blueTurn = false;
-        // temps artificiel
-        // pick nb random de case a retourner
-        // pick des cartes aleatoirement
-        // blueTurn = true;
-    }
-
-    */
+     * game.simuleOpponent(){
+     * // blueTurn = false;
+     * // temps artificiel
+     * // pick nb random de case a retourner
+     * // pick des cartes aleatoirement
+     * // blueTurn = true;
+     * }
+     * 
+     */
 
     /*
-    game.simuleCoequipier(){
-        // changer la structure des mots
-        // et renvoie un int (nb de carte) et un string (indice)
-        parmi les differents liste de mots du jeu
-    }
+     * game.simuleCoequipier(){
+     * // changer la structure des mots
+     * // et renvoie un int (nb de carte) et un string (indice)
+     * parmi les differents liste de mots du jeu
+     * }
+     * 
+     */
 
-    */
-
-    /* utilisation du pattern strategy pour different type d'ia
-
-
-        creer nouvelle classe pour gameSoloController
-
+    /*
+     * utilisation du pattern strategy pour different type d'ia
+     * 
+     * 
+     * creer nouvelle classe pour gameSoloController
+     * 
      */
 }

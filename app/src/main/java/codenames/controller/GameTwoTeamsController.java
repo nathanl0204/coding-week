@@ -14,29 +14,31 @@ public class GameTwoTeamsController extends GameController {
 
     private LoadingBarController loadingBarController;
 
-    public GameTwoTeamsController(){
+    public GameTwoTeamsController() {
         super();
     }
-    
-    public GameTwoTeamsController(GameTwoTeams game, LoadingBarController loadingBarController){
+
+    public GameTwoTeamsController(GameTwoTeams game, LoadingBarController loadingBarController) {
         super(game);
         this.loadingBarController = loadingBarController;
     }
 
-    @FXML 
+    @FXML
     public void initialize() {
-        imageView.setImage( ((GameTwoTeams) game).getQRCode());
+        imageView.setImage(((GameTwoTeams) game).getQRCode());
         super.initialize();
     }
 
-    void processCardSelection(PlayableCard card) {
+    public void processCardSelection(PlayableCard card) {
         switch (card.getCardType()) {
             case Black:
                 alertWrongGuest("Black Card selected, you lose");
                 game.wrongGuess(CardType.Black);
                 game.ends();
-                if (game.isBlueTurn()) info.setText("Red Team win");
-                else info.setText("Blue Team win");
+                if (game.isBlueTurn())
+                    info.setText("Red Team win");
+                else
+                    info.setText("Blue Team win");
                 button.setVisible(false);
                 displayStatistics();
                 break;
@@ -49,7 +51,7 @@ public class GameTwoTeamsController extends GameController {
                     game.correctGuess();
                 } else {
                     game.wrongGuess(CardType.Blue);
-                    alertWrongGuest("Red Card selected, your turn ends");
+                    alertWrongGuest("Blue Card selected, your turn ends");
                 }
                 break;
             case Red:
@@ -57,33 +59,36 @@ public class GameTwoTeamsController extends GameController {
                     game.correctGuess();
                 } else {
                     game.wrongGuess(CardType.Red);
-                    alertWrongGuest("Blue Card selected, your turn ends");
+                    alertWrongGuest("Red Card selected, your turn ends");
                 }
                 break;
             default:
                 break;
         }
-        
 
-        if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()){
+        if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();
             displayStatistics();
-            if (game.isBlueTurn()) info.setText("Blue Team win");
-            else info.setText("Red Team win");
+            if (game.isBlueTurn())
+                info.setText("Blue Team win");
+            else
+                info.setText("Red Team win");
             button.setVisible(false);
-        }
-        else if (game.getRemainingCardGuess() == 0 && game.isOnGoing()){
-            if (game.isBlueTurn()) info.setText("Red turn");
-            else info.setText("Blue turn");
+        } else if (game.getRemainingCardGuess() == 0 && game.isOnGoing()) {
+            if (game.isBlueTurn())
+                info.setText("Red turn");
+            else
+                info.setText("Blue turn");
         }
     }
 
-    @FXML 
-    public void handleButton(){
-        if (game.getRemainingCardGuess() == 0){
-            askForNumberGuess().ifPresent( n -> {
+    @FXML
+    public void handleButton() {
+        if (game.getRemainingCardGuess() == 0) {
+            askForNumberGuess().ifPresent(n -> {
                 int N = Integer.parseInt(n);
-                if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind()) game.changeTurn(N);
+                if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind())
+                    game.changeTurn(N);
                 else {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information");
@@ -92,14 +97,16 @@ public class GameTwoTeamsController extends GameController {
                     alert.showAndWait();
                 }
 
-                if (game.isBlueTurn()) info.setText("Blue turn");
-                else info.setText("Red turn");
+                if (game.isBlueTurn())
+                    info.setText("Blue turn");
+                else
+                    info.setText("Red turn");
             });
-            
+
         }
     }
 
-    private Optional<String> askForNumberGuess(){
+    private Optional<String> askForNumberGuess() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Number of guess");
         dialog.setHeaderText("Enter the number of guess");

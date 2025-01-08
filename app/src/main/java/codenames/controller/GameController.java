@@ -26,34 +26,43 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public abstract class GameController {
-    
-    @FXML GridPane gridPane;
-    @FXML Button button;
-    @FXML Label info;
-    @FXML ImageView imageView;
+
+    @FXML
+    GridPane gridPane;
+    @FXML
+    Button button;
+    @FXML
+    Label info;
+    @FXML
+    ImageView imageView;
 
     protected Game game;
 
-    public GameController(){}
-    
-    public GameController(Game game){
+    public GameController() {
+    }
+
+    public GameController(Game game) {
         this.game = game;
     }
 
-    @FXML 
+    public Game getGame() {
+        return game;
+    }
+
+    @FXML
     public void initialize() {
         info.setText("Click above to start");
         int cols = game.getCols();
-        final int[] currentPos = {0, 0};
+        final int[] currentPos = { 0, 0 };
 
         game.getDeck().getCard().forEach(playableCard -> {
 
             StackPane stackPane = new StackPane();
 
             if (playableCard.getCard() instanceof TextCard) {
-                Label label = new Label(((TextCard) playableCard.getCard() ).getText());
+                Label label = new Label(((TextCard) playableCard.getCard()).getText());
                 label.setTextFill(playableCard.getColor());
-                
+
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(label);
 
@@ -62,9 +71,10 @@ public abstract class GameController {
                     public void handle(Event event) {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed() && game.isOnGoing()) {
-                                Rectangle transparency = new Rectangle(label.getWidth(),label.getHeight());
-                                transparency.setFill(playableCard.getColor().deriveColor(0,1,1,0.5));
+                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed()
+                                    && game.isOnGoing()) {
+                                Rectangle transparency = new Rectangle(label.getWidth(), label.getHeight());
+                                transparency.setFill(playableCard.getColor().deriveColor(0, 1, 1, 0.5));
                                 stackPane.getChildren().add(transparency);
                                 playableCard.guessed();
                                 processCardSelection(playableCard);
@@ -72,9 +82,9 @@ public abstract class GameController {
                         }
                     }
                 });
-                
+
             } else {
-                ImageView imgView = new ImageView(new Image(((ImageCard) playableCard.getCard() ).getUrl()));
+                ImageView imgView = new ImageView(new Image(((ImageCard) playableCard.getCard()).getUrl()));
 
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(imgView);
@@ -84,9 +94,10 @@ public abstract class GameController {
                     public void handle(Event event) {
                         if (event instanceof MouseEvent) {
                             MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed() && game.isOnGoing()) {
-                                Rectangle transparency = new Rectangle(imgView.getFitWidth(),imgView.getFitHeight());
-                                transparency.setFill(playableCard.getColor().deriveColor(0,1,1,0.5));
+                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed()
+                                    && game.isOnGoing()) {
+                                Rectangle transparency = new Rectangle(imgView.getFitWidth(), imgView.getFitHeight());
+                                transparency.setFill(playableCard.getColor().deriveColor(0, 1, 1, 0.5));
                                 stackPane.getChildren().add(transparency);
                                 playableCard.guessed();
                                 processCardSelection(playableCard);
@@ -94,21 +105,20 @@ public abstract class GameController {
                         }
                     }
                 });
-                
-                
-            }   
-            
-            currentPos[1]++; 
+
+            }
+
+            currentPos[1]++;
             if (currentPos[1] >= cols) {
                 currentPos[1] = 0;
-                currentPos[0]++;  
+                currentPos[0]++;
             }
         });
     }
 
-    abstract void processCardSelection(PlayableCard card);
+    public abstract void processCardSelection(PlayableCard card);
 
-    protected void alertWrongGuest(String message){
+    protected void alertWrongGuest(String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText("Wrong Card");
@@ -116,12 +126,13 @@ public abstract class GameController {
         alert.showAndWait();
     }
 
-    @FXML public abstract void handleButton();
+    @FXML
+    public abstract void handleButton();
 
-    protected void displayStatistics(){
+    protected void displayStatistics() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Statistics.fxml"));
 
-        StatisticsController controller = new StatisticsController(game.getBlueStatistics(),game.getRedStatistics());
+        StatisticsController controller = new StatisticsController(game.getBlueStatistics(), game.getRedStatistics());
 
         loader.setController(controller);
 
@@ -140,5 +151,5 @@ public abstract class GameController {
         newStage.setTitle("Statistics");
         newStage.show();
     }
-    
+
 }

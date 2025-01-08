@@ -10,9 +10,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class LoadingBarController extends StackPane {
-    @FXML private Rectangle background;
-    @FXML private Rectangle bar;
-    
+    @FXML
+    private Rectangle background;
+    @FXML
+    private Rectangle bar;
+
     private Timeline timeline;
     private boolean isComplete = false;
     private int elapsedSeconds = 0;
@@ -20,19 +22,20 @@ public class LoadingBarController extends StackPane {
 
     private double width;
     private double height;
-    
-    public LoadingBarController(){}
+
+    public LoadingBarController() {
+    }
 
     public LoadingBarController(double width, double height) {
         this.height = height;
         this.width = width;
     }
 
-    @FXML 
-    public void initialize(){
+    @FXML
+    public void initialize() {
         background.setWidth(width);
         background.setHeight(height);
-        
+
         Rectangle clip = new Rectangle(0, height);
         bar.setClip(clip);
     }
@@ -60,9 +63,7 @@ public class LoadingBarController extends StackPane {
                     new KeyFrame(
                             Duration.seconds(i),
                             new KeyValue(clip.widthProperty(), background.getWidth() * progress),
-                            new KeyValue(bar.fillProperty(), color)
-                    )
-            );
+                            new KeyValue(bar.fillProperty(), color)));
         }
 
         // Mise à jour du temps écoulé

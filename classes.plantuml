@@ -1,5 +1,4 @@
-@startuml classes
-
+@startuml
 interface Card {
     
 }
@@ -39,21 +38,45 @@ enum CardType {
 }
 
 interface Deck {
+    - int size
+
     + List<PlayableCard> getCard()
+    + List<PlayableCard> getRemainingCards()
+    + List<PlayableCard> getRemainingCardsByType(CardType type)
+    + List<PlayableCard> getRemainingRedCards()
+    + List<PlayableCard> getRemainingBlueCards()
+
 }
 
-class DeckDuo implements Deck
+class DeckTwoTeams implements Deck {
+    - List<PlayableCard> cards
 
-class DeckSolo implements Deck
+    + DeckTwoTeams(List<PlayableCard> listCard)
+    + List<PlayableCard> getCard()
+    + int size()
+}
 
-DeckDuo o-- "*" PlayableCard
+class DeckSinglePlayer implements Deck {
+    - List<PlayableCardWithHints> cards
 
-DeckSolo o-- "*" PlayableCardWithHints
+    + DeckSinglePlayer(List<PlayableCardWithHints> listCard)
+    + List<PlayableCard> getCard()
+    + int size()
+}
+
+DeckTwoTeams o-- "*" PlayableCard
+
+DeckSinglePlayer o-- "*" PlayableCardWithHints
 
 PlayableCard -o PlayableCardWithHints
 
 class PlayableCardWithHints {
+    - PlayableCard playableCard
     - List<String> hints
+
+    + PlayableCardWithHints(PlayableCard card, List<String> hints)
+    + PlayableCard getPlayableCard()
+    + List<String> getHints()
 }
 
 abstract class GameController {
@@ -66,10 +89,17 @@ abstract class GameController {
     - {abstract} void processCardSelection(PlayableCard card)
     - void alertWrongGuest(String message)
     + {abstract} void handleButton()
+    + Game getGame()
 }
 
 class GameSinglePlayerController extends GameController {
+    - AI AllyAI
+    - AI OpponentAI
 
+    + void setAllyAI(AI allyAI)
+    + void setOpponentAI(AI opponentAI)
+    + AI getAllyAI()
+    + AI getOpponentAI()
 }
 
 class GameTwoTeamsController extends GameController {
@@ -116,16 +146,19 @@ class GameTwoTeams extends Game {
 }
 
 class GameSinglePlayer extends Game {
+    - DeckSinglePlayer deck
 
+    + GameSinglePlayer(DeckSinglePlayer deck, int cols, int numberOfBlueCard, int numberOfRedCard)
+    + DeckSinglePlayer getDeck()
 }
 
 GameTwoTeamsController o--- GameTwoTeams
 
 GameSinglePlayerController o--- GameSinglePlayer
 
-GameSinglePlayer o--- DeckSolo
+GameSinglePlayer o--- DeckSinglePlayer
 
-GameTwoTeams o--- DeckDuo
+GameTwoTeams o--- DeckTwoTeams
 
 Game o-- "2" Statistics
 
@@ -152,6 +185,44 @@ class Statistics {
 
 }
 
+abstract class AI {
+    + GameController gameController
+    - AI(GameController gameController)
+    - {abstract} void play()
+}
+
+abstract class AllyAI extends AI {
+    + AllyAI(GameController gameController)
+}
+
+abstract class OpponentAI extends AI {
+    + OpponentAI(GameController gameController)
+}
+
+class EasyAllyAI extends AllyAI {
+    + EasyAllyAI(GameController gameController)
+}
+
+class MediumAllyAI extends AllyAI {
+    + MediumAllyAI(GameController gameController)
+}
 
 
+class HardAllyAI extends AllyAI {
+    + HardAllyAI(GameController gameController)
+}
+
+class EasyOpponentAI extends OpponentAI {
+    + EasyOpponentAI(GameController gameController)
+}
+
+class MediumOpponentAI extends OpponentAI {
+    + MediumOpponentAI(GameController gameController)
+}
+
+class HardOpponentAI extends OpponentAI {
+    + HardOpponentAI(GameController gameController)
+}
+
+Game -- AI
 @enduml
