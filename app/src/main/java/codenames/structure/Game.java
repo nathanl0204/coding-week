@@ -64,7 +64,7 @@ public abstract class Game {
 
     public void ends(){
         onGoing = false;
-    } 
+    }
 
     public Boolean isOnGoing(){
         return onGoing && remainingCardGuess > 0;
@@ -107,7 +107,7 @@ public abstract class Game {
     }
 
 
-    /* 
+    /*
     game.simuleOpponent(){
         // blueTurn = false;
         // temps artificiel
@@ -118,13 +118,13 @@ public abstract class Game {
 
     */
 
-    /* 
+    /*
     game.simuleCoequipier(){
         // changer la structure des mots
         // et renvoie un int (nb de carte) et un string (indice)
         parmi les differents liste de mots du jeu
     }
-     
+
     */
 
     /* utilisation du pattern strategy pour different type d'ia
