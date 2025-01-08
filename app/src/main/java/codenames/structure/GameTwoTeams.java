@@ -21,7 +21,8 @@ public class GameTwoTeams extends Game {
         generateQRCode();
     }
 
-    public List<PlayableCard> getDeck() {
+    @Override
+    public DeckTwoTeams getDeck() {
         return deck;
     }
 
@@ -36,7 +37,7 @@ public class GameTwoTeams extends Game {
     public String generateColorsString() {
         StringBuilder colors = new StringBuilder();
 
-        deck.forEach(card -> colors.append(card.getColorCode()));
+        deck.getCard().forEach(card -> colors.append(card.getColorCode()));
 
         return colors.toString();
     }

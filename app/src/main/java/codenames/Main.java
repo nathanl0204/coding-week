@@ -117,7 +117,7 @@ public class Main extends Application {
         int i = 0;
 
         for (String text : texts) {
-            listCard.add(new PlayableCardWithHints(new PlayableCard(new TextCard(text), cardTypes[i]),
+            listCard.add(new PlayableCardWithHints(new TextCard(text), cardTypes[i],
                     Arrays.asList("hint1", "hint2")));
             i++;
         }
