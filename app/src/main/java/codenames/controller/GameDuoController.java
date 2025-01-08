@@ -47,7 +47,6 @@ public class GameDuoController {
     private LoadingBar loadingBar;
     private boolean blitzMode = false;
     private static final int DEFAULT_TURN_TIME = 60; // 60 seconds per turn
-    private boolean gameStarted = false;
 
     private Game game;
 
@@ -140,10 +139,6 @@ public class GameDuoController {
         if (blitzMode) {
             startTimer();
         }
-
-        // Masquer la barre de chargement et le label du timer au démarrage
-        loadingBar.setVisible(false);
-        timerLabel.setVisible(false);
     }
 
     private void startTimer() {
@@ -241,26 +236,17 @@ public class GameDuoController {
         if (game.getRemainingCardGuess() == 0){
             askForNumberGuess().ifPresent( n -> {
                 int N = Integer.parseInt(n);
-                if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind()) {
-                    game.changeTurn(N);
-
-                    if (game.isBlueTurn()) {
-                        info.setText("Blue turn");
-                    } else {
-                        info.setText("Red turn");
-                    }
-
-                    // Démarrer le timer en mode Blitz après avoir choisi le nombre de cartes
-                    if (blitzMode) {
-                        startTimer();
-                    }
-                } else {
+                if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind()) game.changeTurn(N);
+                else {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information");
                     alert.setHeaderText("Wrong Number Of Cards");
                     alert.setContentText("Please enter a number less than the number of cards you have left to guess");
                     alert.showAndWait();
                 }
+
+                if (game.isBlueTurn()) info.setText("Blue turn");
+                else info.setText("Red turn");
             });
             
         }
@@ -299,28 +285,17 @@ public class GameDuoController {
     }
 
     public void setBlitzMode(boolean enabled) {
-        if (gameStarted && !this.blitzMode && enabled) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Mode Blitz");
-            alert.setHeaderText("Impossible d'activer le mode Blitz");
-            alert.setContentText("Vous devez démarrer une nouvelle partie pour changer de mode de jeu.");
-            alert.showAndWait();
-            return;
-        }
-
         this.blitzMode = enabled;
-        loadingBar.setVisible(enabled);
-        loadingBar.setVisible(enabled);
-
-        if (!enabled) {
+        if (enabled && game != null) {
+            startTimer();
+        } else {
             loadingBar.stop();
             timerLabel.setText("");
         }
     }
 
     public void startNewGame() {
-        // Réinitialiser le jeu
-        this.gameStarted = true;
+        // Implement new game logic
     }
 
     public void loadGame(File file) {
