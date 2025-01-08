@@ -1,6 +1,5 @@
 package codenames.structure;
 
-import java.io.Serializable;
 import java.util.List;
 import java.awt.image.BufferedImage;
 
@@ -12,7 +11,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-public class GameDuo implements Serializable {
+public class Game {
 
     private int id;
     
@@ -25,7 +24,7 @@ public class GameDuo implements Serializable {
     private Image QRCode;
 
 
-    public GameDuo(int cols, List<PlayableCard> cards,int numberOfBlueCard, int numberOfRedCard){
+    public Game(int cols, List<PlayableCard> cards,int numberOfBlueCard, int numberOfRedCard){
         this.cols = cols;
         blueStat = new Statistics(numberOfBlueCard);
         redStat = new Statistics(numberOfRedCard);

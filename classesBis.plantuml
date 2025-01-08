@@ -43,27 +43,41 @@ enum CardType {
     Blue
 }
 
-class Deck
+interface Deck {
+    + List<PlayableCard> getCard()
+}
 
-Deck o--- "*" PlayableThemedSubDeck
+class DeckDuo implements Deck
 
-class PlayableThemedSubDeck
+class DeckSolo implements Deck
 
-PlayableThemedSubDeck o--- "*" PlayableCard
-GameDuo o--- "*" PlayableCard
+DeckDuo o-- "*" PlayableCard
+
+DeckSolo o-- "*" PlayableCardWithHints
+
+PlayableCard -o PlayableCardWithHints
+
+class PlayableCardWithHints {
+    - List<String> hints
+}
 
 abstract class GameController {
+    - Game game
+
+    + GameController()
+    + GameController(Game game)
+
+    + void initialize()
+    - {abstract} void processCardSelection(PlayableCard card)
+    - void alertWrongGuest(String message)
+    + {abstract} void handleButton()
+}
+
+class GameSinglePlayerController extends GameController {
 
 }
 
-class GameDuoController extends GameController {
-    + GameDuoController()
-    + GameDuoController(Game game)
-
-    + void initialize()
-    - void processCardSelection(Card card)
-    - void alertWrongGuest(String message)
-    + void handleChangeTurn()
+class GameTwoTeamsController extends GameController {
     - Optional<String> askForNumberGuess()
 }
 
@@ -71,30 +85,21 @@ abstract class Game {
     - int id
     - Boolean onGoing
     - int cols
+    - Statistics blueStat,redStat
+    - Boolean blueTurn
+    - int remainingCardGuess
     
+    + Game(int cols, int numberOfBlueCard, int numberOfRedCard)
+
     + int getCols()
     + int getId()
     + void ends()
     + Boolean isOnGoing()
-}
-
-class GameDuo extends Game {
-    
-    - Statistics blueStat,redStat
-    - ListCard cards
-    - Boolean blueTurn
-    - int remainingCardGuess
-    - Image QRCode
-
-    + GameDuo(int cols, ListCard cards,int numberOfBlueCard, int numberOfRedCard)
-
-    + Image getQRCode()
-    + void setQRCode()
     + Statistics getBlueStatistics()
     + Statistics getRedStatistics()
     + int getRemainingCardGuess()
     + void setRemainingCardGuess(int remainingCardGuess)
-    + ListCard getListCard()
+    + {abstract} Deck getCard()
     + Boolean isBlueTurn()
     + CardType getColorTurn()
     + void changeTurn(int remainingCardGuess)
@@ -102,24 +107,34 @@ class GameDuo extends Game {
     + void wrongGuess()
     + int getNumberOfOpponentRemainingCardsToFind()
     + int getNumberOfRemainingCardsToFind()
+
+}
+
+class GameTwoTeams extends Game {
+    - Image QRCode
+
+    + Image getQRCode()
+    + void setQRCode()
     + generateColorsString()
     + String generateURL()
     + void generateQRCode()
 }
 
-GameDuoController o--- GameDuo
+class GameSinglePlayer extends Game {
 
-class GameSolo extends Game
+}
 
-GameSoloController o- OpponentIA
+GameTwoTeamsController o--- GameTwoTeams
+
+GameSinglePlayerController o- OpponentIA
 
 interface OpponentIA
 
-GameSoloController o--- GameSolo
+GameSinglePlayerController o--- GameSinglePlayer
 
-class GameSoloController extends GameController
+GameSinglePlayer o--- DeckSolo
 
-GameSolo o--- Deck
+GameTwoTeams o--- DeckDuo
 
 Game o-- "2" Statistics
 
@@ -145,5 +160,7 @@ class Statistics {
     + void calculStat()
 
 }
+
+
 
 @enduml

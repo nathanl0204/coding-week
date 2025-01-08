@@ -19,7 +19,7 @@
         <VBox spacing="20" alignment="CENTER">
             <children>
                 <GridPane hgap="10" vgap="10" fx:id="gridPane" alignment="CENTER"/>
-                <Button text="Next Turn" fx:id="button" onAction="#handleChangeTurn"/>
+                <Button text="Next Turn" fx:id="button" onAction="#handleButton"/>
                 <Label fx:id="info"/>
             </children>
         </VBox>
