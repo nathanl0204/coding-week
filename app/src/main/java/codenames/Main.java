@@ -1,12 +1,14 @@
 package codenames;
 
 import codenames.controller.GameDuoController;
+import codenames.controller.MenuBarController;
 import codenames.structure.CardType;
 import codenames.structure.Game;
 import codenames.structure.ListCard;
 import codenames.structure.TextCard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -19,23 +21,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
-
         Game game = testGame();
 
-        GameDuoController controller = new GameDuoController(game);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
+        loader.setControllerFactory(iC->new GameDuoController(game));
+        BorderPane root = loader.load();
 
-        loader.setController(controller);
-
-        /*FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
-        MenuBar menuBar = menuLoader.load();
-        MenuBarController menuController = menuLoader.getController();
-        menuController.setGameController(gameController);
-
-        root.getChildren().add(0, menuBar);*/
-
-        Scene scene = new Scene(loader.load());
+        Scene scene = new Scene(root);
 
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);

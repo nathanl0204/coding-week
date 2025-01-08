@@ -1,5 +1,6 @@
 package codenames.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -8,6 +9,9 @@ import codenames.structure.CardType;
 import codenames.structure.Game;
 import codenames.structure.ImageCard;
 import codenames.structure.TextCard;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,8 +29,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class GameDuoController {
 
@@ -34,6 +40,13 @@ public class GameDuoController {
     @FXML Button button;
     @FXML Label info;
     @FXML ImageView imageView;
+    @FXML VBox vboxTop;
+
+    @FXML private Label timerLabel;
+    @FXML private VBox timerContainer;
+    private LoadingBar loadingBar;
+    private boolean blitzMode = false;
+    private static final int DEFAULT_TURN_TIME = 60; // 60 seconds per turn
 
     private Game game;
 
@@ -44,11 +57,25 @@ public class GameDuoController {
     }
 
     @FXML 
-    public void initialize() {
+    public void initialize() throws IOException {
+        loadingBar = new LoadingBar(200, 20);
+        timerContainer.getChildren().add(loadingBar);
+
+        timerLabel = new Label("Temps restant : 60s");
+        timerContainer.getChildren().add(timerLabel);
+
         imageView.setImage(game.getQRCode());
         info.setText("Click above to start");
         int cols = game.getCols();
         final int[] currentPos = {0, 0};
+
+        FXMLLoader menuLoader = new FXMLLoader();
+        menuLoader.setLocation(getClass().getResource("/view/MenuBar.fxml"));
+        MenuBarController menuBarController = new MenuBarController();
+        menuLoader.setControllerFactory(iC->menuBarController);
+        menuBarController.setGameController(this);
+
+        vboxTop.getChildren().add(0,menuLoader.load());
 
         game.getListCard().getCards().forEach(card -> {
 
@@ -108,6 +135,43 @@ public class GameDuoController {
                 currentPos[0]++;  
             }
         });
+
+        if (blitzMode) {
+            startTimer();
+        }
+    }
+
+    private void startTimer() {
+        loadingBar.reset();
+        loadingBar.start(DEFAULT_TURN_TIME);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), event -> {
+                    timerLabel.setText("Temps restant : " + loadingBar.getRemainingSeconds() + "s");
+
+                    if (loadingBar.isComplete()) {
+                        handleTimerComplete();
+                    }
+                })
+        );
+        timeline.setCycleCount(DEFAULT_TURN_TIME);
+        timeline.play();
+    }
+
+    private void handleTimerComplete() {
+        if (game.getRemainingCardGuess() > 0) {
+            // Time's up, switch turns
+            Platform.runLater(() -> {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Temps écoulé");
+                alert.setHeaderText(null);
+                alert.setContentText("Le temps est écoulé ! Au tour de l'équipe suivante.");
+                alert.showAndWait();
+
+                game.setRemainingCardGuess(0);
+                handleChangeTurn();
+            });
+        }
     }
 
     private void processCardSelection(Card card) {
@@ -218,5 +282,27 @@ public class GameDuoController {
         newStage.setResizable(false);
         newStage.setTitle("Statistics");
         newStage.show();
+    }
+
+    public void setBlitzMode(boolean enabled) {
+        this.blitzMode = enabled;
+        if (enabled && game != null) {
+            startTimer();
+        } else {
+            loadingBar.stop();
+            timerLabel.setText("");
+        }
+    }
+
+    public void startNewGame() {
+        // Implement new game logic
+    }
+
+    public void loadGame(File file) {
+        // Implement load game logic
+    }
+
+    public void saveGame(File file) {
+        // Implement save game logic
     }
 }
