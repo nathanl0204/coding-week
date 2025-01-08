@@ -12,15 +12,12 @@ import javafx.scene.control.TextInputDialog;
 
 public class GameTwoTeamsController extends GameController {
 
-    private LoadingBarController loadingBarController;
-
     public GameTwoTeamsController() {
         super();
     }
 
-    public GameTwoTeamsController(GameTwoTeams game, LoadingBarController loadingBarController) {
+    public GameTwoTeamsController(GameTwoTeams game) {
         super(game);
-        this.loadingBarController = loadingBarController;
     }
 
     @FXML
@@ -32,25 +29,28 @@ public class GameTwoTeamsController extends GameController {
     public void processCardSelection(PlayableCard card) {
         switch (card.getCardType()) {
             case Black:
-                alertWrongGuest("Black Card selected, you lose");
-                game.wrongGuess(CardType.Black);
+                loadingBarController.stop();
+                game.wrongGuess(CardType.Black, loadingBarController.getElapsedSeconds());
                 game.ends();
                 if (game.isBlueTurn())
                     info.setText("Red Team win");
                 else
                     info.setText("Blue Team win");
                 button.setVisible(false);
+                alertWrongGuest("Black Card selected, you lose");
                 displayStatistics();
                 break;
             case White:
-                game.wrongGuess(CardType.White);
+                loadingBarController.stop();
+                game.wrongGuess(CardType.White, loadingBarController.getElapsedSeconds());
                 alertWrongGuest("White Card selected, your turn ends");
                 break;
             case Blue:
                 if (game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess(CardType.Blue);
+                    loadingBarController.stop();
+                    game.wrongGuess(CardType.Blue, loadingBarController.getElapsedSeconds());
                     alertWrongGuest("Blue Card selected, your turn ends");
                 }
                 break;
@@ -58,7 +58,8 @@ public class GameTwoTeamsController extends GameController {
                 if (!game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess(CardType.Red);
+                    loadingBarController.stop();
+                    game.wrongGuess(CardType.Red, loadingBarController.getElapsedSeconds());
                     alertWrongGuest("Red Card selected, your turn ends");
                 }
                 break;
@@ -75,6 +76,8 @@ public class GameTwoTeamsController extends GameController {
                 info.setText("Red Team win");
             button.setVisible(false);
         } else if (game.getRemainingCardGuess() == 0 && game.isOnGoing()) {
+            loadingBarController.stop();
+            game.majStatTemps(loadingBarController.getElapsedSeconds());
             if (game.isBlueTurn())
                 info.setText("Red turn");
             else
@@ -103,6 +106,9 @@ public class GameTwoTeamsController extends GameController {
                     info.setText("Red turn");
             });
 
+            if (loadingBarController != null) {
+                loadingBarController.start(5);
+            }
         }
     }
 

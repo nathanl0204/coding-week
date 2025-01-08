@@ -9,11 +9,11 @@ public class DeckTwoTeams implements Deck {
         cards = listCard;
     }
 
-    public List<PlayableCard> getCard(){
+    public List<PlayableCard> getCard() {
         return cards;
     }
 
-    public int size(){
+    public int size() {
         return cards.size();
     }
 

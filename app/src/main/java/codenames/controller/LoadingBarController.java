@@ -15,10 +15,11 @@ public class LoadingBarController extends StackPane {
     @FXML
     private Rectangle bar;
 
-    private Timeline timeline;
+    private GameController gameController;
+
+    private Timeline timeline = new Timeline();
     private boolean isComplete = false;
-    private int elapsedSeconds = 0;
-    private int totalSeconds = 0;
+    private double elapsedSeconds;
 
     private double width;
     private double height;
@@ -29,6 +30,11 @@ public class LoadingBarController extends StackPane {
     public LoadingBarController(double width, double height) {
         this.height = height;
         this.width = width;
+
+    }
+
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
     }
 
     @FXML
@@ -36,6 +42,10 @@ public class LoadingBarController extends StackPane {
         background.setWidth(width);
         background.setHeight(height);
 
+        bar.setWidth(width);
+        bar.setHeight(height);
+
+        // Initialize the clip for the bar
         Rectangle clip = new Rectangle(0, height);
         bar.setClip(clip);
     }
@@ -47,18 +57,16 @@ public class LoadingBarController extends StackPane {
 
         isComplete = false;
         elapsedSeconds = 0;
-        totalSeconds = seconds;
+
         Rectangle clip = (Rectangle) bar.getClip();
         clip.setWidth(0);
         bar.setFill(Color.DODGERBLUE);
 
-        timeline = new Timeline();
-
-        // Ajout des keyframes pour la progression et le changement de couleur
+        timeline.getKeyFrames().clear();
         for (int i = 0; i <= seconds; i++) {
             double progress = (double) i / seconds;
             Color color = interpolateColor(Color.DODGERBLUE, Color.RED, progress);
-
+            elapsedSeconds = progress;
             timeline.getKeyFrames().add(
                     new KeyFrame(
                             Duration.seconds(i),
@@ -66,22 +74,14 @@ public class LoadingBarController extends StackPane {
                             new KeyValue(bar.fillProperty(), color)));
         }
 
-        // Mise à jour du temps écoulé
-        KeyFrame updateFrame = new KeyFrame(Duration.seconds(1), event -> {
-            elapsedSeconds++;
-            if (elapsedSeconds >= totalSeconds) {
-                isComplete = true;
-                stop();
-            }
-        });
-
-        Timeline updateTimeline = new Timeline(updateFrame);
-        updateTimeline.setCycleCount(seconds);
-        updateTimeline.play();
+        KeyFrame updateElapsedTime = new KeyFrame(
+                Duration.millis(1),
+                event -> elapsedSeconds += 0.001);
+        timeline.getKeyFrames().add(updateElapsedTime);
 
         timeline.setOnFinished(event -> {
             isComplete = true;
-            stop();
+            gameController.handleTimerEnd();
         });
 
         timeline.play();
@@ -113,7 +113,7 @@ public class LoadingBarController extends StackPane {
         return isComplete;
     }
 
-    public int getRemainingSeconds() {
-        return totalSeconds - elapsedSeconds;
+    public double getElapsedSeconds() {
+        return elapsedSeconds;
     }
 }

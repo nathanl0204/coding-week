@@ -1,5 +1,7 @@
 package codenames.structure;
 
+import java.util.List;
+
 public abstract class Game {
 
     protected int id;
@@ -95,7 +97,29 @@ public abstract class Game {
             if (cardType == CardType.Blue)
                 blueStat.decrNumberOfRemainingCardsToFind();
         }
-        // temps
+    }
+
+    public void majStatTemps(double time) {
+        if (blueTurn)
+            blueStat.addTimePerTurn(time);
+        else
+            redStat.addTimePerTurn(time);
+    }
+
+    public void wrongGuess(CardType cardType, double temps) {
+        System.out.println("" + temps);
+        remainingCardGuess = 0;
+        if (blueTurn) {
+            blueStat.incrNumberOfErrors();
+            blueStat.addTimePerTurn(temps);
+            if (cardType == CardType.Red)
+                redStat.decrNumberOfRemainingCardsToFind();
+        } else {
+            redStat.incrNumberOfErrors();
+            redStat.addTimePerTurn(temps);
+            if (cardType == CardType.Blue)
+                blueStat.decrNumberOfRemainingCardsToFind();
+        }
     }
 
     public int getNumberOfOpponentRemainingCardsToFind() {

@@ -58,7 +58,6 @@ public class Main extends Application {
         });
 
         Scene scene = new Scene(loader.load());
-        lb.initialize();
 
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);

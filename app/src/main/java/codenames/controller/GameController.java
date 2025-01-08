@@ -38,6 +38,9 @@ public abstract class GameController {
 
     protected Game game;
 
+    @FXML
+    protected LoadingBarController loadingBarController = null;
+
     public GameController() {
     }
 
@@ -45,8 +48,19 @@ public abstract class GameController {
         this.game = game;
     }
 
+    public void setLoadingBarController(LoadingBarController loadingBarController) {
+        this.loadingBarController = loadingBarController;
+    }
+
     public Game getGame() {
         return game;
+    }
+
+    protected void handleTimerEnd() {
+        if (game.isOnGoing()) {
+            game.setRemainingCardGuess(0);
+
+        }
     }
 
     @FXML
