@@ -5,10 +5,10 @@ import codenames.structure.AI.*;
 import codenames.structure.CardType;
 import codenames.structure.GameSinglePlayer;
 import codenames.structure.PlayableCard;
-import codenames.structure.AI.EasyOpponentAI;
 import javafx.fxml.FXML;
 import java.util.Optional;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -42,7 +42,16 @@ public class GameSinglePlayerController extends GameController {
     }
 
     public void processCardSelection(PlayableCard card) {
+       
+
         if (game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0) {
+
+            Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
+            transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
+            card.getStackPane().getChildren().add(transparency);
+            card.guessed();
+
+
             switch (card.getCardType()) {
                 case Black:
                     alertWrongGuest("Black Card selected, you lose");
@@ -69,6 +78,11 @@ public class GameSinglePlayerController extends GameController {
         }
 
         if (!game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0) {
+
+            Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
+            transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
+            card.getStackPane().getChildren().add(transparency);
+            card.guessed();
 
             System.out.println("the ai guessed");
             switch (card.getCardType()) {

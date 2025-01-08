@@ -1,7 +1,6 @@
 package codenames.structure;
 
 import java.awt.image.BufferedImage;
-import java.util.List;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;

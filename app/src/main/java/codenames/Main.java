@@ -17,11 +17,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        GameSinglePlayer game = testSPGame();
+        GameTwoTeams game = testGame();
+
+        LoadingBarController loadingBarController = new LoadingBarController(200, 20);
         // GameTwoTeams game = testGame();
 
-        GameSinglePlayerController gc = new GameSinglePlayerController(game);
+        GameTwoTeamsController gc = new GameTwoTeamsController(game);
         // GameTwoTeamsController gc = new GameTwoTeamsController(game, lb);
+
+        gc.setLoadingBarController(loadingBarController);
+        loadingBarController.setGameController(gc);
 
         EasyOpponentAI ai = new EasyOpponentAI(gc);
 

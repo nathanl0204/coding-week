@@ -1,5 +1,6 @@
 package codenames.structure;
 
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 public class PlayableCard {
@@ -7,6 +8,7 @@ public class PlayableCard {
     private Card card;
     private CardType cardType;
     private Boolean guessed;
+    private StackPane stackPane;
 
     public PlayableCard(Card card, CardType cardType){
         this.card = card;
@@ -14,6 +16,14 @@ public class PlayableCard {
         this.guessed = false;
     }
 
+    public void setStackPane(StackPane stackPane){
+        this.stackPane = stackPane;
+    }
+
+    public StackPane getStackPane() {
+        return stackPane;
+    }
+    
     public Card getCard(){
         return card;
     }

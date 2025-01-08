@@ -22,7 +22,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public abstract class GameController {
@@ -74,56 +73,36 @@ public abstract class GameController {
         game.getDeck().getCard().forEach(playableCard -> {
 
             StackPane stackPane = new StackPane();
+            gridPane.add(stackPane, currentPos[1], currentPos[0]);
 
             if (playableCard.getCard() instanceof TextCard) {
-                Label label = new Label(((TextCard) playableCard.getCard()).getText());
-                label.setTextFill(playableCard.getColor());
-                ImageView background = new ImageView(
-                        new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
-                gridPane.add(stackPane, currentPos[1], currentPos[0]);
-                stackPane.getChildren().addAll(background, label);
 
-                label.setOnMouseClicked(new EventHandler<Event>() {
-                    @Override
-                    public void handle(Event event) {
-                        if (event instanceof MouseEvent) {
-                            MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed()
-                                    && game.isOnGoing()) {
-                                Rectangle transparency = new Rectangle(label.getWidth(), label.getHeight());
-                                transparency.setFill(playableCard.getColor().deriveColor(0, 1, 1, 0.5));
-                                stackPane.getChildren().add(transparency);
-                                playableCard.guessed();
-                                processCardSelection(playableCard);
-                            }
-                        }
-                    }
-                });
+                Label label =  new Label(((TextCard) playableCard.getCard()).getText());
+                label.setTextFill(playableCard.getColor());
+                ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
+                
+                stackPane.getChildren().addAll(background, label);
+                playableCard.setStackPane(stackPane);
 
             } else {
                 ImageView imgView = new ImageView(new Image(((ImageCard) playableCard.getCard()).getUrl()));
 
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(imgView);
-
-                imgView.setOnMouseClicked(new EventHandler<Event>() {
-                    @Override
-                    public void handle(Event event) {
-                        if (event instanceof MouseEvent) {
-                            MouseEvent mouseEvent = (MouseEvent) event;
-                            if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed()
-                                    && game.isOnGoing()) {
-                                Rectangle transparency = new Rectangle(imgView.getFitWidth(), imgView.getFitHeight());
-                                transparency.setFill(playableCard.getColor().deriveColor(0, 1, 1, 0.5));
-                                stackPane.getChildren().add(transparency);
-                                playableCard.guessed();
-                                processCardSelection(playableCard);
-                            }
+                playableCard.setStackPane(stackPane);
+            }
+            
+            stackPane.setOnMouseClicked(new EventHandler<Event>() {
+                @Override
+                public void handle(Event event) {
+                    if (event instanceof MouseEvent) {
+                        MouseEvent mouseEvent = (MouseEvent) event;
+                        if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed() && game.isOnGoing()) {  
+                            processCardSelection(playableCard);
                         }
                     }
-                });
-
-            }
+                }
+            });
 
             currentPos[1]++;
             if (currentPos[1] >= cols) {

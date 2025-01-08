@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.shape.Rectangle;
+
 import java.io.File;
 import javafx.application.Platform;
 
@@ -44,44 +46,54 @@ public class GameTwoTeamsController extends GameController {
     }
 
     public void processCardSelection(PlayableCard card) {
-        switch (card.getCardType()) {
-            case Black:
-                loadingBarController.stop();
-                game.wrongGuess(CardType.Black, loadingBarController.getElapsedSeconds());
-                game.ends();
-                if (game.isBlueTurn())
-                    info.setText("Red Team win");
-                else
-                    info.setText("Blue Team win");
-                button.setVisible(false);
-                alertWrongGuest("Black Card selected, you lose");
-                displayStatistics();
-                break;
-            case White:
-                loadingBarController.stop();
-                game.wrongGuess(CardType.White, loadingBarController.getElapsedSeconds());
-                break;
-            case Blue:
-                if (game.isBlueTurn()) {
-                    game.correctGuess();
-                } else {
+
+        if (game.getRemainingCardGuess() > 0){
+            
+            Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
+            transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
+            card.getStackPane().getChildren().add(transparency);
+            card.guessed();
+
+            switch (card.getCardType()) {
+                case Black:
                     loadingBarController.stop();
-                    game.wrongGuess(CardType.Blue, loadingBarController.getElapsedSeconds());
-                    alertWrongGuest("Blue Card selected, your turn ends");
-                }
-                break;
-            case Red:
-                if (!game.isBlueTurn()) {
-                    game.correctGuess();
-                } else {
+                    game.wrongGuess(CardType.Black, loadingBarController.getElapsedSeconds());
+                    game.ends();
+                    if (game.isBlueTurn())
+                        info.setText("Red Team win");
+                    else
+                        info.setText("Blue Team win");
+                    button.setVisible(false);
+                    alertWrongGuest("Black Card selected, you lose");
+                    displayStatistics();
+                    break;
+                case White:
                     loadingBarController.stop();
-                    game.wrongGuess(CardType.Red, loadingBarController.getElapsedSeconds());
-                    alertWrongGuest("Red Card selected, your turn ends");
-                }
-                break;
-            default:
-                break;
+                    game.wrongGuess(CardType.White, loadingBarController.getElapsedSeconds());
+                    break;
+                case Blue:
+                    if (game.isBlueTurn()) {
+                        game.correctGuess();
+                    } else {
+                        loadingBarController.stop();
+                        game.wrongGuess(CardType.Blue, loadingBarController.getElapsedSeconds());
+                        alertWrongGuest("Blue Card selected, your turn ends");
+                    }
+                    break;
+                case Red:
+                    if (!game.isBlueTurn()) {
+                        game.correctGuess();
+                    } else {
+                        loadingBarController.stop();
+                        game.wrongGuess(CardType.Red, loadingBarController.getElapsedSeconds());
+                        alertWrongGuest("Red Card selected, your turn ends");
+                    }
+                    break;
+                default:
+                    break;
+            }   
         }
+        
 
         if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();
