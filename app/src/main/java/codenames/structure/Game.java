@@ -122,6 +122,7 @@ public class Game implements Serializable {
 
     public void wrongGuess(CardType cardType){
         remainingCardGuess = 0;
+
         if (blueTurn) {
             blueStat.incrNumberOfErrors();
             if (cardType == CardType.Red) redStat.decrNumberOfRemainingCardsToFind();
@@ -130,7 +131,6 @@ public class Game implements Serializable {
             redStat.incrNumberOfErrors();
             if (cardType == CardType.Blue) blueStat.decrNumberOfRemainingCardsToFind();
         }
-        // temps
     }
 
     public int getNumberOfOpponentRemainingCardsToFind() {

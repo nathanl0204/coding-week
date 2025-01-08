@@ -4,35 +4,62 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.image.ImageView?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0003a5;" BorderPane.alignment="CENTER" fx:controller="codenames.controller.TeamView" fx:id="self">
-           <children>
-               <StackPane prefHeight="150.0" prefWidth="200.0">
-                   <children>
-                       <Label fx:id="points" alignment="CENTER" text="0" textFill="WHITE">
-                           <font>
-                               <Font size="77.0" />
-                           </font>
-                           <padding>
-                               <Insets right="80.0" />
-                           </padding></Label>
-                       <ImageView fx:id="teamPicture" fitHeight="100.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                           <StackPane.margin>
-                               <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-                           </StackPane.margin></ImageView>
-                   </children>
-               </StackPane>
-               <Label text="Maitre-espions" textFill="WHITE">
-               <font>
-                  <Font name="System Bold Italic" size="16.0" />
-               </font></Label>
-               <ListView fx:id="spymastersList" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00000000;" />
-               <Label text="Agents secrets" textFill="WHITE">
-               <font>
-                  <Font name="System Bold Italic" size="16.0" />
-               </font></Label>
-               <ListView fx:id="spyList" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00000000;" />
-           </children>
-           <padding>
-               <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-           </padding>
-       </VBox>
+<?import javafx.scene.image.Image?>
+<VBox fx:id="self" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0003a5;" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codenames.controller.TeamView">
+    <children>
+        <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" style="-fx-border-radius: 5px; -fx-border: 2px solid black;-fx-border-color: black;-fx-background-color:  #00297a;">
+            <children>
+                <StackPane prefHeight="90.0" prefWidth="160.0">
+                    <children>
+                        <ImageView fx:id="teamPicture" fitHeight="140.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                            <StackPane.margin>
+                                <Insets />
+                            </StackPane.margin>
+                            <image>
+                                <Image url="@../blue_team.jpg" />
+                            </image>
+                        </ImageView>
+                        <Label fx:id="points" alignment="CENTER" text="0" textFill="WHITE">
+                            <font>
+                                <Font size="77.0" />
+                            </font>
+                            <padding>
+                                <Insets right="180.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </VBox.margin>
+                </StackPane>
+                <Label alignment="CENTER" contentDisplay="CENTER" text="Maitre-espions" textAlignment="CENTER" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                    </font>
+                    <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                    </padding>
+                </Label>
+                <ListView fx:id="spymastersList" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00000000;">
+                    <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                    </padding></ListView>
+                <Label text="Agents secrets" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                    </font>
+                    <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                    </padding>
+                </Label>
+                <ListView fx:id="spyList" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00000000;">
+                    <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                    </padding></ListView>
+            </children>
+        </VBox>
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</VBox>
