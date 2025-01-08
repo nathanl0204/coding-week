@@ -6,13 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class GameDuoController extends GameController {
+public class GameSoloController extends GameController{
 
-    public GameDuoController(){
+    public GameSoloController(){
         super();
     }
     
-    public GameDuoController(Game game){
+    public GameSoloController(Game game){
         super(game);
     }
 
@@ -20,7 +20,7 @@ public class GameDuoController extends GameController {
         switch (card.getCardType()) {
             case Black:
                 alertWrongGuest("Black Card selected, you lose");
-                game.wrongGuess(CardType.Black);
+                game.wrongGuess();
                 game.ends();
                 if (game.isBlueTurn()) info.setText("Red Team win");
                 else info.setText("Blue Team win");
@@ -28,23 +28,23 @@ public class GameDuoController extends GameController {
                 displayStatistics();
                 break;
             case White:
-                game.wrongGuess(CardType.White);
+                game.wrongGuess();
                 alertWrongGuest("White Card selected, your turn ends");
                 break;
             case Blue:
                 if (game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess(CardType.Blue);
-                    alertWrongGuest("Blue Card selected, your turn ends");
+                    game.wrongGuess();
+                    alertWrongGuest("Red Card selected, your turn ends");
                 }
                 break;
             case Red:
                 if (!game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess(CardType.Red);
-                    alertWrongGuest("Red Card selected, your turn ends");
+                    game.wrongGuess();
+                    alertWrongGuest("Blue Card selected, your turn ends");
                 }
                 break;
             default:
@@ -59,15 +59,16 @@ public class GameDuoController extends GameController {
             else info.setText("Red Team win");
             button.setVisible(false);
         }
-        else if (game.getRemainingCardGuess() == 0 && game.isOnGoing()){
-            if (game.isBlueTurn()) info.setText("Red turn");
-            else info.setText("Blue turn");
+        else if (game.getRemainingCardGuess() == 0 && game.isBlueTurn() && game.isOnGoing()){
+            // l'IA opponent joue
+            // l'IA equipier joue
         }
     }
 
     @FXML 
     public void handleButton(){
-        if (game.getRemainingCardGuess() == 0){
+        
+        if (game.isBlueTurn()){
             askForNumberGuess().ifPresent( n -> {
                 int N = Integer.parseInt(n);
                 if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind()) game.changeTurn(N);
@@ -78,11 +79,9 @@ public class GameDuoController extends GameController {
                     alert.setContentText("Please enter a number less than the number of cards you have left to guess");
                     alert.showAndWait();
                 }
-
-                if (game.isBlueTurn()) info.setText("Blue turn");
-                else info.setText("Red turn");
             });
-            
         }
+        
     }
+
 }
