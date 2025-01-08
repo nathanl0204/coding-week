@@ -3,7 +3,10 @@ package codenames;
 import java.util.ArrayList;
 import java.util.List;
 
+import codenames.controller.GameController;
 import codenames.controller.GameTwoTeamsController;
+import codenames.controller.LoadingBarController;
+import codenames.controller.MenuBarController;
 import codenames.structure.CardType;
 import codenames.structure.DeckTwoTeams;
 import codenames.structure.GameTwoTeams;
@@ -22,16 +25,25 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
         
         GameTwoTeams game = testGame();
 
-        GameTwoTeamsController controller = new GameTwoTeamsController(game);
-
-        loader.setController(controller);
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/All.fxml"));
+        
+        
+        LoadingBarController lb = new LoadingBarController(200, 20);
+        
+        GameController gc = new GameTwoTeamsController(game,lb);
+        MenuBarController mb = new MenuBarController(gc);
+        loader.setControllerFactory(controllerClass -> {
+            if (controllerClass.equals(MenuBarController.class)) return mb;
+            else if (controllerClass.equals(LoadingBarController.class)) return lb;
+            else if (controllerClass.equals(GameController.class)) return gc;
+            return null; 
+        });
+        
         Scene scene = new Scene(loader.load());
+        lb.initialize();
 
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);

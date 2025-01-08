@@ -12,12 +12,15 @@ import javafx.scene.control.TextInputDialog;
 
 public class GameTwoTeamsController extends GameController {
 
+    private LoadingBarController loadingBarController;
+
     public GameTwoTeamsController(){
         super();
     }
     
-    public GameTwoTeamsController(GameTwoTeams game){
+    public GameTwoTeamsController(GameTwoTeams game, LoadingBarController loadingBarController){
         super(game);
+        this.loadingBarController = loadingBarController;
     }
 
     @FXML 
