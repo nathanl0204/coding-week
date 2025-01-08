@@ -2,7 +2,6 @@ package codenames.controller;
 
 import codenames.controller.view.InputDialogView;
 import javafx.fxml.FXML;
-import javafx.scene.SubScene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -22,6 +21,7 @@ public class ManageWordController {
     @FXML
     private Button addNewList;
     private ArrayList<String> currentList = new ArrayList<>();
+    private Integer selectedIndexListContainer = null;
 
     public ManageWordController() {
     }
@@ -34,7 +34,9 @@ public class ManageWordController {
         });
         listContainer.setOnMouseClicked(e -> { loadCurrentList();
         });
-        //addWordInList.setOnAction(e -> addWordInList());
+        addWordInList.setOnAction(e -> {
+            addWordInList();
+        });
         update();
     }
 
@@ -89,8 +91,12 @@ public class ManageWordController {
     }
 
     public void update() {
+        selectedIndexListContainer = listContainer.getSelectionModel().getSelectedIndex();
         loadList();
         loadCurrentList();
+        if(selectedIndexListContainer != null) {
+            listContainer.getSelectionModel().select(selectedIndexListContainer);
+        }
 
     }
 
@@ -122,13 +128,15 @@ public class ManageWordController {
             }
         }
 
-        DisplayCurrentList();
+        displayCurrentList();
     }
 
-    public void DisplayCurrentList() {
+    public void displayCurrentList() {
         wordsContainer.getItems().clear();
         for(String s : currentList) {
-            wordsContainer.getItems().add(s);
+            if(s != null && !s.equals("null")) {
+                wordsContainer.getItems().add(s);
+            }
         }
     }
 
@@ -149,9 +157,9 @@ public class ManageWordController {
     }
 
 
-    /*public void addWordInList() {
+    public void addWordInList() {
         if(listContainer.getSelectionModel() == null) {
-            new Alert(Alert.AlertType.ERROR, "Select list befor", ButtonType.OK);
+            new Alert(Alert.AlertType.ERROR, "Select list before", ButtonType.OK);
             return;
         }
         InputDialogView dialog = null;
@@ -163,21 +171,32 @@ public class ManageWordController {
         String word = dialog.getValue();
 
         currentList.add(word);
-        saveCurrentList();
+        saveCurrentList(currentList);
         update();
-    }*/
+    }
 
-    /*public void saveCurrentList() {
+    public void saveCurrentList(ArrayList<String> currentList) {
+
         String fileName = listContainer.getSelectionModel().getSelectedItem();
         String dirPath = "resources/wordslist/";
         String filePath = dirPath + fileName;
-        File file = new File(filePath);
-        StringBuilder sb = new StringBuilder();
 
-        for(String s : currentList) {
-            sb.append(s).append("\n");
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
+            for(String s : currentList) {
+                if(s != null && !s.equals("null")) {
+                    bw.write(s);
+                    System.out.println(s +"-" + filePath);
+                    bw.newLine();
+                }
+            }
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-    }*/
+        displayCurrentList();
+
+    }
 }

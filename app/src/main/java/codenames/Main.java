@@ -26,13 +26,13 @@ public class Main extends Application {
 
         ManageWordView manageWordView = new ManageWordView();
 
-        BorderPane test = new ManageWordView().getGraphic();
+        BorderPane manageWordPane = new ManageWordView().getGraphic();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
         loader.setControllerFactory(iC->new GameDuoController(game));
         BorderPane root = loader.load();
-        test.setMaxWidth(200);
-        root.setRight(test);
+        //manageWordPane.setMaxWidth(200);
+        root.setRight(manageWordPane);
 
         Scene scene = new Scene(root);
 
