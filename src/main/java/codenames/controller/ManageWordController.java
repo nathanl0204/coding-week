@@ -14,18 +14,23 @@ import java.util.ArrayList;
 
 public class ManageWordController {
 
-    public ListView wordsContainer;
-    public ListView listContainer;
+    public ListView<String> wordsContainer;
+    public ListView<String> listContainer;
+    public Button removeList;
     @FXML
     private Button addNewList;
     private ArrayList<String> currentList;
 
-    public ManageWordController(){}
+    public ManageWordController() {
+    }
 
     public void initialize() {
-        System.out.println(addNewList.isVisible() );
+        System.out.println(addNewList.isVisible());
         this.addNewList.setOnAction(e -> test());
-        loadList();
+        removeList.setOnAction(e -> {
+            deleteOneList();
+        });
+        update();
     }
 
     public void test() {
@@ -42,7 +47,7 @@ public class ManageWordController {
         File file = new File(filePath);
         File dir = new File(dirPath);
         boolean fileIsOk = false;
-        if(!dir.exists()) {
+        if (!dir.exists()) {
             dir.mkdirs();
         }
         if (!file.exists()) {
@@ -53,7 +58,7 @@ public class ManageWordController {
                 throw new RuntimeException(e);
             }
 
-            if(!fileIsOk)
+            if (!fileIsOk)
                 new Alert(Alert.AlertType.ERROR, "file error", ButtonType.OK).showAndWait();
         } else {
             new Alert(Alert.AlertType.ERROR, "new list created", ButtonType.OK).showAndWait();
@@ -63,6 +68,7 @@ public class ManageWordController {
     }
 
     public void loadList() {
+        listContainer.getItems().clear();
         String dirPath = "resources/wordslist/";
         //filePath = dirPath + newListName + ".txt";
 
@@ -70,7 +76,7 @@ public class ManageWordController {
         File[] fileList = dir.listFiles();
 
         if (fileList == null) return;
-        for(File f : fileList) {
+        for (File f : fileList) {
             listContainer.getItems().add(f.getName());
         }
 
@@ -78,6 +84,23 @@ public class ManageWordController {
     }
 
     public void update() {
+        loadList();
+    }
 
+    public void deleteOneList() {
+        System.out.println("azerty");
+        if(listContainer.getSelectionModel() != null) {
+            String fileName = listContainer.getSelectionModel().getSelectedItem();
+            String dirPath = "resources/wordslist/";
+            String filePath = dirPath + fileName;
+            File file = new File(filePath);
+            System.out.println(file.getAbsolutePath() + " " + file.exists());
+            if (file.exists()) {
+                if(file.delete()){
+                    update();
+                }
+        }
+
+        }
     }
 }
