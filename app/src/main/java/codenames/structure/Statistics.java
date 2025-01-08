@@ -24,12 +24,12 @@ public class Statistics {
         numberOfRemainingCardsToFind--;
     }
 
-    public double addTimePerTurn(double time) {
-        return sumTimePerTurn + time;
+    public void addTimePerTurn(double time) {
+        sumTimePerTurn += time;
     }
 
     public double getAverageTimePerTurn() {
-        return numberOfTurns != 0 ? ((double) sumTimePerTurn)/numberOfTurns : 0;
+        return numberOfTurns != 0 ? sumTimePerTurn/numberOfTurns : 0;
     }
 
     public double getAverageCardsPerTurn() {

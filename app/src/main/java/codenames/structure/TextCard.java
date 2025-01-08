@@ -1,11 +1,10 @@
 package codenames.structure;
 
-public class TextCard extends Card {
+public class TextCard implements Card {
     
     private String text;
 
-    public TextCard(CardType cardType, String text){
-        super(cardType);
+    public TextCard( String text){
         this.text = text;
     }
 
