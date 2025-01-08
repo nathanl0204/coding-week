@@ -3,16 +3,15 @@ package codenames;
 import codenames.controller.GameDuoController;
 import codenames.controller.MenuBarController;
 import codenames.controller.view.ManageWordView;
-import codenames.structure.CardType;
-import codenames.structure.Game;
-import codenames.structure.ListCard;
-import codenames.structure.TextCard;
+import codenames.structure.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class Main extends Application {
 
@@ -45,13 +44,25 @@ public class Main extends Application {
     private Game testGame(){
         ListCard listCard = new ListCard();
 
-        String[] texts = {
+        String[] texts;
+                /*= {
                 "Apple", "Banana", "Cherry", "Dog", "Elephant", "Football",
                 "Guitar", "Helicopter", "Igloo", "Jacket", "Kangaroo", "Lemon",
                 "Monkey", "Notebook", "Octopus", "Penguin", "Quilt", "Rocket",
                 "Sunflower", "Tiger", "Umbrella", "Violin", "Whale", "Xylophone",
                 "Yacht"
-        };
+        };*/
+
+        ArrayList<String> tt = ListCardDB.getInstance().getData().get("words.txt");
+        texts = new String[tt.size()];
+        texts = tt.toArray(texts);
+        for(String s : texts) {
+            System.out.println(s + " 1");
+
+            for(String k : ListCardDB.getInstance().getData().keySet()) {
+                System.out.println(k);
+            }
+        }
 
         CardType[] cardTypes = {
                 CardType.Red, CardType.Red, CardType.Blue, CardType.Black, CardType.White, CardType.Blue,
