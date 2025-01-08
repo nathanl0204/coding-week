@@ -5,7 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7f158f1b-0ab7-4125-b986-d2d6b628ee28" name="Changes" comment="InputDialog added&#10;delete list logic">
-      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/controller/ManageWordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codenames/controller/ManageWordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/javafx_swt.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/classes.plantuml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/wordslist/k.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/wordslist/teste.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/wordslist/uhuji.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/controller/GameController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/controller/InputDialogController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/controller/ManageWordController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/controller/view/InputDialogView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/controller/view/ManageWordView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/controller/view/ViewLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/structure/Card.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/structure/CardType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/structure/Game.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/structure/GameDB.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/structure/ImageCard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/structure/ListCard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/structure/ListCardDB.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/structure/Statistics.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codenames/structure/TextCard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/blue_team.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/red_team.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/spymasters_samples.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/Game.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/InputDialog.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/all.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/manageword.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/words/voiture.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
