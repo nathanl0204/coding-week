@@ -23,11 +23,8 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingBar.fxml"));
         loader.setControllerFactory(iC-> loadingBarController);
         loader.load();
-        
-        // GameTwoTeams game = testGame();
 
         GameTwoTeamsController gc = new GameTwoTeamsController(game);
-        // GameTwoTeamsController gc = new GameTwoTeamsController(game, lb);
 
         gc.setLoadingBarController(loadingBarController);
         loadingBarController.setGameController(gc);

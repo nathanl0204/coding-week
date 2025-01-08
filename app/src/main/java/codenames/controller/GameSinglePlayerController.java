@@ -44,7 +44,7 @@ public class GameSinglePlayerController extends GameController {
     public void processCardSelection(PlayableCard card) {
        
 
-        if (game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0) {
+        if (game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
 
             Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
             transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
@@ -77,7 +77,7 @@ public class GameSinglePlayerController extends GameController {
             }
         }
 
-        if (!game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0) {
+        if (!game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
 
             Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
             transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
