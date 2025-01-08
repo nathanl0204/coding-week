@@ -22,7 +22,6 @@ public class Statistics {
 
     public void decrNumberOfRemainingCardsToFind(){
         numberOfRemainingCardsToFind--;
-        System.out.println("Appel");
     }
 
     public double addTimePerTurn(double time) {
@@ -35,7 +34,7 @@ public class Statistics {
 
     public double getAverageCardsPerTurn() {
         return numberOfTurns != 0 ? ((double) numberOfCorrectGuess)/numberOfTurns : 0;
-        
+
     }
 
     public int getNumberOfErrors() {
@@ -61,9 +60,4 @@ public class Statistics {
     public void incrNumberOfCorrectGuess() {
         numberOfCorrectGuess++;
     }
-
-    public String toString() {
-        return "Average time per turn: " + getAverageTimePerTurn() + " seconds\nAverage words per turn: " + getAverageCardsPerTurn() + "\n Number of errors: " + numberOfErrors + "\n Number of guess: " + numberOfCorrectGuess;
-    }
-
 }

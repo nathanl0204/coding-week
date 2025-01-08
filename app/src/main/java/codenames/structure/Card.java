@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 public abstract class Card {
     
     private CardType cardType;
-    private Boolean guessed;
+    private boolean guessed;
 
     public Card(CardType cardType){
         this.cardType = cardType;
@@ -16,7 +16,7 @@ public abstract class Card {
         guessed = true;
     }
 
-    public Boolean isGuessed(){
+    public boolean isGuessed(){
         return guessed;
     }
 
@@ -29,7 +29,6 @@ public abstract class Card {
             case Black:
                 return Color.BLACK;
             case White:
-                return Color.GREY;
             case Red:
                 return Color.RED;
             case Blue:
