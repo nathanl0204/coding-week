@@ -1,5 +1,6 @@
 package codenames.controller;
 
+import codenames.structure.CardType;
 import codenames.structure.GameSinglePlayer;
 import codenames.structure.PlayableCard;
 import javafx.fxml.FXML;
@@ -15,10 +16,10 @@ public class GameSinglePlayerController extends GameController{
     }
 
     void processCardSelection(PlayableCard card) {
-        switch (card.getCardType()) {
+         switch (card.getCardType()) {
             case Black:
                 alertWrongGuest("Black Card selected, you lose");
-                game.wrongGuess();
+                game.wrongGuess(CardType.Black);
                 game.ends();
                 if (game.isBlueTurn()) info.setText("Red Team win");
                 else info.setText("Blue Team win");
@@ -26,14 +27,14 @@ public class GameSinglePlayerController extends GameController{
                 displayStatistics();
                 break;
             case White:
-                game.wrongGuess();
+                game.wrongGuess(CardType.White);
                 alertWrongGuest("White Card selected, your turn ends");
                 break;
             case Blue:
                 if (game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess();
+                    game.wrongGuess(CardType.Blue);
                     alertWrongGuest("Red Card selected, your turn ends");
                 }
                 break;
@@ -41,7 +42,7 @@ public class GameSinglePlayerController extends GameController{
                 if (!game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess();
+                    game.wrongGuess(CardType.Red);
                     alertWrongGuest("Blue Card selected, your turn ends");
                 }
                 break;
