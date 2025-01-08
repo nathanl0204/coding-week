@@ -1,18 +1,16 @@
 package codenames.controller;
 
-import codenames.structure.Game;
+import codenames.structure.GameSinglePlayer;
 import codenames.structure.PlayableCard;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
-public class GameSoloController extends GameController{
+public class GameSinglePlayerController extends GameController{
 
-    public GameSoloController(){
+    public GameSinglePlayerController(){
         super();
     }
     
-    public GameSoloController(Game game){
+    public GameSinglePlayerController(GameSinglePlayer game){
         super(game);
     }
 
@@ -61,7 +59,7 @@ public class GameSoloController extends GameController{
         }
         else if (game.getRemainingCardGuess() == 0 && game.isBlueTurn() && game.isOnGoing()){
             // l'IA opponent joue
-            // l'IA equipier joue
+            
         }
     }
 
@@ -69,17 +67,8 @@ public class GameSoloController extends GameController{
     public void handleButton(){
         
         if (game.isBlueTurn()){
-            askForNumberGuess().ifPresent( n -> {
-                int N = Integer.parseInt(n);
-                if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind()) game.changeTurn(N);
-                else {
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Information");
-                    alert.setHeaderText("Wrong Number Of Cards");
-                    alert.setContentText("Please enter a number less than the number of cards you have left to guess");
-                    alert.showAndWait();
-                }
-            });
+            // l'IA equipier joue
+
         }
         
     }

@@ -1,7 +1,6 @@
 package codenames.controller;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import codenames.structure.Game;
 import codenames.structure.ImageCard;
@@ -16,7 +15,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -44,12 +42,11 @@ public abstract class GameController {
 
     @FXML 
     public void initialize() {
-        imageView.setImage(game.getQRCode());
         info.setText("Click above to start");
         int cols = game.getCols();
         final int[] currentPos = {0, 0};
 
-        game.getDeck().forEach(playableCard -> {
+        game.getDeck().getCard().forEach(playableCard -> {
 
             StackPane stackPane = new StackPane();
 
@@ -120,15 +117,6 @@ public abstract class GameController {
     }
 
     @FXML public abstract void handleButton();
-
-    protected Optional<String> askForNumberGuess(){
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Number of guess");
-        dialog.setHeaderText("Enter the number of guess");
-        dialog.setContentText("Number :");
-
-        return dialog.showAndWait();
-    }
 
     protected void displayStatistics(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Statistics.fxml"));

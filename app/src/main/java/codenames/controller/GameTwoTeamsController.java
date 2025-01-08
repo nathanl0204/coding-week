@@ -1,19 +1,28 @@
 package codenames.controller;
 
-import codenames.structure.Game;
+import java.util.Optional;
+
+import codenames.structure.GameTwoTeams;
 import codenames.structure.PlayableCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextInputDialog;
 
-public class GameDuoController extends GameController {
+public class GameTwoTeamsController extends GameController {
 
-    public GameDuoController(){
+    public GameTwoTeamsController(){
         super();
     }
     
-    public GameDuoController(Game game){
+    public GameTwoTeamsController(GameTwoTeams game){
         super(game);
+    }
+
+    @FXML 
+    public void initialize() {
+        imageView.setImage( ((GameTwoTeams) game).getQRCode());
+        super.initialize();
     }
 
     void processCardSelection(PlayableCard card) {
@@ -84,5 +93,14 @@ public class GameDuoController extends GameController {
             });
             
         }
+    }
+
+    private Optional<String> askForNumberGuess(){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Number of guess");
+        dialog.setHeaderText("Enter the number of guess");
+        dialog.setContentText("Number :");
+
+        return dialog.showAndWait();
     }
 }
