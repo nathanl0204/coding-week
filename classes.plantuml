@@ -196,6 +196,7 @@ abstract class AllyAI extends AI {
 }
 
 abstract class OpponentAI extends AI {
+    - Random random
     + OpponentAI(GameController gameController)
 }
 

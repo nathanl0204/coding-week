@@ -6,11 +6,9 @@ import codenames.structure.*;
 import java.util.*;
 
 public class EasyOpponentAI extends OpponentAI {
-    private Random random;
 
     public EasyOpponentAI(GameController gameController) {
         super(gameController);
-        this.random = new Random();
     }
 
     @Override
@@ -26,8 +24,6 @@ public class EasyOpponentAI extends OpponentAI {
         List<PlayableCard> remainingCards = deck.getRemainingCards();
         int cardsToGuess = random.nextInt(remainingRedCards.size()) + 1;
         game.setRemainingCardGuess(cardsToGuess);
-
-        System.out.println("the ai will be guessing " + cardsToGuess + " times");
 
         Collections.shuffle(remainingCards);
         List<PlayableCard> selectedCards = remainingCards.subList(0, Math.min(cardsToGuess, remainingCards.size()));
