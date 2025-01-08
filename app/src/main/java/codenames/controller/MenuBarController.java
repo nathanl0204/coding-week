@@ -1,9 +1,7 @@
 package codenames.controller;
 
-import codenames.structure.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.stage.FileChooser;
@@ -17,7 +15,13 @@ public class MenuBarController {
     @FXML private RadioMenuItem soloMode;
     @FXML private CheckMenuItem blitzMode;
 
-    private GameTwoTeamsController gameController;
+    private GameController gameController;
+
+    public MenuBarController(){}
+
+    public MenuBarController(GameController gameController){
+        this.gameController = gameController;
+    }
 
     public void setGameController(GameTwoTeamsController gameController) {
         this.gameController = gameController;

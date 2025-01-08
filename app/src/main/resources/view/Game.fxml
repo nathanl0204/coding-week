@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="codenames.controller.GameController">
     <top>
         <VBox fx:id="vboxTop" alignment="CENTER" spacing="20">
             <children>
@@ -22,7 +22,4 @@
             </children>
         </VBox>
     </center>
-
-    <bottom>
-    </bottom>
-   </BorderPane>
+</BorderPane>

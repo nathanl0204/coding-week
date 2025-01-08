@@ -3,34 +3,38 @@ package codenames.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class LoadingBar extends StackPane {
-    private final Rectangle background;
-    private final Rectangle bar;
+public class LoadingBarController extends StackPane {
+    @FXML private Rectangle background;
+    @FXML private Rectangle bar;
+    
     private Timeline timeline;
     private boolean isComplete = false;
     private int elapsedSeconds = 0;
     private int totalSeconds = 0;
 
-    public LoadingBar(double width, double height) {
-        background = new Rectangle(width, height);
-        background.setFill(Color.LIGHTGRAY);
-        background.setArcWidth(15);
-        background.setArcHeight(15);
+    private double width;
+    private double height;
+    
+    public LoadingBarController(){}
 
-        bar = new Rectangle(width, height);
-        bar.setFill(Color.DODGERBLUE);
-        bar.setArcWidth(15);
-        bar.setArcHeight(15);
+    public LoadingBarController(double width, double height) {
+        this.height = height;
+        this.width = width;
+    }
 
+    @FXML 
+    public void initialize(){
+        background.setWidth(width);
+        background.setHeight(height);
+        
         Rectangle clip = new Rectangle(0, height);
         bar.setClip(clip);
-
-        getChildren().addAll(background, bar);
     }
 
     public void start(int seconds) {
