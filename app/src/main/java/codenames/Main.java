@@ -1,24 +1,34 @@
 package codenames;
 
-import codenames.controller.GameTwoTeamsController;
-import codenames.controller.TeamView;
-import codenames.structure.CardType;
-import codenames.structure.Game;
-import codenames.structure.ListCard;
-import codenames.structure.TextCard;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
+
+import codenames.controller.*;
+import codenames.structure.*;
+import codenames.structure.AI.EasyOpponentAI;
 import javafx.application.Application;
+import javafx.scene.layout.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Game game = testGame();
 
+        GameSinglePlayer game = testSPGame();
+        // GameTwoTeams game = testGame();
+
+        GameSinglePlayerController gc = new GameSinglePlayerController(game);
+        // GameTwoTeamsController gc = new GameTwoTeamsController(game, lb);
+
+        EasyOpponentAI ai = new EasyOpponentAI(gc);
+
+
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
-        loader.setControllerFactory(iC->new GameTwoTeamsController(game));
+        loader.setControllerFactory(iC-> gc);
         BorderPane root = loader.load();
 
         FXMLLoader loader3 = new FXMLLoader();
@@ -40,8 +50,8 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private Game testGame(){
-        ListCard listCard = new ListCard();
+    private GameTwoTeams testGame() {
+        List<PlayableCard> listCard = new ArrayList<PlayableCard>();
 
         String[] texts = {
                 "Apple", "Banana", "Cherry", "Dog", "Elephant", "Football",
@@ -62,12 +72,43 @@ public class Main extends Application {
         int i = 0;
 
         for (String text : texts) {
-            listCard.addCard(new TextCard(cardTypes[i],text));
+            listCard.add(new PlayableCard(new TextCard(text), cardTypes[i]));
             i++;
         }
 
-        return new Game( 5, listCard,9,9);
+        return new GameTwoTeams(new DeckTwoTeams(listCard), 5, 9, 9);
 
     }
-}
 
+    private GameSinglePlayer testSPGame() {
+        List<PlayableCardWithHints> listCard = new ArrayList<PlayableCardWithHints>();
+
+        String[] texts = {
+                "Apple", "Banana", "Cherry", "Dog", "Elephant", "Football",
+                "Guitar", "Helicopter", "Igloo", "Jacket", "Kangaroo", "Lemon",
+                "Monkey", "Notebook", "Octopus", "Penguin", "Quilt", "Rocket",
+                "Sunflower", "Tiger", "Umbrella", "Violin", "Whale", "Xylophone",
+                "Yacht"
+        };
+
+        CardType[] cardTypes = {
+                CardType.Red, CardType.Red, CardType.Blue, CardType.Black, CardType.White, CardType.Blue,
+                CardType.Blue, CardType.Red, CardType.White, CardType.Red, CardType.Blue, CardType.Black,
+                CardType.White, CardType.Red, CardType.Blue, CardType.Blue, CardType.Red, CardType.White,
+                CardType.Blue, CardType.Red, CardType.Red, CardType.White, CardType.Blue, CardType.Red,
+                CardType.Blue
+        };
+
+        int i = 0;
+
+        for (String text : texts) {
+            listCard.add(new PlayableCardWithHints(new TextCard(text), cardTypes[i],
+                    Arrays.asList("hint1", "hint2")));
+            i++;
+        }
+
+        GameSinglePlayer game = new GameSinglePlayer(new DeckSinglePlayer(listCard), 5, 9, 9);
+
+        return game;
+    }
+}

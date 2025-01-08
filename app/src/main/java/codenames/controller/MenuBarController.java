@@ -10,12 +10,23 @@ import javafx.application.Platform;
 
 public class MenuBarController {
 
-    @FXML private RadioMenuItem classicMode;
-    @FXML private RadioMenuItem duoMode;
-    @FXML private RadioMenuItem soloMode;
-    @FXML private CheckMenuItem blitzMode;
+    @FXML
+    private RadioMenuItem classicMode;
+    @FXML
+    private RadioMenuItem duoMode;
+    @FXML
+    private RadioMenuItem soloMode;
+    @FXML
+    private CheckMenuItem blitzMode;
 
-    private GameTwoTeamsController gameController;
+    private GameController gameController;
+
+    public MenuBarController() {
+    }
+
+    public MenuBarController(GameController gameController) {
+        this.gameController = gameController;
+    }
 
     public void setGameController(GameTwoTeamsController gameController) {
         this.gameController = gameController;
@@ -24,7 +35,7 @@ public class MenuBarController {
     @FXML
     private void handleNewGame() {
         // Implement new game logic
-        gameController.startNewGame();
+        // gameController.startNewGame();
     }
 
     @FXML
@@ -32,11 +43,10 @@ public class MenuBarController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Charger une partie");
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Fichiers de sauvegarde", "*.save")
-        );
+                new FileChooser.ExtensionFilter("Fichiers de sauvegarde", "*.save"));
         File file = fileChooser.showOpenDialog(null);
         if (file != null) {
-            gameController.loadGame(file);
+            // gameController.loadGame(file);
         }
     }
 
@@ -45,11 +55,10 @@ public class MenuBarController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Sauvegarder la partie");
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Fichiers de sauvegarde", "*.save")
-        );
+                new FileChooser.ExtensionFilter("Fichiers de sauvegarde", "*.save"));
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
-            gameController.saveGame(file);
+            // gameController.saveGame(file);
         }
     }
 
@@ -75,7 +84,7 @@ public class MenuBarController {
 
     @FXML
     private void handleBlitzMode() {
-        gameController.setBlitzMode(blitzMode.isSelected());
+        // gameController.setBlitzMode(blitzMode.isSelected());
     }
 
     @FXML

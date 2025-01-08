@@ -1,38 +1,25 @@
 package codenames.structure;
 
-import java.io.Serializable;
-import java.awt.image.BufferedImage;
+import codenames.controller.*;
+
 import java.util.ArrayList;
 
-import codenames.controller.Observer;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
+public abstract class Game {
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
+    protected int id;
 
-public class Game implements Serializable {
-    ArrayList<Observer> observers;
-    private int id;
+    protected Boolean onGoing;
+    protected Statistics blueStat, redStat;
+    protected Boolean blueTurn;
+    protected int remainingCardGuess;
+    protected int cols;
+    protected ArrayList<Observer> observers;
 
-    private Boolean onGoing;
-    private Statistics blueStat,redStat;
-    private ListCard cards;
-    private Boolean blueTurn;
-    private int remainingCardGuess;
-    private int cols;
-    private Image QRCode;
-
-
-    public Game(int cols, ListCard cards,int numberOfBlueCard, int numberOfRedCard){
+    public Game(int cols, int numberOfBlueCard, int numberOfRedCard) {
         this.cols = cols;
         blueStat = new Statistics(numberOfBlueCard);
         redStat = new Statistics(numberOfRedCard);
-        this.cards = cards;
-        blueTurn = true;
-        generateQRCode();
+        blueTurn = false;
         onGoing = true;
         this.observers = new ArrayList<>();
     }
@@ -42,77 +29,70 @@ public class Game implements Serializable {
     }
 
     public void notifyObservers() {
-        for (int i = 0; i<this.observers.size(); i++) {
+        for (int i = 0; i < this.observers.size(); i++) {
             this.observers.get(i).react();
         }
     }
 
-    public Image getQRCode() {
-        return QRCode;
-    }
-
-    public void setQRCode(Image QRCode) {
-        this.QRCode = QRCode;
-    }
-
-    public int getCols(){
+    public int getCols() {
         return cols;
     }
 
-    public Statistics getBlueStatistics(){
+    public Statistics getBlueStatistics() {
         return blueStat;
     }
 
-    public Statistics getRedStatistics(){
+    public Statistics getRedStatistics() {
         return redStat;
     }
 
-    public int getRemainingCardGuess(){
+    public int getRemainingCardGuess() {
         return remainingCardGuess;
     }
 
-    public void setRemainingCardGuess(int remainingCardGuess){
+    public void setRemainingCardGuess(int remainingCardGuess) {
         this.remainingCardGuess = remainingCardGuess;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public ListCard getListCard(){
-        return cards;
-    }
+    public abstract Deck getDeck();
 
-    public Boolean isBlueTurn(){
+    public Boolean isBlueTurn() {
         return blueTurn;
     }
 
-    public CardType getColorTurn(){
-        if (blueTurn) return CardType.Blue;
-        else return CardType.Red;
+    public CardType getColorTurn() {
+        if (blueTurn)
+            return CardType.Blue;
+        else
+            return CardType.Red;
     }
 
-    public void changeTurn(int remainingCardGuess){
+    public void changeTurn(int remainingCardGuess) {
         blueTurn = !blueTurn;
-        if (blueTurn) blueStat.incrNumberOfTurns();
-        else redStat.incrNumberOfTurns();
+        if (blueTurn)
+            blueStat.incrNumberOfTurns();
+        else
+            redStat.incrNumberOfTurns();
         this.remainingCardGuess = remainingCardGuess;
     }
 
-    public void ends(){
+    public void ends() {
         onGoing = false;
     }
 
-    public Boolean isOnGoing(){
-        return onGoing && remainingCardGuess > 0;
+    public Boolean isOnGoing() {
+        return onGoing;
     }
 
-    public void correctGuess(){
+    public void correctGuess() {
         if (blueTurn) {
             blueStat.incrNumberOfCorrectGuess();
             blueStat.decrNumberOfRemainingCardsToFind();
-        }
-        else {
+        } else {
             redStat.incrNumberOfCorrectGuess();
             redStat.decrNumberOfRemainingCardsToFind();
         }
@@ -120,84 +100,82 @@ public class Game implements Serializable {
 
     }
 
-    public void wrongGuess(CardType cardType){
+    public void wrongGuess(CardType cardType) {
         remainingCardGuess = 0;
 
         if (blueTurn) {
             blueStat.incrNumberOfErrors();
-            if (cardType == CardType.Red) redStat.decrNumberOfRemainingCardsToFind();
-        }
-        else {
+            if (cardType == CardType.Red)
+                redStat.decrNumberOfRemainingCardsToFind();
+        } else {
             redStat.incrNumberOfErrors();
-            if (cardType == CardType.Blue) blueStat.decrNumberOfRemainingCardsToFind();
+            if (cardType == CardType.Blue)
+                blueStat.decrNumberOfRemainingCardsToFind();
+        }
+    }
+
+    public void majStatTemps(double time) {
+        if (blueTurn)
+            blueStat.addTimePerTurn(time);
+        else
+            redStat.addTimePerTurn(time);
+    }
+
+    public void wrongGuess(CardType cardType, double temps) {
+        System.out.println("" + temps);
+        remainingCardGuess = 0;
+        if (blueTurn) {
+            blueStat.incrNumberOfErrors();
+            blueStat.addTimePerTurn(temps);
+            if (cardType == CardType.Red)
+                redStat.decrNumberOfRemainingCardsToFind();
+        } else {
+            redStat.incrNumberOfErrors();
+            redStat.addTimePerTurn(temps);
+            if (cardType == CardType.Blue)
+                blueStat.decrNumberOfRemainingCardsToFind();
         }
     }
 
     public int getNumberOfOpponentRemainingCardsToFind() {
-        if (blueTurn) return redStat.getNumberOfRemainingCardsToFind();
-        else return blueStat.getNumberOfRemainingCardsToFind();
+        if (blueTurn)
+            return redStat.getNumberOfRemainingCardsToFind();
+        else
+            return blueStat.getNumberOfRemainingCardsToFind();
     }
 
     public int getNumberOfRemainingCardsToFind() {
-        if (blueTurn) return blueStat.getNumberOfRemainingCardsToFind();
-        else return redStat.getNumberOfRemainingCardsToFind();
-    }
-
-    public String generateColorsString() {
-        StringBuilder colors = new StringBuilder();
-
-        for (Card card : cards.getCards()) {
-            colors.append(card.getColorCode());
-        }
-
-        return colors.toString();
-    }
-
-    public String generateURL() {
-        return "https://gibson-pages.telecomnancy.univ-lorraine.fr/grp05-851491?rows=" + cards.getCards().size() / getCols() + "&columns=" + getCols() + "&colors=" + generateColorsString();
-    }
-
-
-    public void generateQRCode() {
-        String url = generateURL();
-        try {
-            QRCodeWriter writer = new QRCodeWriter();
-            BitMatrix matrix = writer.encode(url, BarcodeFormat.QR_CODE, 300, 300);
-
-            BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(matrix);
-
-            //MatrixToImageWriter.writeToPath(matrix, "PNG", Path.of("qrcode.png")); IF YOU WANT TO SAVE THE QRCODE (FOR DEBUGGING PURPOSES) UNCOMMENT THIS ! THE QR CODE WILL BE SAVED IN app/qrcode.png
-            setQRCode(SwingFXUtils.toFXImage(bufferedImage, null));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        if (blueTurn)
+            return blueStat.getNumberOfRemainingCardsToFind();
+        else
+            return redStat.getNumberOfRemainingCardsToFind();
     }
 
     /*
-    game.simuleOpponent(){
-        // blueTurn = false;
-        // temps artificiel
-        // pick nb random de case a retourner
-        // pick des cartes aleatoirement
-        // blueTurn = true;
-    }
-
-    */
+     * game.simuleOpponent(){
+     * // blueTurn = false;
+     * // temps artificiel
+     * // pick nb random de case a retourner
+     * // pick des cartes aleatoirement
+     * // blueTurn = true;
+     * }
+     * 
+     */
 
     /*
-    game.simuleCoequipier(){
-        // changer la structure des mots
-        // et renvoie un int (nb de carte) et un string (indice)
-        parmi les differents liste de mots du jeu
-    }
+     * game.simuleCoequipier(){
+     * // changer la structure des mots
+     * // et renvoie un int (nb de carte) et un string (indice)
+     * parmi les differents liste de mots du jeu
+     * }
+     * 
+     */
 
-    */
-
-    /* utilisation du pattern strategy pour different type d'ia
-
-
-        creer nouvelle classe pour gameSoloController
-
+    /*
+     * utilisation du pattern strategy pour different type d'ia
+     * 
+     * 
+     * creer nouvelle classe pour gameSoloController
+     * 
      */
 }
