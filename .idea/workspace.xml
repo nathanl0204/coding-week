@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7f158f1b-0ab7-4125-b986-d2d6b628ee28" name="Changes" comment="InputDialog added&#10;delete list logic">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/resources/wordslist/.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/resources/wordslist/e.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/Main.java" afterDir="false" />
+    <list default="true" id="7f158f1b-0ab7-4125-b986-d2d6b628ee28" name="Changes" comment="added word in list functionality added">
       <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/ManageWordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/controller/ManageWordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/manageword.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/manageword.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -249,7 +246,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736322432280</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added word in list functionality added">
+      <option name="closed" value="true" />
+      <created>1736356426062</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1736356426062</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -260,6 +265,7 @@
     <MESSAGE value="ManageWordController added without backend logic" />
     <MESSAGE value="InputDialog added&#10;Logic of add new list implemented &#10;bugfix" />
     <MESSAGE value="InputDialog added&#10;delete list logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="InputDialog added&#10;delete list logic" />
+    <MESSAGE value="added word in list functionality added" />
+    <option name="LAST_COMMIT_MESSAGE" value="added word in list functionality added" />
   </component>
 </project>

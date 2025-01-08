@@ -29,7 +29,7 @@
             <HBox alignment="TOP_CENTER" prefHeight="53.0" prefWidth="123.0">
                <children>
                   <Button fx:id="addWordInList" mnemonicParsing="false" text="+" />
-                  <Button fx:id="RemoveWordInList" mnemonicParsing="false" text="-" />
+                  <Button fx:id="removeWordInList" mnemonicParsing="false" text="-" />
                </children>
             </HBox>
             <ListView fx:id="wordsContainer" prefHeight="200.0" prefWidth="152.0" />

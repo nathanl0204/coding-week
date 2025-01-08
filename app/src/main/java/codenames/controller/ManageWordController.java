@@ -17,7 +17,7 @@ public class ManageWordController {
     public ListView<String> listContainer;
     public Button removeList;
     public Button addWordInList;
-    public Button RemoveWordInList;
+    public Button removeWordInList;
     @FXML
     private Button addNewList;
     private ArrayList<String> currentList = new ArrayList<>();
@@ -29,10 +29,14 @@ public class ManageWordController {
     public void initialize() {
         System.out.println(addNewList.isVisible());
         this.addNewList.setOnAction(e -> test());
+
         removeList.setOnAction(e -> {
             deleteOneList();
         });
         listContainer.setOnMouseClicked(e -> { loadCurrentList();
+        });
+        removeWordInList.setOnAction(e -> {
+            removeWordInList();
         });
         addWordInList.setOnAction(e -> {
             addWordInList();
@@ -159,7 +163,7 @@ public class ManageWordController {
 
     public void addWordInList() {
         if(listContainer.getSelectionModel() == null) {
-            new Alert(Alert.AlertType.ERROR, "Select list before", ButtonType.OK);
+            new Alert(Alert.AlertType.ERROR, "Select list before", ButtonType.OK).showAndWait();
             return;
         }
         InputDialogView dialog = null;
@@ -197,6 +201,22 @@ public class ManageWordController {
         }
 
         displayCurrentList();
+
+    }
+
+    public void removeWordInList() {
+        if(listContainer.getSelectionModel() == null) {
+            new Alert(Alert.AlertType.ERROR, "Select list before", ButtonType.OK).showAndWait();
+            return;
+        }
+
+        if(wordsContainer.getSelectionModel() != null) {
+            String word = wordsContainer.getSelectionModel().getSelectedItem();
+            currentList.remove(word);
+            saveCurrentList(currentList);
+            update();
+        }
+
 
     }
 }
