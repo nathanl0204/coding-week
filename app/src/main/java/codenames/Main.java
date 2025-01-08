@@ -31,9 +31,10 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/All.fxml"));
         
         
-        LoadingBarController lb = new LoadingBarController(200, 20);
+        LoadingBarController lb = new LoadingBarController(400, 20);
         
         GameController gc = new GameTwoTeamsController(game,lb);
+        lb.setGameController(gc);
         MenuBarController mb = new MenuBarController(gc);
         loader.setControllerFactory(controllerClass -> {
             if (controllerClass.equals(MenuBarController.class)) return mb;
@@ -43,7 +44,6 @@ public class Main extends Application {
         });
         
         Scene scene = new Scene(loader.load());
-        lb.initialize();
 
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);

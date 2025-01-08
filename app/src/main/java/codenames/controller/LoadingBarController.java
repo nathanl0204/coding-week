@@ -12,6 +12,8 @@ import javafx.util.Duration;
 public class LoadingBarController extends StackPane {
     @FXML private Rectangle background;
     @FXML private Rectangle bar;
+
+    private GameController gameController;    
     
     private Timeline timeline;
     private boolean isComplete = false;
@@ -21,18 +23,26 @@ public class LoadingBarController extends StackPane {
     private double width;
     private double height;
     
-    public LoadingBarController(){}
+    public LoadingBarController() {}
 
     public LoadingBarController(double width, double height) {
         this.height = height;
         this.width = width;
     }
 
+    public void setGameController(GameController gameController){
+        this.gameController = gameController;
+    }
+
     @FXML 
-    public void initialize(){
+    public void initialize() {
         background.setWidth(width);
         background.setHeight(height);
+
+        bar.setWidth(width);
+        bar.setHeight(height);
         
+        // Initialize the clip for the bar
         Rectangle clip = new Rectangle(0, height);
         bar.setClip(clip);
     }
@@ -45,42 +55,29 @@ public class LoadingBarController extends StackPane {
         isComplete = false;
         elapsedSeconds = 0;
         totalSeconds = seconds;
+
         Rectangle clip = (Rectangle) bar.getClip();
         clip.setWidth(0);
         bar.setFill(Color.DODGERBLUE);
 
         timeline = new Timeline();
-
-        // Ajout des keyframes pour la progression et le changement de couleur
+        
         for (int i = 0; i <= seconds; i++) {
             double progress = (double) i / seconds;
             Color color = interpolateColor(Color.DODGERBLUE, Color.RED, progress);
 
             timeline.getKeyFrames().add(
-                    new KeyFrame(
-                            Duration.seconds(i),
-                            new KeyValue(clip.widthProperty(), background.getWidth() * progress),
-                            new KeyValue(bar.fillProperty(), color)
-                    )
+                new KeyFrame(
+                    Duration.seconds(i),
+                    new KeyValue(clip.widthProperty(), background.getWidth() * progress),
+                    new KeyValue(bar.fillProperty(), color)
+                )
             );
         }
 
-        // Mise à jour du temps écoulé
-        KeyFrame updateFrame = new KeyFrame(Duration.seconds(1), event -> {
-            elapsedSeconds++;
-            if (elapsedSeconds >= totalSeconds) {
-                isComplete = true;
-                stop();
-            }
-        });
-
-        Timeline updateTimeline = new Timeline(updateFrame);
-        updateTimeline.setCycleCount(seconds);
-        updateTimeline.play();
-
         timeline.setOnFinished(event -> {
             isComplete = true;
-            stop();
+            gameController.handleTimerEnd();
         });
 
         timeline.play();

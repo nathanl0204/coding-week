@@ -74,4 +74,10 @@ public class GameSinglePlayerController extends GameController{
         
     }
 
+    public void handleTimerEnd(){
+        if (game.isOnGoing()){
+            game.setRemainingCardGuess(0);
+        }
+    }
+
 }

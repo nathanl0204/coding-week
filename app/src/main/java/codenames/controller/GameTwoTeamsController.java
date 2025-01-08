@@ -95,6 +95,9 @@ public class GameTwoTeamsController extends GameController {
                 if (game.isBlueTurn()) info.setText("Blue turn");
                 else info.setText("Red turn");
             });
+
+
+            loadingBarController.start(5);
             
         }
     }
@@ -106,5 +109,11 @@ public class GameTwoTeamsController extends GameController {
         dialog.setContentText("Number :");
 
         return dialog.showAndWait();
+    }
+
+    public void handleTimerEnd(){
+        if (game.isOnGoing()){
+            game.setRemainingCardGuess(0);
+        }
     }
 }

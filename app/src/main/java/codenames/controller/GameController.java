@@ -140,5 +140,7 @@ public abstract class GameController {
         newStage.setTitle("Statistics");
         newStage.show();
     }
+
+    public abstract void handleTimerEnd();
     
 }
