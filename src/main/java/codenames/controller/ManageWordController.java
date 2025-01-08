@@ -34,7 +34,7 @@ public class ManageWordController {
         });
         listContainer.setOnMouseClicked(e -> { loadCurrentList();
         });
-        addWordInList.setOnAction(e -> addWordInList());
+        //addWordInList.setOnAction(e -> addWordInList());
         update();
     }
 
@@ -149,7 +149,7 @@ public class ManageWordController {
     }
 
 
-    public void addWordInList() {
+    /*public void addWordInList() {
         if(listContainer.getSelectionModel() == null) {
             new Alert(Alert.AlertType.ERROR, "Select list befor", ButtonType.OK);
             return;
@@ -165,7 +165,7 @@ public class ManageWordController {
         currentList.add(word);
         saveCurrentList();
         update();
-    }
+    }*/
 
     /*public void saveCurrentList() {
         String fileName = listContainer.getSelectionModel().getSelectedItem();

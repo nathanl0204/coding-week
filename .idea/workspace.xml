@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7f158f1b-0ab7-4125-b986-d2d6b628ee28" name="Changes" comment="InputDialog added&#10;delete list logic">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/codenames/controller/ManageWordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codenames/controller/ManageWordController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
