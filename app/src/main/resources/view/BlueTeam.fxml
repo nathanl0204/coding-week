@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 
 <?import javafx.scene.image.Image?>
-<VBox fx:id="self" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0003a5;" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codenames.controller.TeamView">
+<VBox fx:id="self" prefWidth="250.0" spacing="100.0" style="-fx-background-color: #0003a5;" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codenames.controller.TeamView">
     <children>
         <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" style="-fx-border-radius: 5px; -fx-border: 2px solid black;-fx-border-color: black;-fx-background-color:  #00297a;">
             <children>
@@ -62,4 +62,12 @@
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
+    <Label text="Red turn" textFill="WHITE" fx:id="info_zone">
+        <font>
+            <Font name="System Bold Italic" size="20.0" />
+        </font>
+        <padding>
+            <Insets bottom="30.0" left="120.0" right="30.0" top="30.0" />
+        </padding>
+    </Label>
 </VBox>

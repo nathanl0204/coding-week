@@ -35,11 +35,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class GameDuoController {
+public class GameTwoTeamsController {
 
     @FXML GridPane gridPane;
     @FXML Button button;
-    @FXML Label info;
     @FXML ImageView imageView;
     @FXML VBox vboxTop;
 
@@ -51,9 +50,9 @@ public class GameDuoController {
 
     private Game game;
 
-    public GameDuoController(){}
+    public GameTwoTeamsController(){}
     
-    public GameDuoController(Game game){
+    public GameTwoTeamsController(Game game){
         this.game = game;
     }
 
@@ -65,6 +64,8 @@ public class GameDuoController {
         timerLabel = new Label("Temps restant : 60s");
         timerLabel.setStyle("-fx-text-fill: white;");
         timerContainer.getChildren().add(timerLabel);
+        timerContainer.setSpacing(10.0);
+        timerContainer.setPadding(new Insets(20.0));
 
         imageView.setImage(game.getQRCode());
         int cols = game.getCols();
@@ -77,6 +78,8 @@ public class GameDuoController {
         menuBarController.setGameController(this);
 
         vboxTop.getChildren().add(0,menuLoader.load());
+
+
 
         game.getListCard().getCards().forEach(card -> {
 
@@ -108,6 +111,7 @@ public class GameDuoController {
                                 card.guessed();
                                 processCardSelection(card);
                             }
+
                         }
                     }
                 });
@@ -188,8 +192,6 @@ public class GameDuoController {
                 alertWrongGuest("Black Card selected, you lose");
                 game.wrongGuess(CardType.Black);
                 game.ends();
-                if (game.isBlueTurn()) info.setText("Red Team win");
-                else info.setText("Blue Team win");
                 button.setVisible(false);
                 displayStatistics();
                 break;
@@ -217,15 +219,13 @@ public class GameDuoController {
                 break;
         }
         if (game.getRemainingCardGuess() == 0 && game.isOnGoing()){
-            if (game.isBlueTurn()) info.setText("Red turn");
-            else info.setText("Blue turn");
+
         }
 
         if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()){
             game.ends();
             displayStatistics();
-            if (game.isBlueTurn()) info.setText("Blue Team win");
-            else info.setText("Red Team win");
+
             button.setVisible(false);
         }
         game.notifyObservers();
@@ -253,9 +253,7 @@ public class GameDuoController {
                     alert.setContentText("Please enter a number less than the number of cards you have left to guess");
                     alert.showAndWait();
                 }
-
-                if (game.isBlueTurn()) info.setText("Blue turn");
-                else info.setText("Red turn");
+                game.notifyObservers();
             });
             
         }

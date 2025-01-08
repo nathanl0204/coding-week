@@ -1,6 +1,6 @@
 package codenames;
 
-import codenames.controller.GameDuoController;
+import codenames.controller.GameTwoTeamsController;
 import codenames.controller.TeamView;
 import codenames.structure.CardType;
 import codenames.structure.Game;
@@ -18,7 +18,7 @@ public class Main extends Application {
         Game game = testGame();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
-        loader.setControllerFactory(iC->new GameDuoController(game));
+        loader.setControllerFactory(iC->new GameTwoTeamsController(game));
         BorderPane root = loader.load();
 
         FXMLLoader loader3 = new FXMLLoader();
@@ -36,7 +36,6 @@ public class Main extends Application {
         Scene scene = new Scene(root);
 
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
         primaryStage.setTitle("CodeName");
         primaryStage.show();
     }
