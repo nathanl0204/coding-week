@@ -1,0 +1,42 @@
+@startuml classes
+
+interface GameController {
+    + void initialize()
+    - void processCardSelection(PlayableCard card)
+    - void alertWrongGuess(String message)
+    + void handleButton()
+}
+
+abstract class NormalModeController implements GameController {
+    # Game game
+}
+
+abstract class BlitzModeController implements GameController {
+    # LoadingBarController loadingBarController
+    + handleTimerEnd()
+}
+
+BlitzModeController o- NormalModeController
+
+class SinglePlayerController extends NormalModeController {
+    - OpponentIA opponentIA  
+}
+
+class TwoTeamsController extends NormalModeController {
+    - Optional<String> askForNumberGuess()
+}
+
+class BlitzSinglePlayerController extends BlitzModeController {
+    BlitzSinglePlayerController(SinglePlayerController singlePlayerController)
+}
+
+BlitzSinglePlayerController o-- SinglePlayerController
+
+class BlitzTwoTeamsController extends BlitzModeController {
+    BlitzTwoTeamsController(TwoTeamsController twoTeamsController)
+}
+
+BlitzTwoTeamsController o-- TwoTeamsController
+
+
+@enduml

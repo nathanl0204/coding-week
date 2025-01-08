@@ -1,6 +1,7 @@
 package codenames.structure;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -12,18 +13,17 @@ import javafx.scene.image.Image;
 
 public class GameTwoTeams extends Game {
     private Image QRCode;
-    private DeckTwoTeams deck;
+    private List<PlayableCard> deck;
 
-    public GameTwoTeams(DeckTwoTeams deck, int cols, int numberOfBlueCard, int numberOfRedCard){
+    public GameTwoTeams(List<PlayableCard> deck, int cols, int numberOfBlueCard, int numberOfRedCard){
         super(cols, numberOfBlueCard, numberOfRedCard);
         this.deck = deck;
         generateQRCode();
     }
 
-    public DeckTwoTeams getDeck(){
+    public List<PlayableCard> getDeck(){
         return deck;
     }
-
 
     public Image getQRCode() {
         return QRCode;
@@ -37,7 +37,7 @@ public class GameTwoTeams extends Game {
     public String generateColorsString() {
         StringBuilder colors = new StringBuilder();
 
-        deck.getCard().forEach( card -> colors.append(card.getColorCode()));
+        deck.forEach( card -> colors.append(card.getColorCode()));
             
         return colors.toString();
     }

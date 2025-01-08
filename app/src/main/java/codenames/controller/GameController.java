@@ -34,10 +34,23 @@ public abstract class GameController {
 
     protected Game game;
 
+    protected LoadingBarController loadingBarController = null;
+
     public GameController(){}
     
     public GameController(Game game){
         this.game = game;
+    }
+
+    public void setLoadingBarController(LoadingBarController loadingBarController){
+        this.loadingBarController = loadingBarController;
+    }
+
+    protected void handleTimerEnd(){
+        if (game.isOnGoing()){
+            game.setRemainingCardGuess(0);
+
+        }
     }
 
     @FXML 
@@ -46,7 +59,7 @@ public abstract class GameController {
         int cols = game.getCols();
         final int[] currentPos = {0, 0};
 
-        game.getDeck().getCard().forEach(playableCard -> {
+        game.getDeck().forEach(playableCard -> {
 
             StackPane stackPane = new StackPane();
 
@@ -106,7 +119,7 @@ public abstract class GameController {
         });
     }
 
-    abstract void processCardSelection(PlayableCard card);
+    public abstract void processCardSelection(PlayableCard card);
 
     protected void alertWrongGuest(String message){
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -140,7 +153,5 @@ public abstract class GameController {
         newStage.setTitle("Statistics");
         newStage.show();
     }
-
-    public abstract void handleTimerEnd();
     
 }

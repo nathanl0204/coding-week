@@ -8,7 +8,6 @@ import codenames.controller.GameTwoTeamsController;
 import codenames.controller.LoadingBarController;
 import codenames.controller.MenuBarController;
 import codenames.structure.CardType;
-import codenames.structure.DeckTwoTeams;
 import codenames.structure.GameTwoTeams;
 import codenames.structure.PlayableCard;
 import codenames.structure.TextCard;
@@ -33,7 +32,8 @@ public class Main extends Application {
         
         LoadingBarController lb = new LoadingBarController(400, 20);
         
-        GameController gc = new GameTwoTeamsController(game,lb);
+        GameController gc = new GameTwoTeamsController(game);
+        gc.setLoadingBarController(lb);
         lb.setGameController(gc);
         MenuBarController mb = new MenuBarController(gc);
         loader.setControllerFactory(controllerClass -> {
@@ -77,7 +77,7 @@ public class Main extends Application {
             i++;
         }
 
-        return new GameTwoTeams( new DeckTwoTeams(listCard),5, 9,9);
+        return new GameTwoTeams(listCard,5, 9,9);
 
     }
 }

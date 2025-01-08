@@ -1,5 +1,7 @@
 package codenames.structure;
 
+import java.util.List;
+
 public abstract class Game {
 
     protected int id;
@@ -43,7 +45,7 @@ public abstract class Game {
         return id;
     }
 
-    public abstract Deck getDeck();
+    public abstract List<PlayableCard> getDeck();
     
 
     public Boolean isBlueTurn(){
@@ -67,7 +69,7 @@ public abstract class Game {
     }
 
     public Boolean isOnGoing(){
-        return onGoing && remainingCardGuess > 0;
+        return onGoing;
     }
 
     public void correctGuess(){
@@ -80,20 +82,26 @@ public abstract class Game {
             redStat.decrNumberOfRemainingCardsToFind();
         } 
         remainingCardGuess--;
-        
     }
 
-    public void wrongGuess(CardType cardType){
+    public void majStatTemps(double time){
+        if (blueTurn) blueStat.addTimePerTurn(time);
+        else redStat.addTimePerTurn(time);
+    }
+
+    public void wrongGuess(CardType cardType, double temps){
+        System.out.println(""+temps);
         remainingCardGuess = 0;
         if (blueTurn) {
             blueStat.incrNumberOfErrors();
+            blueStat.addTimePerTurn(temps);
             if (cardType == CardType.Red) redStat.decrNumberOfRemainingCardsToFind();
         }
         else {
             redStat.incrNumberOfErrors();
+            redStat.addTimePerTurn(temps);
             if (cardType == CardType.Blue) blueStat.decrNumberOfRemainingCardsToFind();
         }
-        // temps
     }
 
     public int getNumberOfOpponentRemainingCardsToFind() {

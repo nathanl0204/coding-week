@@ -2,11 +2,12 @@ package codenames.structure;
 
 import java.util.List;
 
-public class PlayableCardWithHints {
-    private PlayableCard playableCard;
+public class PlayableCardWithHints extends PlayableCard {
     private List<String> hints;
 
-    public PlayableCard getPlayableCard(){
-        return playableCard;
+    public PlayableCardWithHints(Card card,CardType cardType,List<String> hints){
+        super(card,cardType);
+        this.hints = hints;
+
     }
 }

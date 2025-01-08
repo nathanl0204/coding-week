@@ -15,19 +15,20 @@ public class LoadingBarController extends StackPane {
 
     private GameController gameController;    
     
-    private Timeline timeline;
+    private Timeline timeline = new Timeline();
     private boolean isComplete = false;
-    private int elapsedSeconds = 0;
-    private int totalSeconds = 0;
+    private double elapsedSeconds;
 
     private double width;
     private double height;
     
-    public LoadingBarController() {}
+    public LoadingBarController() {
+    }
 
     public LoadingBarController(double width, double height) {
         this.height = height;
         this.width = width;
+        
     }
 
     public void setGameController(GameController gameController){
@@ -44,7 +45,7 @@ public class LoadingBarController extends StackPane {
         
         // Initialize the clip for the bar
         Rectangle clip = new Rectangle(0, height);
-        bar.setClip(clip);
+        bar.setClip(clip);        
     }
 
     public void start(int seconds) {
@@ -54,18 +55,16 @@ public class LoadingBarController extends StackPane {
 
         isComplete = false;
         elapsedSeconds = 0;
-        totalSeconds = seconds;
 
         Rectangle clip = (Rectangle) bar.getClip();
         clip.setWidth(0);
         bar.setFill(Color.DODGERBLUE);
 
-        timeline = new Timeline();
-        
+        timeline.getKeyFrames().clear();
         for (int i = 0; i <= seconds; i++) {
             double progress = (double) i / seconds;
             Color color = interpolateColor(Color.DODGERBLUE, Color.RED, progress);
-
+            elapsedSeconds = progress;
             timeline.getKeyFrames().add(
                 new KeyFrame(
                     Duration.seconds(i),
@@ -74,6 +73,12 @@ public class LoadingBarController extends StackPane {
                 )
             );
         }
+
+        KeyFrame updateElapsedTime = new KeyFrame(
+                Duration.millis(1),
+                event -> elapsedSeconds += 0.001 
+        );
+        timeline.getKeyFrames().add(updateElapsedTime);
 
         timeline.setOnFinished(event -> {
             isComplete = true;
@@ -109,7 +114,7 @@ public class LoadingBarController extends StackPane {
         return isComplete;
     }
 
-    public int getRemainingSeconds() {
-        return totalSeconds - elapsedSeconds;
+    public double getElapsedSeconds() {
+        return elapsedSeconds;
     }
 }

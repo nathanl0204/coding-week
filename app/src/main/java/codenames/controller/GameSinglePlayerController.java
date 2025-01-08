@@ -15,11 +15,13 @@ public class GameSinglePlayerController extends GameController{
         super(game);
     }
 
-    void processCardSelection(PlayableCard card) {
+    public void processCardSelection(PlayableCard card) {
          switch (card.getCardType()) {
             case Black:
+                
+                loadingBarController.stop();
+                game.wrongGuess(CardType.Black,loadingBarController.getElapsedSeconds());
                 alertWrongGuest("Black Card selected, you lose");
-                game.wrongGuess(CardType.Black);
                 game.ends();
                 if (game.isBlueTurn()) info.setText("Red Team win");
                 else info.setText("Blue Team win");
@@ -27,23 +29,23 @@ public class GameSinglePlayerController extends GameController{
                 displayStatistics();
                 break;
             case White:
-                game.wrongGuess(CardType.White);
-                alertWrongGuest("White Card selected, your turn ends");
+                loadingBarController.stop();
+                game.wrongGuess(CardType.White,loadingBarController.getElapsedSeconds());
                 break;
             case Blue:
                 if (game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess(CardType.Blue);
-                    alertWrongGuest("Red Card selected, your turn ends");
+                    loadingBarController.stop();
+                    game.wrongGuess(CardType.Blue,loadingBarController.getElapsedSeconds());
                 }
                 break;
             case Red:
                 if (!game.isBlueTurn()) {
                     game.correctGuess();
                 } else {
-                    game.wrongGuess(CardType.Red);
-                    alertWrongGuest("Blue Card selected, your turn ends");
+                    loadingBarController.stop();
+                    game.wrongGuess(CardType.Red,loadingBarController.getElapsedSeconds());
                 }
                 break;
             default:
@@ -72,12 +74,6 @@ public class GameSinglePlayerController extends GameController{
 
         }
         
-    }
-
-    public void handleTimerEnd(){
-        if (game.isOnGoing()){
-            game.setRemainingCardGuess(0);
-        }
     }
 
 }
