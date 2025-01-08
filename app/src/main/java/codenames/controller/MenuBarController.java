@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
 import java.io.File;
 import javafx.application.Platform;
@@ -16,17 +17,40 @@ public class MenuBarController {
     @FXML private RadioMenuItem duoMode;
     @FXML private RadioMenuItem soloMode;
     @FXML private CheckMenuItem blitzMode;
+    @FXML private ToggleGroup modeGroup;
 
     private GameDuoController gameController;
 
     public void setGameController(GameDuoController gameController) {
         this.gameController = gameController;
+
+        if (modeGroup == null) {
+            modeGroup = new ToggleGroup();
+            classicMode.setToggleGroup(modeGroup);
+            duoMode.setToggleGroup(modeGroup);
+            soloMode.setToggleGroup(modeGroup);
+        }
+
+        // Désactiver les options de mode de jeu au début d'une partie
+        modeGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (gameController != null && oldValue != null) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Changement de mode");
+                alert.setHeaderText("Impossible de changer de mode");
+                alert.setContentText("Vous devez démarrer une nouvelle partie pour changer de mode de jeu.");
+                alert.showAndWait();
+                modeGroup.selectToggle(oldValue);
+            }
+        });
     }
 
     @FXML
     private void handleNewGame() {
-        // Implement new game logic
         gameController.startNewGame();
+        // Réactiver les options de mode de jeu
+        classicMode.setDisable(false);
+        duoMode.setDisable(false);
+        soloMode.setDisable(false);
     }
 
     @FXML
