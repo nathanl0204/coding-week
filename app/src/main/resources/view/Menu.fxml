@@ -1,0 +1,22 @@
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<MenuBar xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" BorderPane.alignment="CENTER" fx:controller="codenames.controller.MenuView">
+        <menus>
+          <Menu mnemonicParsing="false" text="Codenames">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Nouvelle partie" />
+                  <MenuItem mnemonicParsing="false" text="Ouvrir une partie" />
+                  <MenuItem mnemonicParsing="false" text="Sauvegarder la partie" />
+                  <MenuItem mnemonicParsing="false" text="Quitter" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Gérer">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Gérer les dictionnaires" />
+              <MenuItem mnemonicParsing="false" text="Mettre en pause la partie" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>

@@ -16,6 +16,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -62,10 +63,10 @@ public class GameDuoController {
         timerContainer.getChildren().add(loadingBar);
 
         timerLabel = new Label("Temps restant : 60s");
+        timerLabel.setStyle("-fx-text-fill: white;");
         timerContainer.getChildren().add(timerLabel);
 
         imageView.setImage(game.getQRCode());
-        info.setText("Click above to start");
         int cols = game.getCols();
         final int[] currentPos = {0, 0};
 
@@ -83,9 +84,16 @@ public class GameDuoController {
 
             if (card instanceof TextCard) {
                 Label label = new Label(((TextCard) card).getText());
+                label.setPadding(new Insets(35,0,0,0));
                 label.setTextFill(card.getColor());
-                
+
+                ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
+
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(80);
+
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
+                stackPane.getChildren().add(imageView);
                 stackPane.getChildren().add(label);
 
                 label.setOnMouseClicked(new EventHandler<Event>() {
@@ -220,6 +228,7 @@ public class GameDuoController {
             else info.setText("Red Team win");
             button.setVisible(false);
         }
+        game.notifyObservers();
     }
 
     private void alertWrongGuest(String message){

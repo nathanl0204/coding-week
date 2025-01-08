@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7f158f1b-0ab7-4125-b986-d2d6b628ee28" name="Changes" comment="" />
+    <list default="true" id="7f158f1b-0ab7-4125-b986-d2d6b628ee28" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/BoardView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/GameDuoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/controller/GameDuoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/MenuView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/TeamView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/controller/TeamView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/BlueTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/BlueTeam.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/Board.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/Game.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/Game.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/RedTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/RedTeam.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,7 +77,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Nathan",
+    "git-widget-placeholder": "UI",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/gapial/Bureau/TN/2A/PCD/coding_week/grp05/app/src/main/resources",
     "node.js.detected.package.eslint": "true",
@@ -78,6 +92,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/resources" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="grp05" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
       <ExternalSystemSettings>
