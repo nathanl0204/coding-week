@@ -34,6 +34,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import codenames.structure.GameDB;
+
 public class GameDuoController {
 
     @FXML GridPane gridPane;
@@ -299,10 +301,35 @@ public class GameDuoController {
     }
 
     public void loadGame(File file) {
-        // Implement load game logic
+        try {
+            Game loadedGame = GameDB.load(file);
+            // Mise à jour du jeu actuel
+            this.game = loadedGame;
+            // Réinitialisation de l'interface
+            initialize();
+        } catch (IOException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erreur de chargement");
+            alert.setHeaderText("Impossible de charger la partie");
+            alert.setContentText("Une erreur est survenue lors du chargement : " + e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     public void saveGame(File file) {
-        // Implement save game logic
+        try {
+            GameDB.save(game, file);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Sauvegarde réussie");
+            alert.setHeaderText(null);
+            alert.setContentText("La partie a été sauvegardée avec succès.");
+            alert.showAndWait();
+        } catch (IOException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erreur de sauvegarde");
+            alert.setHeaderText("Impossible de sauvegarder la partie");
+            alert.setContentText("Une erreur est survenue lors de la sauvegarde : " + e.getMessage());
+            alert.showAndWait();
+        }
     }
 }
