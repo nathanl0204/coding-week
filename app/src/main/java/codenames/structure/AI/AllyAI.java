@@ -1,8 +1,10 @@
-package codenames.structure;
+package codenames.structure.AI;
 
-public interface AllyAI {
-    void makeMove();
-    String giveHint(List<PlayableCard> cards);
-    int giveHintCount(List<PlayableCard> cards);
-    PlayableCard selectCard(Game game);
+import codenames.controller.GameController;
+
+public abstract class AllyAI extends AI {
+
+    public AllyAI(GameController gameController) {
+        super(gameController);
+    }
 }

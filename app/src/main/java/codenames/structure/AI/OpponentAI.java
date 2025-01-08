@@ -1,6 +1,10 @@
-package codenames.structure;
+package codenames.structure.AI;
 
-public interface OpponentAI {
-    void makeMove();
-    PlayableCard selectCard(Game game);
+import codenames.controller.GameController;
+
+public abstract class OpponentAI extends AI {
+
+    public OpponentAI(GameController gameController) {
+        super(gameController);
+    }
 }

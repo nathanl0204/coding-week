@@ -1,20 +1,16 @@
-package codenames.structure;
+package codenames.structure.AI;
 
-public class HardOpponentAI implements OpponentAI {
-    protected Game game;
+import codenames.controller.*;
 
-    public HardOpponentAI(Game game) {
-        this.game = game;
+public class HardOpponentAI extends OpponentAI {
+    protected GameController game;
+
+    public HardOpponentAI(GameController gameController) {
+        super(gameController);
     }
 
     @Override
-    public void makeMove() {
+    public void play() {
         // Implementation will go here
-    }
-
-    @Override
-    public PlayableCard selectCard(Game game) {
-        // Implementation will go here
-        return null;
     }
 }

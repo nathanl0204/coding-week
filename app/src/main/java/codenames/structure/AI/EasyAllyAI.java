@@ -1,32 +1,16 @@
-package codenames.structure;
+package codenames.structure.AI;
 
-public class EasyAllyAI implements AllyAI {
-    protected Game game;
+import codenames.controller.*;
 
-    public EasyAllyAI(Game game) {
-        this.game = game;
+public class EasyAllyAI extends AllyAI {
+    protected GameController game;
+
+    public EasyAllyAI(GameController gameController) {
+        super(gameController);
     }
 
     @Override
-    public void makeMove() {
+    public void play() {
         // Implementation will go here
-    }
-
-    @Override
-    public String giveHint(List<PlayableCard> cards) {
-        // Implementation will go here
-        return null;
-    }
-
-    @Override
-    public int giveHintCount(List<PlayableCard> cards) {
-        // Implementation will go here
-        return 0;
-    }
-
-    @Override
-    public PlayableCard selectCard(Game game) {
-        // Implementation will go here
-        return null;
     }
 }
