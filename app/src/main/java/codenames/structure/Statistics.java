@@ -29,7 +29,7 @@ public class Statistics {
     }
 
     public double getAverageTimePerTurn() {
-        return numberOfTurns != 0 ? sumTimePerTurn/numberOfTurns : 0;
+        return numberOfTurns != 0 ? sumTimePerTurn/numberOfTurns : 0.0;
     }
 
     public double getAverageCardsPerTurn() {

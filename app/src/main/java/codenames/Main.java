@@ -18,8 +18,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         GameTwoTeams game = testGame();
-
+        
         LoadingBarController loadingBarController = new LoadingBarController(200, 20);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingBar.fxml"));
+        loader.setControllerFactory(iC-> loadingBarController);
+        loader.load();
+        
         // GameTwoTeams game = testGame();
 
         GameTwoTeamsController gc = new GameTwoTeamsController(game);
@@ -32,9 +36,9 @@ public class Main extends Application {
 
 
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
-        loader.setControllerFactory(iC-> gc);
-        BorderPane root = loader.load();
+        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
+        loader2.setControllerFactory(iC-> gc);
+        BorderPane root = loader2.load();
 
         FXMLLoader loader3 = new FXMLLoader();
         loader3.setLocation(getClass().getResource("/view/BlueTeam.fxml"));

@@ -44,17 +44,16 @@ public class StatisticsController {
 
     @FXML
     public void initialize() {
-        blueAverageTimeLabel
-                .setText("Average Time Per Round: " + blueTeamStatistics.getAverageTimePerTurn() + " seconds");
-        blueAverageCardsLabel.setText("Average Cards Per Round: " + blueTeamStatistics.getAverageCardsPerTurn());
+        blueAverageTimeLabel.setText("Average Time Per Round: " + String.format("%.2f", blueTeamStatistics.getAverageTimePerTurn()) + " seconds");
+        blueAverageCardsLabel.setText("Average Cards Per Round: " + String.format("%.2f", blueTeamStatistics.getAverageCardsPerTurn()));
         blueNumberOfErrorsLabel.setText("Errors: " + blueTeamStatistics.getNumberOfErrors());
         blueNumberOfGuessLabel.setText("Correct Guesses: " + blueTeamStatistics.getNumberOfCorrectGuess());
         blueNumberOfTurnsLabel.setText("Turns: " + blueTeamStatistics.getNumberOfTurns());
         blueRemainingCardsLabel.setText("Remaining Cards: " + blueTeamStatistics.getNumberOfRemainingCardsToFind());
 
-        redAverageTimeLabel
-                .setText("Average Time Per Round: " + redTeamStatistics.getAverageTimePerTurn() + " seconds");
-        redAverageCardsLabel.setText("Average Cards Per Round: " + redTeamStatistics.getAverageCardsPerTurn());
+        redAverageTimeLabel.setText("Average Time Per Round: " + String.format("%.2f", redTeamStatistics.getAverageTimePerTurn()) + " seconds");
+        redAverageCardsLabel.setText("Average Cards Per Round: " + String.format("%.2f", redTeamStatistics.getAverageCardsPerTurn()));
+
         redNumberOfErrorsLabel.setText("Errors: " + redTeamStatistics.getNumberOfErrors());
         redNumberOfGuessLabel.setText("Correct Guesses: " + redTeamStatistics.getNumberOfCorrectGuess());
         redNumberOfTurnsLabel.setText("Turns: " + redTeamStatistics.getNumberOfTurns());

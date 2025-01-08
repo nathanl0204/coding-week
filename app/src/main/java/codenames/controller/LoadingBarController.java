@@ -56,7 +56,7 @@ public class LoadingBarController extends StackPane {
         }
 
         isComplete = false;
-        elapsedSeconds = 0;
+        elapsedSeconds = System.currentTimeMillis();
 
         Rectangle clip = (Rectangle) bar.getClip();
         clip.setWidth(0);
@@ -66,18 +66,13 @@ public class LoadingBarController extends StackPane {
         for (int i = 0; i <= seconds; i++) {
             double progress = (double) i / seconds;
             Color color = interpolateColor(Color.DODGERBLUE, Color.RED, progress);
-            elapsedSeconds = progress;
+            
             timeline.getKeyFrames().add(
                     new KeyFrame(
                             Duration.seconds(i),
                             new KeyValue(clip.widthProperty(), background.getWidth() * progress),
                             new KeyValue(bar.fillProperty(), color)));
         }
-
-        KeyFrame updateElapsedTime = new KeyFrame(
-                Duration.millis(1),
-                event -> elapsedSeconds += 0.001);
-        timeline.getKeyFrames().add(updateElapsedTime);
 
         timeline.setOnFinished(event -> {
             isComplete = true;
@@ -114,6 +109,6 @@ public class LoadingBarController extends StackPane {
     }
 
     public double getElapsedSeconds() {
-        return elapsedSeconds;
+        return ( System.currentTimeMillis() - elapsedSeconds)/1000.0;
     }
 }

@@ -23,7 +23,7 @@ public class GameTwoTeamsController extends GameController {
         super(game);
     }
 
-    private void handleTimerComplete() {
+    public void handleTimerComplete() {
         if (game.getRemainingCardGuess() > 0) {
             // Time's up, switch turns
             Platform.runLater(() -> {
@@ -34,7 +34,7 @@ public class GameTwoTeamsController extends GameController {
                 alert.showAndWait();
 
                 game.setRemainingCardGuess(0);
-                handleChangeTurn();
+                
             });
         }
     }
@@ -47,7 +47,7 @@ public class GameTwoTeamsController extends GameController {
 
     public void processCardSelection(PlayableCard card) {
 
-        if (game.getRemainingCardGuess() > 0){
+        if (game.getRemainingCardGuess() > 0 && !card.isGuessed()){
             
             Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
             transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
@@ -120,25 +120,6 @@ public class GameTwoTeamsController extends GameController {
                 int N = Integer.parseInt(n);
                 if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind())
                     game.changeTurn(N);
-                if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
-                    game.ends();
-                    displayStatistics();
-
-                    button.setVisible(false);
-                }
-                game.notifyObservers();
-            });
-        }
-    }
-
-    @FXML
-    public void handleChangeTurn() {
-
-        if (game.getRemainingCardGuess() == 0) {
-            askForNumberGuess().ifPresent(n -> {
-                int N = Integer.parseInt(n);
-                if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind())
-                    game.changeTurn(N);
                 else {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information");
@@ -146,16 +127,15 @@ public class GameTwoTeamsController extends GameController {
                     alert.setContentText("Please enter a number less than the number of cards you have left to guess");
                     alert.showAndWait();
                 }
+                if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
+                    game.ends();
+                    displayStatistics();
 
-                if (game.isBlueTurn())
-                    info.setText("Blue turn");
-                else
-                    info.setText("Red turn");
-            });
-
-            if (loadingBarController != null) {
+                    button.setVisible(false);
+                }
                 loadingBarController.start(5);
-            }
+                game.notifyObservers();
+            });
         }
     }
 
