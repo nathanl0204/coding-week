@@ -4,63 +4,48 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
-import codenames.controller.GameController;
-import codenames.controller.GameTwoTeamsController;
-import codenames.controller.LoadingBarController;
-import codenames.controller.MenuBarController;
-import codenames.structure.CardType;
-import codenames.structure.DeckSinglePlayer;
-import codenames.structure.DeckTwoTeams;
-import codenames.structure.GameSinglePlayer;
-import codenames.structure.GameTwoTeams;
-import codenames.structure.PlayableCard;
-import codenames.structure.PlayableCardWithHints;
-import codenames.structure.TextCard;
+import codenames.controller.*;
+import codenames.structure.*;
 import codenames.structure.AI.EasyOpponentAI;
-import codenames.controller.GameSinglePlayerController;
 import javafx.application.Application;
+import javafx.scene.layout.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         GameSinglePlayer game = testSPGame();
         // GameTwoTeams game = testGame();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/All.fxml"));
-
-        LoadingBarController lb = new LoadingBarController(200, 20);
-
         GameSinglePlayerController gc = new GameSinglePlayerController(game);
         // GameTwoTeamsController gc = new GameTwoTeamsController(game, lb);
 
         EasyOpponentAI ai = new EasyOpponentAI(gc);
 
-        gc.setOpponentAI(ai);
 
-        MenuBarController mb = new MenuBarController(gc);
-        loader.setControllerFactory(controllerClass -> {
-            if (controllerClass.equals(MenuBarController.class))
-                return mb;
-            else if (controllerClass.equals(LoadingBarController.class))
-                return lb;
-            else if (controllerClass.equals(GameController.class))
-                return gc;
-            return null;
-        });
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
+        loader.setControllerFactory(iC-> gc);
+        BorderPane root = loader.load();
 
-        Scene scene = new Scene(loader.load());
+        FXMLLoader loader3 = new FXMLLoader();
+        loader3.setLocation(getClass().getResource("/view/BlueTeam.fxml"));
+        TeamView blueTeamView = new TeamView(game, true);
+        loader3.setControllerFactory(iC->blueTeamView);
+        root.setLeft(loader3.load());
+
+        FXMLLoader loader4 = new FXMLLoader();
+        loader4.setLocation(getClass().getResource("/view/RedTeam.fxml"));
+        TeamView redTeamView = new TeamView(game, false);
+        loader4.setControllerFactory(iC->redTeamView);
+        root.setRight(loader4.load());
+
+        Scene scene = new Scene(root);
 
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
         primaryStage.setTitle("CodeName");
         primaryStage.show();
     }

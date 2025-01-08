@@ -36,6 +36,7 @@ public abstract class GameController {
     @FXML
     ImageView imageView;
 
+    protected Boolean blitzMode;
     protected Game game;
 
     @FXML
@@ -50,6 +51,7 @@ public abstract class GameController {
 
     public void setLoadingBarController(LoadingBarController loadingBarController) {
         this.loadingBarController = loadingBarController;
+        blitzMode = true;
     }
 
     public Game getGame() {
@@ -76,9 +78,10 @@ public abstract class GameController {
             if (playableCard.getCard() instanceof TextCard) {
                 Label label = new Label(((TextCard) playableCard.getCard()).getText());
                 label.setTextFill(playableCard.getColor());
-
+                ImageView background = new ImageView(
+                        new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
-                stackPane.getChildren().add(label);
+                stackPane.getChildren().addAll(background, label);
 
                 label.setOnMouseClicked(new EventHandler<Event>() {
                     @Override

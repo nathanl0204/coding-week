@@ -1,6 +1,8 @@
 package codenames.structure;
 
-import java.util.List;
+import codenames.controller.*;
+
+import java.util.ArrayList;
 
 public abstract class Game {
 
@@ -11,6 +13,7 @@ public abstract class Game {
     protected Boolean blueTurn;
     protected int remainingCardGuess;
     protected int cols;
+    protected ArrayList<Observer> observers;
 
     public Game(int cols, int numberOfBlueCard, int numberOfRedCard) {
         this.cols = cols;
@@ -18,6 +21,17 @@ public abstract class Game {
         redStat = new Statistics(numberOfRedCard);
         blueTurn = false;
         onGoing = true;
+        this.observers = new ArrayList<>();
+    }
+
+    public void addObserver(Observer obs) {
+        this.observers.add(obs);
+    }
+
+    public void notifyObservers() {
+        for (int i = 0; i < this.observers.size(); i++) {
+            this.observers.get(i).react();
+        }
     }
 
     public int getCols() {
@@ -88,6 +102,7 @@ public abstract class Game {
 
     public void wrongGuess(CardType cardType) {
         remainingCardGuess = 0;
+
         if (blueTurn) {
             blueStat.incrNumberOfErrors();
             if (cardType == CardType.Red)

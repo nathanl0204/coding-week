@@ -1,7 +1,6 @@
 package codenames.controller;
 
 import java.util.Optional;
-
 import codenames.structure.CardType;
 import codenames.structure.GameTwoTeams;
 import codenames.structure.PlayableCard;
@@ -9,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextInputDialog;
+import java.io.File;
+import javafx.application.Platform;
 
 public class GameTwoTeamsController extends GameController {
 
@@ -18,6 +19,22 @@ public class GameTwoTeamsController extends GameController {
 
     public GameTwoTeamsController(GameTwoTeams game) {
         super(game);
+    }
+
+    private void handleTimerComplete() {
+        if (game.getRemainingCardGuess() > 0) {
+            // Time's up, switch turns
+            Platform.runLater(() -> {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Temps écoulé");
+                alert.setHeaderText(null);
+                alert.setContentText("Le temps est écoulé ! Au tour de l'équipe suivante.");
+                alert.showAndWait();
+
+                game.setRemainingCardGuess(0);
+                handleChangeTurn();
+            });
+        }
     }
 
     @FXML
@@ -43,7 +60,6 @@ public class GameTwoTeamsController extends GameController {
             case White:
                 loadingBarController.stop();
                 game.wrongGuess(CardType.White, loadingBarController.getElapsedSeconds());
-                alertWrongGuest("White Card selected, your turn ends");
                 break;
             case Blue:
                 if (game.isBlueTurn()) {
@@ -92,6 +108,25 @@ public class GameTwoTeamsController extends GameController {
                 int N = Integer.parseInt(n);
                 if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind())
                     game.changeTurn(N);
+                if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
+                    game.ends();
+                    displayStatistics();
+
+                    button.setVisible(false);
+                }
+                game.notifyObservers();
+            });
+        }
+    }
+
+    @FXML
+    public void handleChangeTurn() {
+
+        if (game.getRemainingCardGuess() == 0) {
+            askForNumberGuess().ifPresent(n -> {
+                int N = Integer.parseInt(n);
+                if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind())
+                    game.changeTurn(N);
                 else {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information");
@@ -119,5 +154,17 @@ public class GameTwoTeamsController extends GameController {
         dialog.setContentText("Number :");
 
         return dialog.showAndWait();
+    }
+
+    public void startNewGame() {
+        // Implement new game logic
+    }
+
+    public void loadGame(File file) {
+        // Implement load game logic
+    }
+
+    public void saveGame(File file) {
+        // Implement save game logic
     }
 }
