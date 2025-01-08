@@ -88,7 +88,7 @@ public class Game implements Serializable {
 
     public void ends(){
         onGoing = false;
-    } 
+    }
 
     public Boolean isOnGoing(){
         return onGoing && remainingCardGuess > 0;
@@ -161,7 +161,7 @@ public class Game implements Serializable {
 
     }
 
-    /* 
+    /*
     game.simuleOpponent(){
         // blueTurn = false;
         // temps artificiel
@@ -172,13 +172,13 @@ public class Game implements Serializable {
 
     */
 
-    /* 
+    /*
     game.simuleCoequipier(){
         // changer la structure des mots
         // et renvoie un int (nb de carte) et un string (indice)
         parmi les differents liste de mots du jeu
     }
-     
+
     */
 
     /* utilisation du pattern strategy pour different type d'ia
