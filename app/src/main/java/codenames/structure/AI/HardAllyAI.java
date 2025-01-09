@@ -1,12 +1,12 @@
 package codenames.structure.AI;
 
-import codenames.controller.*;
+import codenames.observers.*;
 
 public class HardAllyAI extends AllyAI {
-    protected GameController game;
+    protected GameView game;
 
-    public HardAllyAI(GameController gameController) {
-        super(gameController);
+    public HardAllyAI(GameView gameView) {
+        super(gameView);
     }
 
     @Override

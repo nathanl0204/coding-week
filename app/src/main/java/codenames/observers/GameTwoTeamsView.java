@@ -1,32 +1,23 @@
-package codenames.controller;
+package codenames.observers;
 
 import java.util.Optional;
-import java.util.Random;
-
 import codenames.structure.CardType;
 import codenames.structure.GameTwoTeams;
 import codenames.structure.PlayableCard;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.shape.Rectangle;
 
 import java.io.File;
 import javafx.application.Platform;
 
-public class GameTwoTeamsController extends GameController {
+public class GameTwoTeamsView extends GameView {
 
-    public GameTwoTeamsController() {
-        super();
-    }
-
-    public GameTwoTeamsController(GameTwoTeams game) {
+    public GameTwoTeamsView(GameTwoTeams game) {
         super(game);
+        this.game.addObserver(this);
     }
 
     public void handleTimerComplete() {
@@ -55,88 +46,57 @@ public class GameTwoTeamsController extends GameController {
 
         if (game.getRemainingCardGuess() > 0 && !card.isGuessed()){
             
-            String path = null;
-            Random rand = new Random();
+            Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
+            transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
+            card.getStackPane().getChildren().add(transparency);
+            card.guessed();
 
             switch (card.getCardType()) {
                 case Black:
-                    path = String.valueOf(getClass().getResource("/assassin.jpg"));
-                    loadingBarController.stop();
-                    game.wrongGuess(CardType.Black, loadingBarController.getElapsedSeconds());
+                    loadingBarView.stop();
+                    game.wrongGuess(CardType.Black, loadingBarView.getElapsedSeconds());
                     game.ends();
-                    if (game.isBlueTurn())
-                        info.setText("Red Team win");
-                    else
-                        info.setText("Blue Team win");
                     button.setVisible(false);
+                    alertWrongGuest("Black Card selected, you lose");
                     displayStatistics();
                     break;
                 case White:
-                    
-                    
-                    if (rand.nextBoolean()) {
-                        path = String.valueOf(getClass().getResource("/White1.jpg"));
-                    } else {
-                        path = String.valueOf(getClass().getResource("/White2.jpg"));
-                    }
-                    loadingBarController.stop();
-                    game.wrongGuess(CardType.White, loadingBarController.getElapsedSeconds());
+                    loadingBarView.stop();
+                    game.wrongGuess(CardType.White, loadingBarView.getElapsedSeconds());
                     break;
                 case Blue:
-                    if (rand.nextBoolean()) {
-                        path = String.valueOf(getClass().getResource("/Blue1.jpg"));
-                    } else {
-                        path = String.valueOf(getClass().getResource("/Blue2.jpg"));
-                    }
                     if (game.isBlueTurn()) {
                         game.correctGuess();
                     } else {
-                        loadingBarController.stop();
-                        game.wrongGuess(CardType.Blue, loadingBarController.getElapsedSeconds());
+                        loadingBarView.stop();
+                        game.wrongGuess(CardType.Blue, loadingBarView.getElapsedSeconds());
+                        alertWrongGuest("Blue Card selected, your turn ends");
                     }
                     break;
                 case Red:
-                    if (rand.nextBoolean()) {
-                        path = String.valueOf(getClass().getResource("/Red1.jpg"));
-                    } else {
-                        path = String.valueOf(getClass().getResource("/Red2.jpg"));
-                    }
                     if (!game.isBlueTurn()) {
                         game.correctGuess();
                     } else {
-                        loadingBarController.stop();
-                        game.wrongGuess(CardType.Red, loadingBarController.getElapsedSeconds());
+                        loadingBarView.stop();
+                        game.wrongGuess(CardType.Red, loadingBarView.getElapsedSeconds());
+                        alertWrongGuest("Red Card selected, your turn ends");
                     }
                     break;
                 default:
                     break;
             }   
-
-            ImageView cover = new ImageView(new Image(path));
-            cover.fitHeightProperty().bind(card.getStackPane().heightProperty());
-            cover.fitWidthProperty().bind(card.getStackPane().widthProperty());
-            StackPane.setAlignment(cover, Pos.CENTER);
-            card.getStackPane().getChildren().add(cover);
-            card.guessed();
         }
         
 
         if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();
             displayStatistics();
-            if (game.isBlueTurn())
-                info.setText("Blue Team win");
-            else
-                info.setText("Red Team win");
             button.setVisible(false);
         } else if (game.getRemainingCardGuess() == 0 && game.isOnGoing()) {
-            loadingBarController.stop();
-            game.majStatTemps(loadingBarController.getElapsedSeconds());
-            if (game.isBlueTurn())
-                info.setText("Red turn");
-            else
-                info.setText("Blue turn");
+            loadingBarView.stop();
+            game.majStatTemps(loadingBarView.getElapsedSeconds());
         }
+        game.notifyObservers();
     }
 
     @FXML
@@ -159,10 +119,10 @@ public class GameTwoTeamsController extends GameController {
 
                     button.setVisible(false);
                 }
-                loadingBarController.start();
-                game.notifyObservers();
+                loadingBarView.start();
             });
         }
+        game.notifyObservers();
     }
 
     private Optional<String> askForNumberGuess() {
@@ -174,15 +134,6 @@ public class GameTwoTeamsController extends GameController {
         return dialog.showAndWait();
     }
 
-    public void startNewGame() {
-        // Implement new game logic
-    }
-
-    public void loadGame(File file) {
-        // Implement load game logic
-    }
-
-    public void saveGame(File file) {
-        // Implement save game logic
-    }
+    @Override
+    public void react() {}
 }

@@ -1,16 +1,14 @@
-package codenames.controller;
+package codenames.observers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
-public class InputDialogController {
+public class InputDialogView {
 
     public TextField inputField;
     private String word;
 
-    public InputDialogController() {
+    public InputDialogView() {
 
     }
 

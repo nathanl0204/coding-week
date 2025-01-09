@@ -1,5 +1,7 @@
-package codenames.controller;
+package codenames.observers;
 
+import codenames.structure.Game;
+import codenames.observers.Chronometer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -9,13 +11,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class LoadingBarController extends Chronometer {
+public class LoadingBarView extends Chronometer {
 
     @FXML private Rectangle background;
     @FXML private Rectangle bar;
     @FXML private StackPane stackPane;
 
-    private GameController gameController;
+    private Game game;
 
     private Timeline timeline = new Timeline();
     private boolean isComplete;
@@ -23,17 +25,16 @@ public class LoadingBarController extends Chronometer {
     private int seconds;
     private double height;
 
-    public LoadingBarController() {}
-
-    public LoadingBarController(int seconds,double height) {
+    public LoadingBarView(Game game, int seconds, double height) {
+        this.game = game;
+        this.height = height;
         this.height = height;
         this.seconds = seconds;
         isComplete = false;
     }
 
-
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(Game game) {
+        this.game = game;
     }
 
     @FXML
@@ -44,6 +45,7 @@ public class LoadingBarController extends Chronometer {
         bar.widthProperty().bind(stackPane.widthProperty());
         bar.setHeight(height);
 
+        // Initialize the clip for the bar
         Rectangle clip = new Rectangle(0, height);
         bar.setClip(clip);
     }
@@ -74,7 +76,9 @@ public class LoadingBarController extends Chronometer {
 
         timeline.setOnFinished(event -> {
             isComplete = true;
-            gameController.handleTimerEnd();
+            if (game.isOnGoing()) {
+                game.setRemainingCardGuess(0);
+            }
         });
 
         timeline.play();

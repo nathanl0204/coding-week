@@ -1,10 +1,11 @@
-package codenames.controller;
+package codenames.observers;
 
+import codenames.structure.Game;
 import codenames.structure.Statistics;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class StatisticsController {
+public class StatisticsView implements Observer {
     @FXML
     private Label blueAverageTimeLabel;
     @FXML
@@ -31,19 +32,18 @@ public class StatisticsController {
     @FXML
     private Label redRemainingCardsLabel;
 
-    private Statistics blueTeamStatistics;
-    private Statistics redTeamStatistics;
+    private Game game;
 
-    public StatisticsController() {
+    public StatisticsView(Game game) {
+        this.game = game;
+        this.game.addObserver(this);
     }
 
-    public StatisticsController(Statistics blueTeamStatistics, Statistics redTeamStatistics) {
-        this.blueTeamStatistics = blueTeamStatistics;
-        this.redTeamStatistics = redTeamStatistics;
-    }
+    @Override
+    public void react() {
+        Statistics blueTeamStatistics = this.game.getBlueStatistics();
+        Statistics redTeamStatistics = this.game.getRedStatistics();
 
-    @FXML
-    public void initialize() {
         blueAverageTimeLabel.setText("Average Time Per Round: " + String.format("%.2f", blueTeamStatistics.getAverageTimePerTurn()) + " seconds");
         blueAverageCardsLabel.setText("Average Cards Per Round: " + String.format("%.2f", blueTeamStatistics.getAverageCardsPerTurn()));
         blueNumberOfErrorsLabel.setText("Errors: " + blueTeamStatistics.getNumberOfErrors());

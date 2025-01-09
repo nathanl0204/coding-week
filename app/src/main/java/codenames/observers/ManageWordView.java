@@ -1,6 +1,6 @@
-package codenames.controller;
+package codenames.observers;
 
-import codenames.controller.view.InputDialogView;
+import codenames.observers.view.InputDialogView;
 import codenames.structure.ThemedDeck;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.List;
 
 
-public class ManageWordController {
+public class ManageWordView {
 
     public ListView<String> wordsContainer;
     public ListView<String> listContainer;
@@ -19,7 +19,7 @@ public class ManageWordController {
     private ThemedDeck currentDeck = new ThemedDeck();
     private Integer selectedIndexListContainer = null;
 
-    public ManageWordController() {
+    public ManageWordView() {
     }
 
     public void initialize() {
