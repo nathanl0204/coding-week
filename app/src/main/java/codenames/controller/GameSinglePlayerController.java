@@ -96,20 +96,20 @@ public class GameSinglePlayerController extends GameController {
                     game.wrongGuess(CardType.Black);
                     game.ends();
                     info.setText("The AI chose the black card, blue team wins !");
-                    alertOpponentAIMove("The AI chose the black card, blue team wins !");
+                    alertOpponentAIMove("Your opponent chose the black card, you win !");
                     button.setVisible(false);
                     displayStatistics();
                     break;
                 case White:
                     game.wrongGuess(CardType.White);
-                    alertOpponentAIMove("The AI chose a white card");
+                    alertOpponentAIMove("Your opponent chose a white card");
                     break;
                 case Blue:
-                    alertOpponentAIMove("The AI chose a blue card");
+                    alertOpponentAIMove("Your opponent chose a blue card");
                     game.wrongGuess(CardType.Blue);
                     break;
                 case Red:
-                    alertOpponentAIMove("The AI chose a red card");
+                    alertOpponentAIMove("Your opponent chose a red card");
                     game.correctGuess();
                     break;
                 default:
@@ -138,6 +138,7 @@ public class GameSinglePlayerController extends GameController {
     @FXML
     public void handleButton() {
         if (game.getRemainingCardGuess() == 0) {
+            AllyAI.play();
             askForNumberGuess().ifPresent(n -> {
                 int N = Integer.parseInt(n);
                 if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind())
