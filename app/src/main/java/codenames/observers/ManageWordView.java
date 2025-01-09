@@ -1,4 +1,4 @@
-package codenames.controller;
+package codenames.observers;
 
 import codenames.controller.view.InputDialogView;
 import codenames.structure.ThemedDeck;

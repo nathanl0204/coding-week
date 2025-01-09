@@ -1,4 +1,4 @@
-package codenames.controller;
+package codenames.observers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

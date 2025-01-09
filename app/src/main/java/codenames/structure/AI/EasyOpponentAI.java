@@ -1,19 +1,19 @@
 package codenames.structure.AI;
 
-import codenames.controller.*;
+import codenames.observers.*;
 import codenames.structure.*;
 
 import java.util.*;
 
 public class EasyOpponentAI extends OpponentAI {
 
-    public EasyOpponentAI(GameController gameController) {
-        super(gameController);
+    public EasyOpponentAI(GameView gameView) {
+        super(gameView);
     }
 
     @Override
     public void play() {
-        Game game = gameController.getGame();
+        Game game = gameView.getGame();
         Deck deck = game.getDeck();
 
         List<PlayableCard> remainingRedCards = deck.getRemainingRedCards();
@@ -29,7 +29,7 @@ public class EasyOpponentAI extends OpponentAI {
         List<PlayableCard> selectedCards = remainingCards.subList(0, Math.min(cardsToGuess, remainingCards.size()));
 
         for (PlayableCard card : selectedCards) {
-            gameController.processCardSelection(card);
+            gameView.processCardSelection(card);
         }
     }
 }

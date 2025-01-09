@@ -1,4 +1,4 @@
-package codenames.controller;
+package codenames.observers;
 
 import java.util.Optional;
 import codenames.structure.CardType;
@@ -13,14 +13,11 @@ import javafx.scene.shape.Rectangle;
 import java.io.File;
 import javafx.application.Platform;
 
-public class GameTwoTeamsController extends GameController {
+public class GameTwoTeamsView extends GameView {
 
-    public GameTwoTeamsController() {
-        super();
-    }
-
-    public GameTwoTeamsController(GameTwoTeams game) {
+    public GameTwoTeamsView(GameTwoTeams game) {
         super(game);
+        this.game.addObserver(this);
     }
 
     public void handleTimerComplete() {
@@ -37,6 +34,7 @@ public class GameTwoTeamsController extends GameController {
                 
             });
         }
+
     }
 
     @FXML
@@ -56,27 +54,23 @@ public class GameTwoTeamsController extends GameController {
 
             switch (card.getCardType()) {
                 case Black:
-                    loadingBarController.stop();
-                    game.wrongGuess(CardType.Black, loadingBarController.getElapsedSeconds());
+                    loadingBarView.stop();
+                    game.wrongGuess(CardType.Black, loadingBarView.getElapsedSeconds());
                     game.ends();
-                    if (game.isBlueTurn())
-                        info.setText("Red Team win");
-                    else
-                        info.setText("Blue Team win");
                     button.setVisible(false);
                     alertWrongGuest("Black Card selected, you lose");
                     displayStatistics();
                     break;
                 case White:
-                    loadingBarController.stop();
-                    game.wrongGuess(CardType.White, loadingBarController.getElapsedSeconds());
+                    loadingBarView.stop();
+                    game.wrongGuess(CardType.White, loadingBarView.getElapsedSeconds());
                     break;
                 case Blue:
                     if (game.isBlueTurn()) {
                         game.correctGuess();
                     } else {
-                        loadingBarController.stop();
-                        game.wrongGuess(CardType.Blue, loadingBarController.getElapsedSeconds());
+                        loadingBarView.stop();
+                        game.wrongGuess(CardType.Blue, loadingBarView.getElapsedSeconds());
                         alertWrongGuest("Blue Card selected, your turn ends");
                     }
                     break;
@@ -84,8 +78,8 @@ public class GameTwoTeamsController extends GameController {
                     if (!game.isBlueTurn()) {
                         game.correctGuess();
                     } else {
-                        loadingBarController.stop();
-                        game.wrongGuess(CardType.Red, loadingBarController.getElapsedSeconds());
+                        loadingBarView.stop();
+                        game.wrongGuess(CardType.Red, loadingBarView.getElapsedSeconds());
                         alertWrongGuest("Red Card selected, your turn ends");
                     }
                     break;
@@ -98,19 +92,12 @@ public class GameTwoTeamsController extends GameController {
         if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();
             displayStatistics();
-            if (game.isBlueTurn())
-                info.setText("Blue Team win");
-            else
-                info.setText("Red Team win");
             button.setVisible(false);
         } else if (game.getRemainingCardGuess() == 0 && game.isOnGoing()) {
-            loadingBarController.stop();
-            game.majStatTemps(loadingBarController.getElapsedSeconds());
-            if (game.isBlueTurn())
-                info.setText("Red turn");
-            else
-                info.setText("Blue turn");
+            loadingBarView.stop();
+            game.majStatTemps(loadingBarView.getElapsedSeconds());
         }
+        game.notifyObservers();
     }
 
     @FXML
@@ -133,10 +120,10 @@ public class GameTwoTeamsController extends GameController {
 
                     button.setVisible(false);
                 }
-                loadingBarController.start(5);
-                game.notifyObservers();
+                loadingBarView.start(5);
             });
         }
+        game.notifyObservers();
     }
 
     private Optional<String> askForNumberGuess() {
@@ -146,17 +133,5 @@ public class GameTwoTeamsController extends GameController {
         dialog.setContentText("Number :");
 
         return dialog.showAndWait();
-    }
-
-    public void startNewGame() {
-        // Implement new game logic
-    }
-
-    public void loadGame(File file) {
-        // Implement load game logic
-    }
-
-    public void saveGame(File file) {
-        // Implement save game logic
     }
 }
