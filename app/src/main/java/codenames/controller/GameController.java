@@ -3,7 +3,6 @@ package codenames.controller;
 import java.io.IOException;
 
 import codenames.structure.Game;
-import codenames.structure.ImageCard;
 import codenames.structure.PlayableCard;
 import codenames.structure.TextCard;
 import javafx.event.Event;

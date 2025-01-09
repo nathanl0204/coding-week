@@ -10,8 +10,57 @@ public class DeckFactory {
 
     public DeckFactory(){}
 
-    public DeckSinglePlayer createDeckSinglePlayer(){
-        return null;
+
+    private class Tmp {
+        public String word;
+        public List<String> hints;
+
+        public Tmp(String word,List<String> hints){
+            this.word = word;
+            this.hints = hints;
+        }
+    }   
+
+    public DeckSinglePlayer createDeckSinglePlayer(int numberOfCard){
+        List<PlayableCardWithHints> cards = new ArrayList<>();
+
+        List<ThemedDeck> allThemedDeck = ThemedDeckDB.getInstance().getData();
+
+        //allThemedDeck.forEach(deck -> System.out.println(deck.getWords()));
+    
+        allThemedDeck.removeIf( deck -> deck.getWords().size() == 0);
+
+        int totalWords = allThemedDeck.stream()
+                              .mapToInt(deck -> deck.getWords().size())
+                              .sum();
+
+        if (totalWords >= numberOfCard){
+
+/* 
+            List<Tmp> allTmps = allThemedDeck.stream()
+                .flatMap(deck -> tmp.getWords()
+                                    =
+                                                    
+                
+                
+                )
+                .collect(Collectors.toList());
+
+
+            Collections.shuffle(allCards);
+
+            allCards.subList(0, numberOfCard);
+
+            allCards.stream()
+                .flatMap(null)
+                .collect(Collectors.toList());
+
+        */                                        
+        }
+
+        Collections.shuffle(cards);
+
+        return new DeckSinglePlayer(cards);
     }
 
     public DeckTwoTeams createDeckTwoTeams(int numberOfCard) /*throws Exception*/{
