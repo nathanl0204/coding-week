@@ -150,7 +150,6 @@ public class GameSinglePlayerController extends GameController {
                 else
                     info.setText("Red turn");
             });
-
         }
     }
 
