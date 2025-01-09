@@ -38,24 +38,6 @@
                 <MenuItem text="Préférences" onAction="#handlePreferences" />
             </items>
         </Menu>
-        <Menu text="Jeu">
-            <items>
-                <Menu text="Mode de jeu">
-                    <items>
-                        <RadioMenuItem text="Classique" selected="true" fx:id="classicMode">
-                            <toggleGroup>
-                                <ToggleGroup fx:id="modeGroup" />
-                            </toggleGroup>
-                        </RadioMenuItem>
-                        <RadioMenuItem text="Duo" fx:id="duoMode" toggleGroup="$modeGroup" />
-                        <RadioMenuItem text="Solo" fx:id="soloMode" toggleGroup="$modeGroup" />
-                    </items>
-                </Menu>
-                <CheckMenuItem text="Mode Blitz" fx:id="blitzMode" onAction="#handleBlitzMode" />
-                <SeparatorMenuItem />
-                <MenuItem text="Statistiques" onAction="#handleStatistics" />
-            </items>
-        </Menu>
         <Menu text="Aide">
             <items>
                 <MenuItem text="Règles du jeu" onAction="#handleRules" />

@@ -1,6 +1,7 @@
 package codenames.observers;
 
 import codenames.structure.Game;
+import codenames.observers.Chronometer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -10,33 +11,38 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class LoadingBarView extends StackPane implements Observer {
-    @FXML
-    private Rectangle background;
-    @FXML
-    private Rectangle bar;
+public class LoadingBarView extends Chronometer {
+
+    @FXML private Rectangle background;
+    @FXML private Rectangle bar;
+    @FXML private StackPane stackPane;
 
     private Game game;
 
     private Timeline timeline = new Timeline();
-    private boolean isComplete = false;
-    private double elapsedSeconds;
+    private boolean isComplete;
 
-    private double width;
+    private int seconds;
     private double height;
 
-    public LoadingBarView(Game game, double width, double height) {
+    public LoadingBarView(Game game, int seconds, double height) {
         this.game = game;
         this.height = height;
-        this.width = width;
+        this.height = height;
+        this.seconds = seconds;
+        isComplete = false;
+    }
+
+    public void setGameController(Game game) {
+        this.game = game;
     }
 
     @FXML
     public void initialize() {
-        background.setWidth(width);
+        background.widthProperty().bind(stackPane.widthProperty());
         background.setHeight(height);
 
-        bar.setWidth(width);
+        bar.widthProperty().bind(stackPane.widthProperty());
         bar.setHeight(height);
 
         // Initialize the clip for the bar
@@ -44,13 +50,13 @@ public class LoadingBarView extends StackPane implements Observer {
         bar.setClip(clip);
     }
 
-    public void start(int seconds) {
+    public void start() {
         if (timeline != null) {
             timeline.stop();
         }
 
         isComplete = false;
-        elapsedSeconds = System.currentTimeMillis();
+        super.start();
 
         Rectangle clip = (Rectangle) bar.getClip();
         clip.setWidth(0);
@@ -70,8 +76,8 @@ public class LoadingBarView extends StackPane implements Observer {
 
         timeline.setOnFinished(event -> {
             isComplete = true;
-            if (this.game.isOnGoing()) {
-                this.game.setRemainingCardGuess(0);
+            if (game.isOnGoing()) {
+                game.setRemainingCardGuess(0);
             }
         });
 
@@ -86,28 +92,9 @@ public class LoadingBarView extends StackPane implements Observer {
     }
 
     public void stop() {
-        if (timeline != null && !isComplete) {
+        if (!isComplete) {
             timeline.stop();
+            super.stop();
         }
     }
-
-    public void reset() {
-        stop();
-        isComplete = false;
-        elapsedSeconds = 0;
-        Rectangle clip = (Rectangle) bar.getClip();
-        clip.setWidth(0);
-        bar.setFill(Color.DODGERBLUE);
-    }
-
-    public boolean isComplete() {
-        return isComplete;
-    }
-
-    public double getElapsedSeconds() {
-        return ( System.currentTimeMillis() - elapsedSeconds)/1000.0;
-    }
-
-    @Override
-    public void react() {}
 }
