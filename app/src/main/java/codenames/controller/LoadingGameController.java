@@ -19,6 +19,7 @@ import java.util.Scanner;
 
 import codenames.structure.CardType;
 import codenames.structure.Deck;
+import codenames.structure.DeckFactory;
 import codenames.structure.DeckSinglePlayer;
 import codenames.structure.DeckTwoTeams;
 import codenames.structure.Game;
@@ -62,15 +63,20 @@ public class LoadingGameController {
             if (width <= 0 || height <= 0) {
                 throw new NumberFormatException("Les dimensions doivent être supérieures à zéro.");
             }
-            int numberOfCard = width*height;
+            
 
             GameController gameController;
             Game game;
             Deck deck;
 
             if (selectedGameMode.endsWith("Two Teams")){
-                gameController = new GameTwoTeamsController(testGame());
+                DeckFactory factory = new DeckFactory();
 
+                
+                deck = factory.createDeckTwoTeams(height*width);
+                game = new GameTwoTeams((DeckTwoTeams) deck, width, width, height);
+                gameController = new GameTwoTeamsController( (GameTwoTeams) game);
+                
             }
             else {
                 // Creer les IA

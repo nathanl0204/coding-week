@@ -23,10 +23,11 @@ public class ManageWordController {
     }
 
     public void initialize() {
-        listContainer.setOnMouseClicked(e -> { 
-            loadcurrentDeck();
-
-        });
+        loadList();
+        if (!listContainer.getSelectionModel().isEmpty()){
+            listContainer.getSelectionModel().select(0);
+            displaycurrentDeck();
+        }
         update();
     }
 
@@ -166,16 +167,29 @@ public class ManageWordController {
     public void removeList() {
         if(listContainer.getSelectionModel() != null) {
             String fileName = listContainer.getSelectionModel().getSelectedItem();
-            String dirPath = "resources/wordslist/";
-            String filePath = dirPath + fileName;
-            File file = new File(filePath);
-            System.out.println(file.getAbsolutePath() + " " + file.exists());
-            if (file.exists()) {
-                if(file.delete()){
-                    update();
-                }
-        }
+            
+            String dirPathWords = "resources/wordslist/";
+            String filePathWords = dirPathWords+ fileName;
+            File fileWords = new File(filePathWords);
+            System.out.println(fileWords.getAbsolutePath() + " " + fileWords.exists());
+            if (fileWords.exists()) {
+                fileWords.delete();
+            }
+            
+            
+            String dirPathHints = "resources/hintlist/";
+            String filePathHints = dirPathHints + fileName;
+            File fileHints = new File(filePathHints);
+            System.out.println(fileHints.getAbsolutePath() + " " + fileHints.exists());
+            if (fileHints.exists()) {
+                fileHints.delete();
+            }
 
+            if (!listContainer.getSelectionModel().isEmpty()){
+                listContainer.getSelectionModel().select(0);
+            }
+            loadList();
+            update();
         }
     }
 

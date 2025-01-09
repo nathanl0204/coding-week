@@ -1,21 +1,22 @@
 package codenames.structure;
 import java.io.*;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ThemedDeckDB {
 
     private static  final ThemedDeckDB instance = new ThemedDeckDB();
-    private HashMap<String, ThemedDeck> data;
+    private List<ThemedDeck> data;
 
     private ThemedDeckDB() {
-        data = new HashMap<>();
+        data = new ArrayList<>();
     }
 
     public static ThemedDeckDB getInstance() {
         return instance;
     }
 
-    public HashMap<String, ThemedDeck> getData() {
+    public List<ThemedDeck> getData() {
         loadAll();
         return data;
     }
@@ -26,11 +27,15 @@ public class ThemedDeckDB {
 
         File dir = new File(dirPath);
         File[] fileList = dir.listFiles();
+        System.out.println(fileList);
 
-        if (fileList == null) return;
+        if (fileList == null) {
+            return;
+        }
 
         for (File f : fileList) {
-            data.put(f.getName(), loadFromFile(f.getName()));
+            data.add(loadFromFile(f.getName()));
+            System.out.println(f.getName());
         }
     }
 
@@ -45,12 +50,13 @@ public class ThemedDeckDB {
             try {
                 BufferedReader br = new BufferedReader(new FileReader(fileWord));
                 try {
-                    String line = "ee";
-                    while (line != null) {
-                        line = br.readLine();
-                        currentList.addWord(line);
-                    }br.close();
-
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        if (line != null && !line.trim().isEmpty() && !line.equals("null")) {
+                            currentList.addWord(line);
+                        }
+                    }
+                    br.close();
                 } catch (IOException e) {
                     
                     throw new RuntimeException(e);
@@ -69,12 +75,13 @@ public class ThemedDeckDB {
             try {
                 BufferedReader br = new BufferedReader(new FileReader(fileHint));
                 try {
-                    String line = "ee";
-                    while (line != null) {
-                        line = br.readLine();
-                        currentList.addHint(line);
-                    }br.close();
-
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        if (line != null && !line.trim().isEmpty() && !line.equals("null")) {
+                            currentList.addHint(line);
+                        }
+                    }
+                    br.close();
                 } catch (IOException e) {
                     
                     throw new RuntimeException(e);

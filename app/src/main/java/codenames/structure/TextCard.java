@@ -8,7 +8,7 @@ public class TextCard implements Card {
         this.text = text;
     }
 
-    public String getText(){
+    public String getString(){
         return text;
     }
 }   

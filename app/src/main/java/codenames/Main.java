@@ -10,12 +10,14 @@ import codenames.structure.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+/* 
         ManageWordView manageWordView = new ManageWordView();
         BorderPane manageWordPane = manageWordView.getGraphic();
 
@@ -25,8 +27,9 @@ public class Main extends Application {
         primaryStage.setMaximized(true);
         primaryStage.setTitle("CodeName");
         primaryStage.show();
-
-        /* 
+*/
+        
+/*
         GameTwoTeams game = testGame();
         
         LoadingBarController loadingBarController = new LoadingBarController(200, 20);
@@ -39,7 +42,7 @@ public class Main extends Application {
         gc.setLoadingBarController(loadingBarController);
         loadingBarController.setGameController(gc);
 
-        EasyOpponentAI ai = new EasyOpponentAI(gc);
+        //EasyOpponentAI ai = new EasyOpponentAI(gc);
 
 
         
@@ -60,12 +63,26 @@ public class Main extends Application {
         root.setRight(loader4.load());
 
         Scene scene = new Scene(root);
-        */
+        
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("CodeName");
         primaryStage.show();
-        */
+*/
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingGame.fxml"));
+        loader.setControllerFactory(iC->new LoadingGameController());
+        GridPane root = loader.load();
+
+        Scene scene = new Scene(root);
+
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+        primaryStage.setTitle("CodeName");
+        primaryStage.show();
+
+        
     }
 
     private GameTwoTeams testGame() {

@@ -77,7 +77,7 @@ public abstract class GameController {
 
             if (playableCard.getCard() instanceof TextCard) {
 
-                Label label =  new Label(((TextCard) playableCard.getCard()).getText());
+                Label label =  new Label(playableCard.getCard().getString());
                 label.setTextFill(playableCard.getColor());
                 ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
                 
@@ -85,7 +85,7 @@ public abstract class GameController {
                 playableCard.setStackPane(stackPane);
 
             } else {
-                ImageView imgView = new ImageView(new Image(((ImageCard) playableCard.getCard()).getUrl()));
+                ImageView imgView = new ImageView(new Image(playableCard.getCard().getString()));
 
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(imgView);
