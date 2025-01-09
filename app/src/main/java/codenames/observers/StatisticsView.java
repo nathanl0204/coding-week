@@ -4,7 +4,7 @@ import codenames.structure.Statistics;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class StatisticsView {
+public class StatisticsView implements Observer {
     @FXML
     private Label blueAverageTimeLabel;
     @FXML
@@ -58,5 +58,10 @@ public class StatisticsView {
         redNumberOfGuessLabel.setText("Correct Guesses: " + redTeamStatistics.getNumberOfCorrectGuess());
         redNumberOfTurnsLabel.setText("Turns: " + redTeamStatistics.getNumberOfTurns());
         redRemainingCardsLabel.setText("Remaining Cards: " + redTeamStatistics.getNumberOfRemainingCardsToFind());
+    }
+
+    @Override
+    public void react() {
+
     }
 }

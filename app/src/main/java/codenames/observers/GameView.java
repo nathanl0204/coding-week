@@ -10,6 +10,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -78,8 +79,11 @@ public abstract class GameView {
 
                 Label label =  new Label(((TextCard) playableCard.getCard()).getText());
                 label.setTextFill(playableCard.getColor());
+                label.setPadding(new Insets(35, 0, 0, 0));
                 ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
-                
+                background.setFitWidth(100);
+                background.setFitHeight(80);
+
                 stackPane.getChildren().addAll(background, label);
                 playableCard.setStackPane(stackPane);
 

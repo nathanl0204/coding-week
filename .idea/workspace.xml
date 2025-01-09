@@ -6,33 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="7f158f1b-0ab7-4125-b986-d2d6b628ee28" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/AllController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/GameSinglePlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameSinglePlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/GameTwoTeamsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameTwoTeamsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/LoadingBarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/LoadingBarView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/MenuBarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/MenuBarView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/Observer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/Observer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/StatisticsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/StatisticsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/TeamView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/TeamView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/AI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/AllyAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/AllyAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/EasyAllyAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/EasyAllyAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/EasyOpponentAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/EasyOpponentAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/HardAllyAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/HardAllyAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/HardOpponentAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/HardOpponentAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/MediumAllyAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/MediumAllyAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/MediumOpponentAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/MediumOpponentAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/OpponentAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/OpponentAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/All.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/BlueTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/BlueTeam.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/Game.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/Game.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/LoadingBar.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/LoadingBar.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/MenuBar.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/MenuBar.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/RedTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/RedTeam.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/all.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameSinglePlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameSinglePlayerView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameTwoTeamsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameTwoTeamsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/LoadingBarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/LoadingBarView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/MenuBarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/MenuBarView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/StatisticsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/StatisticsView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,24 +68,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "structure__rework",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/gapial/Bureau/TN/2A/PCD/coding_week/grp05/app/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "org.rust.first.attach.projects": "true",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;structure__rework&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/gapial/Bureau/TN/2A/PCD/coding_week/grp05/app/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/resources" />

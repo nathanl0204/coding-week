@@ -13,7 +13,7 @@ import javafx.scene.shape.Rectangle;
 import java.io.File;
 import javafx.application.Platform;
 
-public class GameTwoTeamsView extends GameView {
+public class GameTwoTeamsView extends GameView implements Observer {
 
     public GameTwoTeamsView() {
         super();
@@ -150,5 +150,10 @@ public class GameTwoTeamsView extends GameView {
 
     public void saveGame(File file) {
         // Implement save game logic
+    }
+
+    @Override
+    public void react() {
+
     }
 }

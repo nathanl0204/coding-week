@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class LoadingBarView extends StackPane {
+public class LoadingBarView extends StackPane implements Observer {
     @FXML
     private Rectangle background;
     @FXML
@@ -110,5 +110,10 @@ public class LoadingBarView extends StackPane {
 
     public double getElapsedSeconds() {
         return ( System.currentTimeMillis() - elapsedSeconds)/1000.0;
+    }
+
+    @Override
+    public void react() {
+
     }
 }

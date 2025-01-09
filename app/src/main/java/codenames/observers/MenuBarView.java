@@ -10,7 +10,7 @@ import java.io.File;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
-public class MenuBarView {
+public class MenuBarView implements Observer {
 
     @FXML
     private RadioMenuItem classicMode;
@@ -112,5 +112,10 @@ public class MenuBarView {
         alert.setHeaderText("Codenames");
         alert.setContentText("Version 1.0\nCréé par...");
         alert.showAndWait();
+    }
+
+    @Override
+    public void react() {
+
     }
 }
