@@ -14,9 +14,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
-
-import java.io.File;
 import javafx.application.Platform;
 
 public class GameTwoTeamsView extends GameView {

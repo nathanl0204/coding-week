@@ -8,7 +8,6 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.stage.FileChooser;
 import java.io.File;
 import javafx.application.Platform;
-import javafx.stage.Stage;
 
 public class MenuBarView implements Observer {
 

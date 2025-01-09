@@ -3,7 +3,6 @@ package codenames.structure;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class DeckFactory {
@@ -21,7 +20,7 @@ public class DeckFactory {
         }
     }   
 
-    public DeckSinglePlayer createDeckSinglePlayer(int numberOfCard){
+    public DeckSinglePlayer createTextDeckSinglePlayer(int numberOfCard){
         List<PlayableCardWithHints> cards = new ArrayList<>();
 
         List<ThemedDeck> allThemedDeck = ThemedDeckDB.getInstance().getData();
@@ -69,7 +68,7 @@ public class DeckFactory {
         return new DeckSinglePlayer(cards);
     }
 
-    public DeckTwoTeams createDeckTwoTeams(int numberOfCard) /*throws Exception*/{
+    public DeckTwoTeams createTextDeckTwoTeams(int numberOfCard) /*throws Exception*/{
         List<PlayableCard> cards = new ArrayList<>();
 
 

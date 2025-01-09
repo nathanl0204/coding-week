@@ -1,6 +1,5 @@
 package codenames.observers;
 
-import codenames.structure.AI.EasyOpponentAI;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import codenames.structure.CardType;
-import codenames.structure.Deck;
 import codenames.structure.DeckFactory;
 import codenames.structure.DeckSinglePlayer;
 import codenames.structure.DeckTwoTeams;
@@ -73,14 +71,14 @@ public class LoadingGameView {
                 
 
                 
-                DeckTwoTeams deck = factory.createDeckTwoTeams(height*width);
+                DeckTwoTeams deck = factory.createTextDeckTwoTeams(height*width);
                 game = new GameTwoTeams(deck, width, 7, 7);
                 gameView = new GameTwoTeamsView( (GameTwoTeams) game);
                 
             }
             else {
                 // Creer les IA
-                DeckSinglePlayer deck = factory.createDeckSinglePlayer(height*width);
+                DeckSinglePlayer deck = factory.createTextDeckSinglePlayer(height*width);
                 game = new GameSinglePlayer( deck, width, 7, 7);
                 gameView = new GameSinglePlayerView((GameSinglePlayer) game);
 

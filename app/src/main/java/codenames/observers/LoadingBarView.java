@@ -1,7 +1,6 @@
 package codenames.observers;
 
 import codenames.structure.Game;
-import codenames.observers.Chronometer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
