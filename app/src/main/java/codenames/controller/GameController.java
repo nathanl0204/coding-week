@@ -70,17 +70,18 @@ public abstract class GameController {
         int cols = game.getCols();
         final int[] currentPos = { 0, 0 };
 
-        game.getDeck().getCard().forEach(playableCard -> {
+        game.getDeck().getCards().forEach(playableCard -> {
 
             StackPane stackPane = new StackPane();
             gridPane.add(stackPane, currentPos[1], currentPos[0]);
 
             if (playableCard.getCard() instanceof TextCard) {
 
-                Label label =  new Label(((TextCard) playableCard.getCard()).getText());
+                Label label = new Label(((TextCard) playableCard.getCard()).getText());
                 label.setTextFill(playableCard.getColor());
-                ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
-                
+                ImageView background = new ImageView(
+                        new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
+
                 stackPane.getChildren().addAll(background, label);
                 playableCard.setStackPane(stackPane);
 
@@ -91,13 +92,14 @@ public abstract class GameController {
                 stackPane.getChildren().add(imgView);
                 playableCard.setStackPane(stackPane);
             }
-            
+
             stackPane.setOnMouseClicked(new EventHandler<Event>() {
                 @Override
                 public void handle(Event event) {
                     if (event instanceof MouseEvent) {
                         MouseEvent mouseEvent = (MouseEvent) event;
-                        if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed() && game.isOnGoing()) {  
+                        if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed()
+                                && game.isOnGoing()) {
                             processCardSelection(playableCard);
                         }
                     }

@@ -41,6 +41,14 @@ public class GameSinglePlayerController extends GameController {
         return OpponentAI;
     }
 
+    public void alertAllyAIHint(String hint, int number) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setContentText(
+                "Your spymaster tells you the following hint: " + hint + " corresponding to " + number + " cards");
+        alert.showAndWait();
+    }
+
     public void processCardSelection(PlayableCard card) {
 
         if (game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {

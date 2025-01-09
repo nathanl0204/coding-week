@@ -8,16 +8,16 @@ public interface Deck {
 
     public int size();
 
-    public List<PlayableCard> getCard();
+    public List<PlayableCard> getCards();
 
     default List<PlayableCard> getRemainingCards() {
-        return getCard().stream()
+        return getCards().stream()
                 .filter(card -> !card.isGuessed())
                 .collect(Collectors.toList());
     }
 
     default List<PlayableCard> getRemainingCardsByType(CardType type) {
-        return getCard().stream()
+        return getCards().stream()
                 .filter(card -> !card.isGuessed() && card.getCardType() == type)
                 .collect(Collectors.toList());
     }
