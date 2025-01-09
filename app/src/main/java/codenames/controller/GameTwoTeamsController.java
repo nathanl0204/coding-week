@@ -34,7 +34,7 @@ public class GameTwoTeamsController extends GameController {
                 alert.showAndWait();
 
                 game.setRemainingCardGuess(0);
-                
+
             });
         }
     }
@@ -47,8 +47,8 @@ public class GameTwoTeamsController extends GameController {
 
     public void processCardSelection(PlayableCard card) {
 
-        if (game.getRemainingCardGuess() > 0 && !card.isGuessed()){
-            
+        if (game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+
             Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
             transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
             card.getStackPane().getChildren().add(transparency);
@@ -91,9 +91,8 @@ public class GameTwoTeamsController extends GameController {
                     break;
                 default:
                     break;
-            }   
+            }
         }
-        
 
         if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();

@@ -44,6 +44,7 @@ public class GameSinglePlayerController extends GameController {
     public void alertAllyAIHint(String hint, int number) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information");
+        alert.setHeaderText("Ally");
         alert.setContentText(
                 "Your spymaster tells you the following hint: " + hint + " corresponding to " + number + " cards");
         alert.showAndWait();
@@ -90,26 +91,25 @@ public class GameSinglePlayerController extends GameController {
             card.getStackPane().getChildren().add(transparency);
             card.guessed();
 
-            System.out.println("the ai guessed");
             switch (card.getCardType()) {
                 case Black:
                     game.wrongGuess(CardType.Black);
                     game.ends();
                     info.setText("The AI chose the black card, blue team wins !");
-                    alertWrongGuest("The AI chose the black card, blue team wins !");
+                    alertOpponentAIMove("The AI chose the black card, blue team wins !");
                     button.setVisible(false);
                     displayStatistics();
                     break;
                 case White:
                     game.wrongGuess(CardType.White);
-                    alertWrongGuest("The AI chose a white card");
+                    alertOpponentAIMove("The AI chose a white card");
                     break;
                 case Blue:
-                    alertWrongGuest("The AI chose a blue card");
+                    alertOpponentAIMove("The AI chose a blue card");
                     game.wrongGuess(CardType.Blue);
                     break;
                 case Red:
-                    alertWrongGuest("The AI chose a red card");
+                    alertOpponentAIMove("The AI chose a red card");
                     game.correctGuess();
                     break;
                 default:

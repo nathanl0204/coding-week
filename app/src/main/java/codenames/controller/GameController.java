@@ -124,6 +124,14 @@ public abstract class GameController {
         alert.showAndWait();
     }
 
+    public void alertOpponentAIMove(String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText("Opponent");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     @FXML
     public abstract void handleButton();
 
