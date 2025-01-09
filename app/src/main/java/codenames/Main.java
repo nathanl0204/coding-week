@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Arrays;
 
 import codenames.controller.*;
-import codenames.controller.view.ManageWordView;
 import codenames.structure.*;
-import codenames.structure.AI.EasyOpponentAI;
+import codenames.structure.AI.*;
 import javafx.application.Application;
 import javafx.scene.layout.*;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +44,7 @@ public class Main extends Application {
                 gc.setLoadingBarController(loadingBarController);
                 loadingBarController.setGameController(gc);
 
-                EasyOpponentAI ai = new EasyOpponentAI(gc);
+                MediumOpponentAI ai = new MediumOpponentAI(gc);
                 gc.setOpponentAI(ai);
 
                 FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
