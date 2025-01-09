@@ -3,34 +3,51 @@ package codenames.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class LoadingBar extends StackPane {
-    private final Rectangle background;
-    private final Rectangle bar;
-    private Timeline timeline;
+public class LoadingBarController extends StackPane {
+    @FXML
+    private Rectangle background;
+    @FXML
+    private Rectangle bar;
+
+    private GameController gameController;
+
+    private Timeline timeline = new Timeline();
     private boolean isComplete = false;
-    private int elapsedSeconds = 0;
-    private int totalSeconds = 0;
+    private double elapsedSeconds;
 
-    public LoadingBar(double width, double height) {
-        background = new Rectangle(width, height);
-        background.setFill(Color.LIGHTGRAY);
-        background.setArcWidth(15);
-        background.setArcHeight(15);
+    private double width;
+    private double height;
 
-        bar = new Rectangle(width, height);
-        bar.setFill(Color.DODGERBLUE);
-        bar.setArcWidth(15);
-        bar.setArcHeight(15);
+    public LoadingBarController() {
+    }
 
+    public LoadingBarController(double width, double height) {
+        this.height = height;
+        this.width = width;
+
+    }
+
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
+    }
+
+    @FXML
+    public void initialize() {
+        background.setWidth(width);
+        background.setHeight(height);
+
+        bar.setWidth(width);
+        bar.setHeight(height);
+
+        // Initialize the clip for the bar
         Rectangle clip = new Rectangle(0, height);
         bar.setClip(clip);
-
-        getChildren().addAll(background, bar);
     }
 
     public void start(int seconds) {
@@ -39,44 +56,27 @@ public class LoadingBar extends StackPane {
         }
 
         isComplete = false;
-        elapsedSeconds = 0;
-        totalSeconds = seconds;
+        elapsedSeconds = System.currentTimeMillis();
+
         Rectangle clip = (Rectangle) bar.getClip();
         clip.setWidth(0);
         bar.setFill(Color.DODGERBLUE);
 
-        timeline = new Timeline();
-
-        // Ajout des keyframes pour la progression et le changement de couleur
+        timeline.getKeyFrames().clear();
         for (int i = 0; i <= seconds; i++) {
             double progress = (double) i / seconds;
             Color color = interpolateColor(Color.DODGERBLUE, Color.RED, progress);
-
+            
             timeline.getKeyFrames().add(
                     new KeyFrame(
                             Duration.seconds(i),
                             new KeyValue(clip.widthProperty(), background.getWidth() * progress),
-                            new KeyValue(bar.fillProperty(), color)
-                    )
-            );
+                            new KeyValue(bar.fillProperty(), color)));
         }
-
-        // Mise à jour du temps écoulé
-        KeyFrame updateFrame = new KeyFrame(Duration.seconds(1), event -> {
-            elapsedSeconds++;
-            if (elapsedSeconds >= totalSeconds) {
-                isComplete = true;
-                stop();
-            }
-        });
-
-        Timeline updateTimeline = new Timeline(updateFrame);
-        updateTimeline.setCycleCount(seconds);
-        updateTimeline.play();
 
         timeline.setOnFinished(event -> {
             isComplete = true;
-            stop();
+            gameController.handleTimerEnd();
         });
 
         timeline.play();
@@ -108,7 +108,7 @@ public class LoadingBar extends StackPane {
         return isComplete;
     }
 
-    public int getRemainingSeconds() {
-        return totalSeconds - elapsedSeconds;
+    public double getElapsedSeconds() {
+        return ( System.currentTimeMillis() - elapsedSeconds)/1000.0;
     }
 }

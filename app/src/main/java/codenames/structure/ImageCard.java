@@ -1,11 +1,10 @@
 package codenames.structure;
 
-public class ImageCard extends Card{
+public class ImageCard implements Card{
     
     private String url;
 
-    public ImageCard(CardType cardType, String url){
-        super(cardType);
+    public ImageCard(String url){
         this.url = url;
     }
 
