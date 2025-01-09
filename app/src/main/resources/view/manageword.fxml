@@ -14,22 +14,38 @@
             <Label text="Manage list" />
             <HBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="100.0">
                <children>
-                  <Button fx:id="addNewList" mnemonicParsing="false" text="+" />
-                  <Button fx:id="removeList" mnemonicParsing="false" text="-" />
+                  <Button onAction="#addNewList" mnemonicParsing="false" text="+" />
+                  <Button onAction="#removeList" mnemonicParsing="false" text="-" />
                </children>
             </HBox>
             <ListView fx:id="listContainer" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </VBox>
    </left>
+
+   <center>
+      <VBox prefHeight="400.0" prefWidth="145.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Manage hints in list" />
+            <HBox alignment="TOP_CENTER" prefHeight="53.0" prefWidth="123.0">
+               <children>
+                  <Button onAction="#addHintInList" mnemonicParsing="false" text="+" />
+                  <Button onAction="#removeHintInList" mnemonicParsing="false" text="-" />
+               </children>
+            </HBox>
+            <ListView fx:id="hintsContainer" prefHeight="200.0" prefWidth="152.0" />
+         </children>
+      </VBox>
+   </center>
+
    <right>
       <VBox prefHeight="400.0" prefWidth="145.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Manage words in list" />
             <HBox alignment="TOP_CENTER" prefHeight="53.0" prefWidth="123.0">
                <children>
-                  <Button fx:id="addWordInList" mnemonicParsing="false" text="+" />
-                  <Button fx:id="removeWordInList" mnemonicParsing="false" text="-" />
+                  <Button onAction="#addWordInList" mnemonicParsing="false" text="+" />
+                  <Button onAction="#removeWordInList" mnemonicParsing="false" text="-" />
                </children>
             </HBox>
             <ListView fx:id="wordsContainer" prefHeight="200.0" prefWidth="152.0" />
