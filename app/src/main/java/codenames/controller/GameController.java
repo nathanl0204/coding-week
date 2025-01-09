@@ -39,7 +39,7 @@ public abstract class GameController {
     protected Game game;
 
     @FXML
-    protected LoadingBarController loadingBarController = null;
+    protected Chronometer loadingBarController;
 
     public GameController() {
     }
@@ -48,7 +48,7 @@ public abstract class GameController {
         this.game = game;
     }
 
-    public void setLoadingBarController(LoadingBarController loadingBarController) {
+    public void setLoadingBarController(Chronometer loadingBarController) {
         this.loadingBarController = loadingBarController;
         blitzMode = true;
     }

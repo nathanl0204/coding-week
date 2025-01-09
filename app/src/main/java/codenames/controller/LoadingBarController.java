@@ -9,29 +9,28 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class LoadingBarController extends StackPane {
-    @FXML
-    private Rectangle background;
-    @FXML
-    private Rectangle bar;
+public class LoadingBarController extends Chronometer {
+
+    @FXML private Rectangle background;
+    @FXML private Rectangle bar;
+    @FXML private StackPane stackPane;
 
     private GameController gameController;
 
     private Timeline timeline = new Timeline();
-    private boolean isComplete = false;
-    private double elapsedSeconds;
+    private boolean isComplete;
 
-    private double width;
+    private int seconds;
     private double height;
 
-    public LoadingBarController() {
-    }
+    public LoadingBarController() {}
 
-    public LoadingBarController(double width, double height) {
+    public LoadingBarController(int seconds,double height) {
         this.height = height;
-        this.width = width;
-
+        this.seconds = seconds;
+        isComplete = false;
     }
+
 
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
@@ -39,24 +38,23 @@ public class LoadingBarController extends StackPane {
 
     @FXML
     public void initialize() {
-        background.setWidth(width);
+        background.widthProperty().bind(stackPane.widthProperty());
         background.setHeight(height);
 
-        bar.setWidth(width);
+        bar.widthProperty().bind(stackPane.widthProperty());
         bar.setHeight(height);
 
-        // Initialize the clip for the bar
         Rectangle clip = new Rectangle(0, height);
         bar.setClip(clip);
     }
 
-    public void start(int seconds) {
+    public void start() {
         if (timeline != null) {
             timeline.stop();
         }
 
         isComplete = false;
-        elapsedSeconds = System.currentTimeMillis();
+        super.start();
 
         Rectangle clip = (Rectangle) bar.getClip();
         clip.setWidth(0);
@@ -90,25 +88,9 @@ public class LoadingBarController extends StackPane {
     }
 
     public void stop() {
-        if (timeline != null && !isComplete) {
+        if (!isComplete) {
             timeline.stop();
+            super.stop();
         }
-    }
-
-    public void reset() {
-        stop();
-        isComplete = false;
-        elapsedSeconds = 0;
-        Rectangle clip = (Rectangle) bar.getClip();
-        clip.setWidth(0);
-        bar.setFill(Color.DODGERBLUE);
-    }
-
-    public boolean isComplete() {
-        return isComplete;
-    }
-
-    public double getElapsedSeconds() {
-        return ( System.currentTimeMillis() - elapsedSeconds)/1000.0;
     }
 }

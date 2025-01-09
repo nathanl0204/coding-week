@@ -6,9 +6,7 @@ import java.util.Arrays;
 
 import codenames.controller.*;
 import codenames.structure.*;
-import codenames.structure.AI.EasyOpponentAI;
 import javafx.application.Application;
-import javafx.scene.layout.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,6 +15,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        LoadingGameController loadingGameController = new LoadingGameController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingGame.fxml"));
+        loader.setControllerFactory(iC-> loadingGameController);
+        
+        Scene scene = new Scene(loader.load());
+
+        /* 
         GameTwoTeams game = testGame();
         
         LoadingBarController loadingBarController = new LoadingBarController(200, 20);
@@ -50,6 +55,7 @@ public class Main extends Application {
         root.setRight(loader4.load());
 
         Scene scene = new Scene(root);
+        */
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("CodeName");

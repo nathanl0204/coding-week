@@ -133,7 +133,7 @@ public class GameTwoTeamsController extends GameController {
 
                     button.setVisible(false);
                 }
-                loadingBarController.start(5);
+                loadingBarController.start();
                 game.notifyObservers();
             });
         }
