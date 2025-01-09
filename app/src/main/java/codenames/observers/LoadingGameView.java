@@ -1,5 +1,6 @@
-package codenames.controller;
+package codenames.observers;
 
+import codenames.structure.AI.EasyOpponentAI;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
@@ -27,7 +29,7 @@ import codenames.structure.PlayableCard;
 import codenames.structure.TextCard;
 import javafx.collections.FXCollections;
 
-public class LoadingGameController {
+public class LoadingGameView {
 
     @FXML private CheckBox blitzMode;
     @FXML private ComboBox<String> gameMode;
@@ -36,7 +38,7 @@ public class LoadingGameController {
     @FXML private TextField blitzTime;
     @FXML private Label blitzLabel;
 
-    public LoadingGameController(){}
+    public LoadingGameView(){}
 
     @FXML
     public void initialize() {
@@ -63,7 +65,7 @@ public class LoadingGameController {
             }
             
 
-            GameController gameController;
+            GameView gameView;
             Game game;
             Deck deck;
 
@@ -73,14 +75,14 @@ public class LoadingGameController {
                 
                 deck = factory.createDeckTwoTeams(height*width);
                 game = new GameTwoTeams((DeckTwoTeams) deck, width, width, height);
-                gameController = new GameTwoTeamsController( (GameTwoTeams) game);
+                gameView = new GameTwoTeamsView( (GameTwoTeams) game);
                 
             }
             else {
                 // Creer les IA
                 deck = new DeckSinglePlayer(null);
                 game = new GameSinglePlayer((DeckSinglePlayer) deck, width, 9, 9);
-                gameController = new GameSinglePlayerController((GameSinglePlayer) game);
+                gameView = new GameSinglePlayerView((GameSinglePlayer) game);
                 
             }
 
@@ -92,24 +94,43 @@ public class LoadingGameController {
                     throw new NumberFormatException("Le temps pour Blitz doit être supérieur à zéro.");
                 }
 
-                loadingBarController = new LoadingBarController(blitzDuration, 20);
-                ((LoadingBarController) loadingBarController).setGameController(gameController);
+                loadingBarController = new LoadingBarView(game, blitzDuration, 20);
+                ((LoadingBarView) loadingBarController).setGameController(game);
                 
             }
             else {
                 loadingBarController = new Chronometer();
             }
 
-            gameController.setLoadingBarController(loadingBarController);
+            gameView.setLoadingBarView(loadingBarController);
             
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
             loader.setControllerFactory(controllerClass -> {
-                if (controllerClass.equals(GameController.class)) return gameController;
-                else if (controllerClass.equals(LoadingBarController.class)) return loadingBarController;
+                if (controllerClass.equals(GameView.class)) return gameView;
+                else if (controllerClass.equals(LoadingBarView.class)) return loadingBarController;
                 else return null;
             });
 
-            Scene scene = new Scene(loader.load());
+            BorderPane root = new BorderPane();
+            root.setCenter(loader.load());
+
+            FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
+            menuLoader.setControllerFactory(iC-> new MenuBarView(game));
+            root.setTop(menuLoader.load());
+
+            FXMLLoader loader3 = new FXMLLoader();
+            loader3.setLocation(getClass().getResource("/view/BlueTeam.fxml"));
+            TeamView blueTeamView = new TeamView(game, true);
+            loader3.setControllerFactory(iC->blueTeamView);
+            root.setLeft(loader3.load());
+
+            FXMLLoader loader4 = new FXMLLoader();
+            loader4.setLocation(getClass().getResource("/view/RedTeam.fxml"));
+            TeamView redTeamView = new TeamView(game, false);
+            loader4.setControllerFactory(iC->redTeamView);
+            root.setRight(loader4.load());
+
+            Scene scene = new Scene(root);
 
             Stage currentStage = (Stage) blitzLabel.getScene().getWindow();
 

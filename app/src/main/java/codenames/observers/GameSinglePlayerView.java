@@ -1,4 +1,4 @@
-package codenames.controller;
+package codenames.observers;
 
 import codenames.structure.AI.*;
 
@@ -12,17 +12,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class GameSinglePlayerController extends GameController {
-
+public class GameSinglePlayerView extends GameView {
     private AI AllyAI;
     private AI OpponentAI;
 
-    public GameSinglePlayerController() {
-        super();
-    }
-
-    public GameSinglePlayerController(GameSinglePlayer game) {
+    public GameSinglePlayerView(GameSinglePlayer game) {
         super(game);
+        this.game.addObserver(this);
     }
 
     public void setAllyAI(AI allyAI) {
@@ -42,8 +38,6 @@ public class GameSinglePlayerController extends GameController {
     }
 
     public void processCardSelection(PlayableCard card) {
-       
-
         if (game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
 
             Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
@@ -57,7 +51,6 @@ public class GameSinglePlayerController extends GameController {
                     alertWrongGuest("Black Card selected, you lose");
                     game.wrongGuess(CardType.Black);
                     game.ends();
-                    info.setText("Red Team win");
                     button.setVisible(false);
                     displayStatistics();
                     break;
@@ -84,26 +77,21 @@ public class GameSinglePlayerController extends GameController {
             card.getStackPane().getChildren().add(transparency);
             card.guessed();
 
-            System.out.println("the ai guessed");
             switch (card.getCardType()) {
                 case Black:
                     game.wrongGuess(CardType.Black);
                     game.ends();
-                    info.setText("The AI chose the black card, blue team wins !");
                     alertWrongGuest("The AI chose the black card, blue team wins !");
                     button.setVisible(false);
                     displayStatistics();
                     break;
                 case White:
                     game.wrongGuess(CardType.White);
-                    alertWrongGuest("The AI chose a white card");
                     break;
                 case Blue:
-                    alertWrongGuest("The AI chose a blue card");
                     game.wrongGuess(CardType.Blue);
                     break;
                 case Red:
-                    alertWrongGuest("The AI chose a red card");
                     game.correctGuess();
                     break;
                 default:
@@ -112,22 +100,16 @@ public class GameSinglePlayerController extends GameController {
         }
         if (game.getRemainingCardGuess() == 0 && game.isOnGoing()) {
             if (game.isBlueTurn()) {
-                info.setText("Red turn");
                 game.changeTurn(0);
                 EasyOpponentAI ai = new EasyOpponentAI(this);
                 ai.play();
-            } else
-                info.setText("Blue turn");
+            }
         } else if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();
             displayStatistics();
-            if (game.isBlueTurn())
-                info.setText("Blue Team win");
-            else
-                info.setText("Red Team win");
             button.setVisible(false);
         }
-
+        game.notifyObservers();
     }
 
     @FXML
@@ -144,13 +126,9 @@ public class GameSinglePlayerController extends GameController {
                     alert.setContentText("Please enter a number less than the number of cards you have left to guess");
                     alert.showAndWait();
                 }
-
-                if (game.isBlueTurn())
-                    info.setText("Blue turn");
-                else
-                    info.setText("Red turn");
             });
         }
+        game.notifyObservers();
     }
 
     private Optional<String> askForNumberGuess() {
@@ -161,5 +139,4 @@ public class GameSinglePlayerController extends GameController {
 
         return dialog.showAndWait();
     }
-
 }

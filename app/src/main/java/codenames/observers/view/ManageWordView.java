@@ -1,19 +1,18 @@
-package codenames.controller.view;
+package codenames.observers.view;
 
-import codenames.controller.ManageWordController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
 public class ManageWordView extends ViewLoader<BorderPane> {
-    private ManageWordController rc;
+    private codenames.observers.ManageWordView rc;
 
     public ManageWordView() throws IOException {
-        this.rc = new ManageWordController();
+        this.rc = new codenames.observers.ManageWordView();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("view/manageword.fxml"));
-        loader.setControllerFactory(iC -> iC.equals(ManageWordController.class) ? this.rc : null);
+        loader.setControllerFactory(iC -> iC.equals(codenames.observers.ManageWordView.class) ? this.rc : null);
         loadGraphic(loader);
     }
 }

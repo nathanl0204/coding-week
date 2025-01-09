@@ -1,4 +1,4 @@
-package codenames.controller;
+package codenames.observers;
 
 import java.io.IOException;
 
@@ -9,6 +9,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -23,7 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public abstract class GameController {
+public abstract class GameView implements Observer {
 
     @FXML
     GridPane gridPane;
@@ -38,17 +39,16 @@ public abstract class GameController {
     protected Game game;
 
     @FXML
-    protected Chronometer loadingBarController;
+    protected Chronometer loadingBarView;
 
-    public GameController() {
-    }
-
-    public GameController(Game game) {
+    public GameView(Game game) {
         this.game = game;
     }
 
-    public void setLoadingBarController(Chronometer loadingBarController) {
-        this.loadingBarController = loadingBarController;
+    public void react(){}
+
+    public void setLoadingBarView(Chronometer loadingBarView) {
+        this.loadingBarView = loadingBarView;
         blitzMode = true;
     }
 
@@ -59,13 +59,11 @@ public abstract class GameController {
     protected void handleTimerEnd() {
         if (game.isOnGoing()) {
             game.setRemainingCardGuess(0);
-
         }
     }
 
     @FXML
     public void initialize() {
-        info.setText("Click above to start");
         int cols = game.getCols();
         final int[] currentPos = { 0, 0 };
 
@@ -77,7 +75,7 @@ public abstract class GameController {
             if (playableCard.getCard() instanceof TextCard) {
 
                 Label label =  new Label(playableCard.getCard().getString());
-                label.setTextFill(playableCard.getColor());
+                label.setPadding(new Insets(38, 0, 0, 0));
                 ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
                 
                 stackPane.getChildren().addAll(background, label);
@@ -127,7 +125,7 @@ public abstract class GameController {
     protected void displayStatistics() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Statistics.fxml"));
 
-        StatisticsController controller = new StatisticsController(game.getBlueStatistics(), game.getRedStatistics());
+        StatisticsView controller = new StatisticsView(game);
 
         loader.setController(controller);
 
@@ -142,9 +140,8 @@ public abstract class GameController {
         Stage newStage = new Stage();
         newStage.setScene(scene);
         newStage.setMaximized(false);
-        newStage.setResizable(false);
+        newStage.setResizable(true);
         newStage.setTitle("Statistics");
         newStage.show();
     }
-
 }
