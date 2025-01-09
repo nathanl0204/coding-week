@@ -52,6 +52,8 @@ public class GameDuoController {
 
     private Game game;
 
+    private boolean isInitialized = false;
+
     public GameDuoController(){}
     
     public GameDuoController(Game game){
@@ -60,25 +62,37 @@ public class GameDuoController {
 
     @FXML 
     public void initialize() throws IOException {
-        loadingBar = new LoadingBar(200, 20);
-        timerContainer.getChildren().add(loadingBar);
+        if (!isInitialized) {
+            // Initialisation de la barre de chargement
+            loadingBar = new LoadingBar(200, 20);
+            timerContainer.getChildren().add(loadingBar);
 
-        timerLabel = new Label("Temps restant : 60s");
-        timerContainer.getChildren().add(timerLabel);
+            timerLabel = new Label("Temps restant : 60s");
+            timerContainer.getChildren().add(timerLabel);
 
+            // Initialisation de la barre de menu
+            FXMLLoader menuLoader = new FXMLLoader();
+            menuLoader.setLocation(getClass().getResource("/view/MenuBar.fxml"));
+            MenuBarController menuBarController = new MenuBarController();
+            menuLoader.setControllerFactory(iC->menuBarController);
+            menuBarController.setGameController(this);
+            vboxTop.getChildren().add(0,menuLoader.load());
+
+            isInitialized = true;
+        } else {
+            // Nettoyer la grille existante
+            gridPane.getChildren().clear();
+        }
+
+        // Mise à jour de l'image QR
         imageView.setImage(game.getQRCode());
         info.setText("Click above to start");
+
+        // Configuration de la grille
         int cols = game.getCols();
         final int[] currentPos = {0, 0};
 
-        FXMLLoader menuLoader = new FXMLLoader();
-        menuLoader.setLocation(getClass().getResource("/view/MenuBar.fxml"));
-        MenuBarController menuBarController = new MenuBarController();
-        menuLoader.setControllerFactory(iC->menuBarController);
-        menuBarController.setGameController(this);
-
-        vboxTop.getChildren().add(0,menuLoader.load());
-
+        // Ajout des cartes à la grille
         game.getListCard().getCards().forEach(card -> {
 
             StackPane stackPane = new StackPane();
