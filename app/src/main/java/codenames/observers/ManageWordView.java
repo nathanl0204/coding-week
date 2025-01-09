@@ -26,7 +26,6 @@ public class ManageWordView {
 
     public void initialize() {
         listContainer.setOnMouseClicked(e -> {
-            System.out.println("click sur listContziner");
             update();
         });
 
@@ -63,7 +62,6 @@ public class ManageWordView {
     public void update() {
         if(!listContainer.getItems().isEmpty()) {
             selectedIndexListContainer = listContainer.getSelectionModel().getSelectedIndex();
-            System.out.println(selectedIndexListContainer);
             loadLists();
             listContainer.getSelectionModel().select(selectedIndexListContainer);
             loadCurrentDeck();
@@ -169,7 +167,6 @@ public class ManageWordView {
         }
         if (!file.exists()) {
             try {
-                System.out.println(file.getAbsolutePath());
                 fileIsOk = file.createNewFile();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -189,30 +186,43 @@ public class ManageWordView {
     }
 
     public void removeList() {
-        if(listContainer.getSelectionModel() != null) {
+        if (!listContainer.getSelectionModel().isEmpty()) {
             String fileName = listContainer.getSelectionModel().getSelectedItem();
-            
-            String dirPathWords = "resources/card/text/wordslist/";
-            String filePathWords = dirPathWords+ fileName;
-            File fileWords = new File(filePathWords);
-            System.out.println(fileWords.getAbsolutePath() + " " + fileWords.exists());
-            if (fileWords.exists()) {
-                fileWords.delete();
-            }
-            
-            
-            String dirPathHints = "resources/card/text/hintlist/";
-            String filePathHints = dirPathHints + fileName;
-            File fileHints = new File(filePathHints);
-            System.out.println(fileHints.getAbsolutePath() + " " + fileHints.exists());
-            if (fileHints.exists()) {
-                fileHints.delete();
-            }
-
-            if (!listContainer.getSelectionModel().isEmpty()){
-                listContainer.getSelectionModel().select(0);
-            }
-            update();
+    
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation de suppression");
+            alert.setHeaderText("Êtes-vous sûr de vouloir supprimer cette liste ?");
+            alert.setContentText("Cette action est irréversible.");
+    
+            ButtonType buttonTypeYes = new ButtonType("Oui");
+            ButtonType buttonTypeNo = new ButtonType("Non");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+    
+            alert.showAndWait().ifPresent(response -> {
+                if (response == buttonTypeYes) {
+                    String dirPathWords = "resources/card/text/wordslist/";
+                    String filePathWords = dirPathWords + fileName;
+                    File fileWords = new File(filePathWords);
+                    if (fileWords.exists()) {
+                        fileWords.delete();
+                    }
+    
+                    String dirPathHints = "resources/card/text/hintlist/";
+                    String filePathHints = dirPathHints + fileName;
+                    File fileHints = new File(filePathHints);
+                    if (fileHints.exists()) {
+                        fileHints.delete();
+                    }
+    
+                    loadLists();
+    
+                    if (!listContainer.getSelectionModel().isEmpty()) {
+                        listContainer.getSelectionModel().select(0);
+                    }
+    
+                    update();
+                }
+            });
         }
     }
 
