@@ -6,15 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="7f158f1b-0ab7-4125-b986-d2d6b628ee28" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameSinglePlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameSinglePlayerView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameTwoTeamsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameTwoTeamsView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/LoadingBarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/LoadingBarView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/MenuBarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/MenuBarView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/StatisticsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/StatisticsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/TeamView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/TeamView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/BlueTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/BlueTeam.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

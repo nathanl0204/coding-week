@@ -12,13 +12,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class GameSinglePlayerView extends GameView implements Observer {
-
+public class GameSinglePlayerView extends GameView {
     private AI AllyAI;
     private AI OpponentAI;
 
     public GameSinglePlayerView(GameSinglePlayer game) {
         super(game);
+        this.game.addObserver(this);
     }
 
     public void setAllyAI(AI allyAI) {
@@ -38,8 +38,6 @@ public class GameSinglePlayerView extends GameView implements Observer {
     }
 
     public void processCardSelection(PlayableCard card) {
-       
-
         if (game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
 
             Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
@@ -79,26 +77,21 @@ public class GameSinglePlayerView extends GameView implements Observer {
             card.getStackPane().getChildren().add(transparency);
             card.guessed();
 
-            System.out.println("the ai guessed");
             switch (card.getCardType()) {
                 case Black:
                     game.wrongGuess(CardType.Black);
                     game.ends();
-                    info.setText("The AI chose the black card, blue team wins !");
                     alertWrongGuest("The AI chose the black card, blue team wins !");
                     button.setVisible(false);
                     displayStatistics();
                     break;
                 case White:
                     game.wrongGuess(CardType.White);
-                    alertWrongGuest("The AI chose a white card");
                     break;
                 case Blue:
-                    alertWrongGuest("The AI chose a blue card");
                     game.wrongGuess(CardType.Blue);
                     break;
                 case Red:
-                    alertWrongGuest("The AI chose a red card");
                     game.correctGuess();
                     break;
                 default:
@@ -107,18 +100,16 @@ public class GameSinglePlayerView extends GameView implements Observer {
         }
         if (game.getRemainingCardGuess() == 0 && game.isOnGoing()) {
             if (game.isBlueTurn()) {
-                info.setText("Red turn");
                 game.changeTurn(0);
                 EasyOpponentAI ai = new EasyOpponentAI(this);
                 ai.play();
-            } else
-                info.setText("Blue turn");
+            }
         } else if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();
             displayStatistics();
             button.setVisible(false);
         }
-
+        game.notifyObservers();
     }
 
     @FXML
@@ -136,8 +127,8 @@ public class GameSinglePlayerView extends GameView implements Observer {
                     alert.showAndWait();
                 }
             });
-
         }
+        game.notifyObservers();
     }
 
     private Optional<String> askForNumberGuess() {
@@ -147,10 +138,5 @@ public class GameSinglePlayerView extends GameView implements Observer {
         dialog.setContentText("Number :");
 
         return dialog.showAndWait();
-    }
-
-    @Override
-    public void react() {
-
     }
 }

@@ -109,7 +109,5 @@ public class LoadingBarView extends StackPane implements Observer {
     }
 
     @Override
-    public void react() {
-
-    }
+    public void react() {}
 }

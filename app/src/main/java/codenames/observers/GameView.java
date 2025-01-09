@@ -25,14 +25,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public abstract class GameView {
+public abstract class GameView implements Observer {
 
     @FXML
     GridPane gridPane;
     @FXML
     Button button;
-    @FXML
-    Label info;
     @FXML
     ImageView imageView;
 
@@ -44,6 +42,8 @@ public abstract class GameView {
     public GameView(Game game) {
         this.game = game;
     }
+
+    public void react(){}
 
     public void setLoadingBarController(LoadingBarView loadingBarView) {
         this.loadingBarView = loadingBarView;
@@ -145,5 +145,4 @@ public abstract class GameView {
         newStage.setTitle("Statistics");
         newStage.show();
     }
-
 }

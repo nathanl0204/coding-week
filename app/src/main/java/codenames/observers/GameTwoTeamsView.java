@@ -13,10 +13,11 @@ import javafx.scene.shape.Rectangle;
 import java.io.File;
 import javafx.application.Platform;
 
-public class GameTwoTeamsView extends GameView implements Observer {
+public class GameTwoTeamsView extends GameView {
 
     public GameTwoTeamsView(GameTwoTeams game) {
         super(game);
+        this.game.addObserver(this);
     }
 
     public void handleTimerComplete() {
@@ -33,6 +34,7 @@ public class GameTwoTeamsView extends GameView implements Observer {
                 
             });
         }
+
     }
 
     @FXML
@@ -55,10 +57,6 @@ public class GameTwoTeamsView extends GameView implements Observer {
                     loadingBarView.stop();
                     game.wrongGuess(CardType.Black, loadingBarView.getElapsedSeconds());
                     game.ends();
-                    if (game.isBlueTurn())
-                        info.setText("Red Team win");
-                    else
-                        info.setText("Blue Team win");
                     button.setVisible(false);
                     alertWrongGuest("Black Card selected, you lose");
                     displayStatistics();
@@ -99,6 +97,7 @@ public class GameTwoTeamsView extends GameView implements Observer {
             loadingBarView.stop();
             game.majStatTemps(loadingBarView.getElapsedSeconds());
         }
+        game.notifyObservers();
     }
 
     @FXML
@@ -122,9 +121,9 @@ public class GameTwoTeamsView extends GameView implements Observer {
                     button.setVisible(false);
                 }
                 loadingBarView.start(5);
-                game.notifyObservers();
             });
         }
+        game.notifyObservers();
     }
 
     private Optional<String> askForNumberGuess() {
@@ -134,22 +133,5 @@ public class GameTwoTeamsView extends GameView implements Observer {
         dialog.setContentText("Number :");
 
         return dialog.showAndWait();
-    }
-
-    public void startNewGame() {
-        // Implement new game logic
-    }
-
-    public void loadGame(File file) {
-        // Implement load game logic
-    }
-
-    public void saveGame(File file) {
-        // Implement save game logic
-    }
-
-    @Override
-    public void react() {
-
     }
 }
