@@ -1,12 +1,18 @@
 package codenames.controller;
 
 import java.util.Optional;
+import java.util.Random;
+
 import codenames.structure.CardType;
 import codenames.structure.GameTwoTeams;
 import codenames.structure.PlayableCard;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.shape.Rectangle;
 
@@ -49,13 +55,12 @@ public class GameTwoTeamsController extends GameController {
 
         if (game.getRemainingCardGuess() > 0 && !card.isGuessed()){
             
-            Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
-            transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
-            card.getStackPane().getChildren().add(transparency);
-            card.guessed();
+            String path = null;
+            Random rand = new Random();
 
             switch (card.getCardType()) {
                 case Black:
+                    path = String.valueOf(getClass().getResource("/assassin.jpg"));
                     loadingBarController.stop();
                     game.wrongGuess(CardType.Black, loadingBarController.getElapsedSeconds());
                     game.ends();
@@ -64,34 +69,55 @@ public class GameTwoTeamsController extends GameController {
                     else
                         info.setText("Blue Team win");
                     button.setVisible(false);
-                    alertWrongGuest("Black Card selected, you lose");
                     displayStatistics();
                     break;
                 case White:
+                    
+                    
+                    if (rand.nextBoolean()) {
+                        path = String.valueOf(getClass().getResource("/White1.jpg"));
+                    } else {
+                        path = String.valueOf(getClass().getResource("/White2.jpg"));
+                    }
                     loadingBarController.stop();
                     game.wrongGuess(CardType.White, loadingBarController.getElapsedSeconds());
                     break;
                 case Blue:
+                    if (rand.nextBoolean()) {
+                        path = String.valueOf(getClass().getResource("/Blue1.jpg"));
+                    } else {
+                        path = String.valueOf(getClass().getResource("/Blue2.jpg"));
+                    }
                     if (game.isBlueTurn()) {
                         game.correctGuess();
                     } else {
                         loadingBarController.stop();
                         game.wrongGuess(CardType.Blue, loadingBarController.getElapsedSeconds());
-                        alertWrongGuest("Blue Card selected, your turn ends");
                     }
                     break;
                 case Red:
+                    if (rand.nextBoolean()) {
+                        path = String.valueOf(getClass().getResource("/Red1.jpg"));
+                    } else {
+                        path = String.valueOf(getClass().getResource("/Red2.jpg"));
+                    }
                     if (!game.isBlueTurn()) {
                         game.correctGuess();
                     } else {
                         loadingBarController.stop();
                         game.wrongGuess(CardType.Red, loadingBarController.getElapsedSeconds());
-                        alertWrongGuest("Red Card selected, your turn ends");
                     }
                     break;
                 default:
                     break;
             }   
+
+            ImageView cover = new ImageView(new Image(path));
+            cover.fitHeightProperty().bind(card.getStackPane().heightProperty());
+            cover.fitWidthProperty().bind(card.getStackPane().widthProperty());
+            StackPane.setAlignment(cover, Pos.CENTER);
+            card.getStackPane().getChildren().add(cover);
+            card.guessed();
         }
         
 

@@ -9,6 +9,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -79,8 +80,11 @@ public abstract class GameController {
                 Label label =  new Label(playableCard.getCard().getString());
                 label.setTextFill(playableCard.getColor());
                 ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
+                background.fitHeightProperty().bind(stackPane.heightProperty());
+                background.fitWidthProperty().bind(stackPane.widthProperty());
                 
                 stackPane.getChildren().addAll(background, label);
+                StackPane.setAlignment(background, Pos.CENTER);
                 playableCard.setStackPane(stackPane);
 
             } else {
