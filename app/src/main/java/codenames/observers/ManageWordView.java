@@ -25,51 +25,30 @@ public class ManageWordView {
     }
 
     public void initialize() {
-        loadList();
-        if (!listContainer.getSelectionModel().isEmpty()){
+        listContainer.setOnMouseClicked(e -> {
+            System.out.println("click sur listContziner");
+            update();
+        });
+
+
+
+
+
+
+        loadLists();
+        if (!listContainer.getItems().isEmpty()){
             listContainer.getSelectionModel().select(0);
+            loadCurrentDeck();
             displaycurrentDeck();
         }
         update();
     }
 
-    public void addNewList() {
-        InputDialogView dialog = null;
-        try {
-            dialog = new InputDialogView();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        String newListName = dialog.getValue();
 
-        String dirPath = "resources/wordslist/";
-        String filePath = dirPath + newListName + ".txt";
-        File file = new File(filePath);
-        File dir = new File(dirPath);
-        boolean fileIsOk = false;
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        if (!file.exists()) {
-            try {
-                System.out.println(file.getAbsolutePath());
-                fileIsOk = file.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
 
-            if (!fileIsOk)
-                new Alert(Alert.AlertType.ERROR, "file error", ButtonType.OK).showAndWait();
-        } else {
-            new Alert(Alert.AlertType.ERROR, "new list created", ButtonType.OK).showAndWait();
-        }
-
-        loadList();
-    }
-
-    public void loadList() {
+    public void loadLists() {
         listContainer.getItems().clear();
-        String dirPath = "resources/wordslist/";
+        String dirPath = "resources/card/text/wordslist/";
         //filePath = dirPath + newListName + ".txt";
 
         File dir = new File(dirPath);
@@ -79,28 +58,31 @@ public class ManageWordView {
         for (File f : fileList) {
             listContainer.getItems().add(f.getName());
         }
-
-
     }
 
     public void update() {
-        if(selectedIndexListContainer != null) {
+        if(!listContainer.getItems().isEmpty()) {
             selectedIndexListContainer = listContainer.getSelectionModel().getSelectedIndex();
-            loadList();
-            loadcurrentDeck();
+            System.out.println(selectedIndexListContainer);
+            loadLists();
             listContainer.getSelectionModel().select(selectedIndexListContainer);
+            loadCurrentDeck();
+        }
+        else {
+            wordsContainer.getItems().clear();
+            hintsContainer.getItems().clear();
         }
 
     }
 
-    public void loadcurrentDeck() {
+    public void loadCurrentDeck() {
         currentDeck.clear();
         if(listContainer.getSelectionModel().getSelectedItem() == null)
             return;
 
         String fileName = listContainer.getSelectionModel().getSelectedItem();
 
-        String dirPathWord = "resources/wordslist/";
+        String dirPathWord = "resources/card/text/wordslist/";
         String filePathWord = dirPathWord + fileName;
         File fileWord = new File(filePathWord);
 
@@ -108,10 +90,9 @@ public class ManageWordView {
             try {
                 BufferedReader br = new BufferedReader(new FileReader(fileWord));
                 try {
-                    String line = "ee";
-                    while (line != null) {
-                        line = br.readLine();
-                        currentDeck.addCard(new TextCard(line));
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                            currentDeck.addCard(new TextCard(line));
                     }
                     br.close();
 
@@ -125,7 +106,7 @@ public class ManageWordView {
             }
         }
 
-        String dirPathHint = "resources/hintslist/";
+        String dirPathHint = "resources/card/text/hintslist/";
         String filePathHint = dirPathHint + fileName;
         File fileHint = new File(filePathHint);
 
@@ -133,11 +114,13 @@ public class ManageWordView {
             try {
                 BufferedReader br = new BufferedReader(new FileReader(fileHint));
                 try {
-                    String line = "ee";
-                    while (line != null) {
-                        line = br.readLine();
-                        currentDeck.addHint(line);
-                    }br.close();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        if (line != null && !line.trim().isEmpty() && !line.equals("null")) {
+                            currentDeck.addHint(line);
+                        }
+                    }
+                    br.close();
 
                 } catch (IOException e) {
                     
@@ -166,12 +149,50 @@ public class ManageWordView {
             }
         }
     }
+    
+    public void addNewList() {
+        InputDialogView dialog = null;
+        try {
+            dialog = new InputDialogView();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String newListName = dialog.getValue();
+
+        String dirPath = "resources/card/text/wordslist/";
+        String filePath = dirPath + newListName + ".txt";
+        File file = new File(filePath);
+        File dir = new File(dirPath);
+        boolean fileIsOk = false;
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        if (!file.exists()) {
+            try {
+                System.out.println(file.getAbsolutePath());
+                fileIsOk = file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (!fileIsOk)
+                new Alert(Alert.AlertType.ERROR, "file error", ButtonType.OK).showAndWait();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "new list created", ButtonType.OK).showAndWait();
+        }
+
+        
+        loadLists();
+        int index = listContainer.getItems().indexOf(file.getName());
+        listContainer.getSelectionModel().select(index);
+        update();
+    }
 
     public void removeList() {
         if(listContainer.getSelectionModel() != null) {
             String fileName = listContainer.getSelectionModel().getSelectedItem();
             
-            String dirPathWords = "resources/wordslist/";
+            String dirPathWords = "resources/card/text/wordslist/";
             String filePathWords = dirPathWords+ fileName;
             File fileWords = new File(filePathWords);
             System.out.println(fileWords.getAbsolutePath() + " " + fileWords.exists());
@@ -180,7 +201,7 @@ public class ManageWordView {
             }
             
             
-            String dirPathHints = "resources/hintlist/";
+            String dirPathHints = "resources/card/text/hintlist/";
             String filePathHints = dirPathHints + fileName;
             File fileHints = new File(filePathHints);
             System.out.println(fileHints.getAbsolutePath() + " " + fileHints.exists());
@@ -191,7 +212,6 @@ public class ManageWordView {
             if (!listContainer.getSelectionModel().isEmpty()){
                 listContainer.getSelectionModel().select(0);
             }
-            loadList();
             update();
         }
     }
@@ -202,10 +222,10 @@ public class ManageWordView {
         String fileName = listContainer.getSelectionModel().getSelectedItem();
 
         // Chemins des fichiers
-        String dirPathWord = "resources/wordslist/";
+        String dirPathWord = "resources/card/text/wordslist/";
         String filePathWord = dirPathWord + fileName;
 
-        String dirPathHint = "resources/hintslist/";
+        String dirPathHint = "resources/card/text/hintslist/";
         String filePathHint = dirPathHint + fileName;
 
         // Sauvegarde des mots
@@ -270,7 +290,7 @@ public class ManageWordView {
     }
 
     public void removeWordInList() {
-        if(listContainer.getSelectionModel() == null) {
+        if(listContainer.getSelectionModel().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Select list before", ButtonType.OK).showAndWait();
             return;
         }
@@ -284,7 +304,7 @@ public class ManageWordView {
 
 
     public void addHintInList(){
-        if(listContainer.getSelectionModel() == null) {
+        if(listContainer.getSelectionModel().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Select list before", ButtonType.OK).showAndWait();
             return;
         }
@@ -301,7 +321,7 @@ public class ManageWordView {
     }
 
     public void removeHintInList(){
-        if(listContainer.getSelectionModel() == null) {
+        if(listContainer.getSelectionModel().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Select list before", ButtonType.OK).showAndWait();
             return;
         }

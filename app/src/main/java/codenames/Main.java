@@ -4,22 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
-import codenames.observers.*;
+import codenames.observers.ManageWordView;
+import codenames.observers.view.ManageWordLoader;
 import codenames.structure.*;
 import javafx.application.Application;
-import javafx.scene.layout.*;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingGame.fxml"));
+        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingGame.fxml"));
         loader.setControllerFactory(iC->new LoadingGameView());
-        GridPane root = loader.load();
+        GridPane root = loader.load();*/
 
-        Scene scene = new Scene(root);
+        ManageWordView rc = new ManageWordView();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("view/manageword.fxml"));
+        loader.setControllerFactory(iC -> iC.equals(codenames.observers.ManageWordView.class) ? rc : null);
+        
+        
+
+        Scene scene = new Scene(loader.load());
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("CodeName");

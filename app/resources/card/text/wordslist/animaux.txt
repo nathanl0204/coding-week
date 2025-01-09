@@ -1,0 +1,44 @@
+Lion
+Tigre
+Éléphant
+Girafe
+Zèbre
+Rhinocéros
+Hippopotame
+Crocodile
+Alligator
+Serpent
+Loup
+Chien
+Chat
+Ours
+Panda
+Koala
+Kangourou
+Chimpanzé
+Gorille
+Orang-outan
+Hippocampe
+Dauphin
+Baleine
+Requin
+Tortue
+Pélican
+Flamant rose
+Aigle
+Vautour
+Moineau
+Pigeon
+Paon
+Autruche
+Poney
+Cheval
+Mouton
+Vache
+Cochon
+Lynx
+Panthère
+Coyote
+Bison
+Aigle royal
+Ours polaire
