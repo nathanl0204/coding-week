@@ -34,7 +34,6 @@ public class GameTwoTeamsView extends GameView {
                 
             });
         }
-
     }
 
     @FXML
@@ -120,7 +119,7 @@ public class GameTwoTeamsView extends GameView {
 
                     button.setVisible(false);
                 }
-                loadingBarView.start(5);
+                loadingBarView.start();
             });
         }
         game.notifyObservers();
@@ -134,4 +133,7 @@ public class GameTwoTeamsView extends GameView {
 
         return dialog.showAndWait();
     }
+
+    @Override
+    public void react() {}
 }

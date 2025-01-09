@@ -3,7 +3,6 @@ package codenames.observers;
 import java.io.IOException;
 
 import codenames.structure.Game;
-import codenames.structure.ImageCard;
 import codenames.structure.PlayableCard;
 import codenames.structure.TextCard;
 import javafx.event.Event;
@@ -32,12 +31,15 @@ public abstract class GameView implements Observer {
     @FXML
     Button button;
     @FXML
+    Label info;
+    @FXML
     ImageView imageView;
 
+    protected Boolean blitzMode;
     protected Game game;
 
     @FXML
-    protected LoadingBarView loadingBarView = null;
+    protected Chronometer loadingBarView;
 
     public GameView(Game game) {
         this.game = game;
@@ -45,9 +47,9 @@ public abstract class GameView implements Observer {
 
     public void react(){}
 
-    public void setLoadingBarController(LoadingBarView loadingBarView) {
+    public void setLoadingBarView(Chronometer loadingBarView) {
         this.loadingBarView = loadingBarView;
-        this.game.setBlitzMode(true);
+        blitzMode = true;
     }
 
     public Game getGame() {
@@ -72,18 +74,15 @@ public abstract class GameView implements Observer {
 
             if (playableCard.getCard() instanceof TextCard) {
 
-                Label label =  new Label(((TextCard) playableCard.getCard()).getText());
-                label.setTextFill(playableCard.getColor());
-                label.setPadding(new Insets(35, 0, 0, 0));
+                Label label =  new Label(playableCard.getCard().getString());
+                label.setPadding(new Insets(38, 0, 0, 0));
                 ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
-                background.setFitWidth(100);
-                background.setFitHeight(80);
-
+                
                 stackPane.getChildren().addAll(background, label);
                 playableCard.setStackPane(stackPane);
 
             } else {
-                ImageView imgView = new ImageView(new Image(((ImageCard) playableCard.getCard()).getUrl()));
+                ImageView imgView = new ImageView(new Image(playableCard.getCard().getString()));
 
                 gridPane.add(stackPane, currentPos[1], currentPos[0]);
                 stackPane.getChildren().add(imgView);
@@ -141,7 +140,7 @@ public abstract class GameView implements Observer {
         Stage newStage = new Stage();
         newStage.setScene(scene);
         newStage.setMaximized(false);
-        newStage.setResizable(false);
+        newStage.setResizable(true);
         newStage.setTitle("Statistics");
         newStage.show();
     }

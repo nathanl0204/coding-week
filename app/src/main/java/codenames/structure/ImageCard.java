@@ -8,7 +8,7 @@ public class ImageCard implements Card{
         this.url = url;
     }
 
-    public String getUrl(){
+    public String getString(){
         return url;
     }
     
