@@ -25,11 +25,14 @@ public class EasyOpponentAI extends OpponentAI {
         int cardsToGuess = random.nextInt(remainingRedCards.size()) + 1;
         game.setRemainingCardGuess(cardsToGuess);
 
+        System.out.println("AI is guessing " + cardsToGuess + " cards");
+
         Collections.shuffle(remainingCards);
         List<PlayableCard> selectedCards = remainingCards.subList(0, Math.min(cardsToGuess, remainingCards.size()));
 
         for (PlayableCard card : selectedCards) {
             gameController.processCardSelection(card);
+            System.out.println("AI is guessing ");
         }
     }
 }

@@ -17,36 +17,38 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        GameTwoTeams game = testGame();
-        
+        // GameTwoTeams game = testGame();
+        GameSinglePlayer game = testSPGame();
+
         LoadingBarController loadingBarController = new LoadingBarController(200, 20);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingBar.fxml"));
-        loader.setControllerFactory(iC-> loadingBarController);
+        loader.setControllerFactory(iC -> loadingBarController);
         loader.load();
 
-        GameTwoTeamsController gc = new GameTwoTeamsController(game);
+        // GameTwoTeamsController gc = new GameTwoTeamsController(game);
+
+        GameSinglePlayerController gc = new GameSinglePlayerController(game);
 
         gc.setLoadingBarController(loadingBarController);
         loadingBarController.setGameController(gc);
 
         EasyOpponentAI ai = new EasyOpponentAI(gc);
+        gc.setOpponentAI(ai);
 
-
-        
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
-        loader2.setControllerFactory(iC-> gc);
+        loader2.setControllerFactory(iC -> gc);
         BorderPane root = loader2.load();
 
         FXMLLoader loader3 = new FXMLLoader();
         loader3.setLocation(getClass().getResource("/view/BlueTeam.fxml"));
         TeamView blueTeamView = new TeamView(game, true);
-        loader3.setControllerFactory(iC->blueTeamView);
+        loader3.setControllerFactory(iC -> blueTeamView);
         root.setLeft(loader3.load());
 
         FXMLLoader loader4 = new FXMLLoader();
         loader4.setLocation(getClass().getResource("/view/RedTeam.fxml"));
         TeamView redTeamView = new TeamView(game, false);
-        loader4.setControllerFactory(iC->redTeamView);
+        loader4.setControllerFactory(iC -> redTeamView);
         root.setRight(loader4.load());
 
         Scene scene = new Scene(root);

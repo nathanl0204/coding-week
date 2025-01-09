@@ -42,7 +42,6 @@ public class GameSinglePlayerController extends GameController {
     }
 
     public void processCardSelection(PlayableCard card) {
-       
 
         if (game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
 
@@ -50,7 +49,6 @@ public class GameSinglePlayerController extends GameController {
             transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
             card.getStackPane().getChildren().add(transparency);
             card.guessed();
-
 
             switch (card.getCardType()) {
                 case Black:
@@ -114,8 +112,7 @@ public class GameSinglePlayerController extends GameController {
             if (game.isBlueTurn()) {
                 info.setText("Red turn");
                 game.changeTurn(0);
-                EasyOpponentAI ai = new EasyOpponentAI(this);
-                ai.play();
+                OpponentAI.play();
             } else
                 info.setText("Blue turn");
         } else if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {

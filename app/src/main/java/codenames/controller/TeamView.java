@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 
-
 public class TeamView implements Observer {
     @FXML
     private Label points;
@@ -34,19 +33,16 @@ public class TeamView implements Observer {
 
             if (game.isBlueTurn()) {
                 this.info_zone.setText("Blue turn");
-            }
-            else {
+            } else {
                 this.info_zone.setText("Red turn");
             }
-        }
-        else {
+        } else {
             this.points.setText(String.valueOf(game.getRedStatistics().getNumberOfCorrectGuess()));
 
             if (game.isBlueTurn()) {
                 if (game.isOnGoing()) {
                     this.info_zone.setText("Game running...");
-                }
-                else {
+                } else {
                     this.info_zone.setText("Game over");
                 }
             }
