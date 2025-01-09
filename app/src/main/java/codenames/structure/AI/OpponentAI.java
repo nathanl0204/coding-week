@@ -1,13 +1,13 @@
 package codenames.structure.AI;
 
-import codenames.controller.*;
+import codenames.observers.*;
 import java.util.*;
 
 public abstract class OpponentAI extends AI {
     protected Random random;
 
-    public OpponentAI(GameController gameController) {
-        super(gameController);
+    public OpponentAI(GameView gameView) {
+        super(gameView);
         this.random = new Random();
     }
 
