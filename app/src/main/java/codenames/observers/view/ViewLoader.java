@@ -1,4 +1,4 @@
-package codenames.controller.view;
+package codenames.observers.view;
 
 import javafx.fxml.FXMLLoader;
 
