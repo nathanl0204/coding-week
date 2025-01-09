@@ -19,15 +19,8 @@ public class Main extends Application {
         BorderPane root = new BorderPane();
 
         GameTwoTeams game = testGame();
-        
-        LoadingBarView loadingBarView = new LoadingBarView(200, 20);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingBar.fxml"));
-        loader.setControllerFactory(iC-> loadingBarView);
-        loader.load();
 
         GameTwoTeamsView gc = new GameTwoTeamsView(game);
-        gc.setLoadingBarController(loadingBarView);
-        loadingBarView.setGameController(gc);
 
         EasyOpponentAI ai = new EasyOpponentAI(gc);
         
@@ -35,8 +28,15 @@ public class Main extends Application {
         loader2.setControllerFactory(iC-> gc);
         root.setCenter(loader2.load());
 
+        LoadingBarView loadingBarView = new LoadingBarView(game, 200, 20);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingBar.fxml"));
+        loader.setControllerFactory(iC-> loadingBarView);
+        loader.load();
+
+        gc.setLoadingBarController(loadingBarView);
+
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
-        loader.setControllerFactory(iC-> new MenuBarView(gc, game));
+        menuLoader.setControllerFactory(iC-> new MenuBarView(game));
         root.setTop(menuLoader.load());
 
         FXMLLoader loader3 = new FXMLLoader();

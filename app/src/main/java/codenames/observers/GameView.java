@@ -36,14 +36,10 @@ public abstract class GameView {
     @FXML
     ImageView imageView;
 
-    protected Boolean blitzMode;
     protected Game game;
 
     @FXML
     protected LoadingBarView loadingBarView = null;
-
-    public GameView() {
-    }
 
     public GameView(Game game) {
         this.game = game;
@@ -51,7 +47,7 @@ public abstract class GameView {
 
     public void setLoadingBarController(LoadingBarView loadingBarView) {
         this.loadingBarView = loadingBarView;
-        blitzMode = true;
+        this.game.setBlitzMode(true);
     }
 
     public Game getGame() {
@@ -61,7 +57,6 @@ public abstract class GameView {
     protected void handleTimerEnd() {
         if (game.isOnGoing()) {
             game.setRemainingCardGuess(0);
-
         }
     }
 
@@ -131,7 +126,7 @@ public abstract class GameView {
     protected void displayStatistics() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Statistics.fxml"));
 
-        StatisticsView controller = new StatisticsView(game.getBlueStatistics(), game.getRedStatistics());
+        StatisticsView controller = new StatisticsView(game);
 
         loader.setController(controller);
 

@@ -21,24 +21,15 @@ public class MenuBarView implements Observer {
     @FXML
     private CheckMenuItem blitzMode;
 
-    private GameView gameView;
     private Game game;
 
-    public MenuBarView() {
-    }
-
-    public MenuBarView(GameView gameView, Game game) {
-        this.gameView = gameView;
+    public MenuBarView(Game game) {
         this.game = game;
-    }
-
-    public void setGameController(GameTwoTeamsView gameController) {
-        this.gameView = gameController;
+        this.game.addObserver(this);
     }
 
     @FXML
     private void handleNewGame() {
-        // Implement new game logic
         // gameController.startNewGame();
     }
 
@@ -115,7 +106,5 @@ public class MenuBarView implements Observer {
     }
 
     @Override
-    public void react() {
-
-    }
+    public void react() {}
 }

@@ -1,5 +1,6 @@
 package codenames.observers;
 
+import codenames.structure.Game;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -15,7 +16,7 @@ public class LoadingBarView extends StackPane implements Observer {
     @FXML
     private Rectangle bar;
 
-    private GameView gameView;
+    private Game game;
 
     private Timeline timeline = new Timeline();
     private boolean isComplete = false;
@@ -24,17 +25,10 @@ public class LoadingBarView extends StackPane implements Observer {
     private double width;
     private double height;
 
-    public LoadingBarView() {
-    }
-
-    public LoadingBarView(double width, double height) {
+    public LoadingBarView(Game game, double width, double height) {
+        this.game = game;
         this.height = height;
         this.width = width;
-
-    }
-
-    public void setGameController(GameView gameView) {
-        this.gameView = gameView;
     }
 
     @FXML
@@ -76,7 +70,9 @@ public class LoadingBarView extends StackPane implements Observer {
 
         timeline.setOnFinished(event -> {
             isComplete = true;
-            gameView.handleTimerEnd();
+            if (this.game.isOnGoing()) {
+                this.game.setRemainingCardGuess(0);
+            }
         });
 
         timeline.play();

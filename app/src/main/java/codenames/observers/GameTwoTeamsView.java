@@ -15,10 +15,6 @@ import javafx.application.Platform;
 
 public class GameTwoTeamsView extends GameView implements Observer {
 
-    public GameTwoTeamsView() {
-        super();
-    }
-
     public GameTwoTeamsView(GameTwoTeams game) {
         super(game);
     }

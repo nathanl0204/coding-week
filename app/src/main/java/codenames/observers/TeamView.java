@@ -18,14 +18,13 @@ public class TeamView implements Observer {
     private ListView spyList;
     @FXML
     private Label info_zone;
-    private boolean hasWon;
     private boolean isRedTeam;
     private Game game;
 
     public TeamView(Game game, boolean isRedTeam) {
         this.game = game;
-        game.addObserver(this);
         this.isRedTeam = isRedTeam;
+        game.addObserver(this);
     }
 
     public void react() {

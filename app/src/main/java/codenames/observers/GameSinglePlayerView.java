@@ -17,10 +17,6 @@ public class GameSinglePlayerView extends GameView implements Observer {
     private AI AllyAI;
     private AI OpponentAI;
 
-    public GameSinglePlayerView() {
-        super();
-    }
-
     public GameSinglePlayerView(GameSinglePlayer game) {
         super(game);
     }
