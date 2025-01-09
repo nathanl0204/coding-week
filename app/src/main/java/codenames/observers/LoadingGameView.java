@@ -66,23 +66,24 @@ public class LoadingGameView {
             
 
             GameView gameView;
+            DeckFactory factory = new DeckFactory();
             Game game;
-            Deck deck;
 
             if (selectedGameMode.endsWith("Two Teams")){
-                DeckFactory factory = new DeckFactory();
+                
 
                 
-                deck = factory.createDeckTwoTeams(height*width);
-                game = new GameTwoTeams((DeckTwoTeams) deck, width, width, height);
+                DeckTwoTeams deck = factory.createDeckTwoTeams(height*width);
+                game = new GameTwoTeams(deck, width, 7, 7);
                 gameView = new GameTwoTeamsView( (GameTwoTeams) game);
                 
             }
             else {
                 // Creer les IA
-                deck = new DeckSinglePlayer(null);
-                game = new GameSinglePlayer((DeckSinglePlayer) deck, width, 9, 9);
+                DeckSinglePlayer deck = factory.createDeckSinglePlayer(height*width);
+                game = new GameSinglePlayer( deck, width, 7, 7);
                 gameView = new GameSinglePlayerView((GameSinglePlayer) game);
+
                 
             }
 
