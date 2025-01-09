@@ -1,4 +1,4 @@
-package codenames.controller;
+package codenames.observers;
 
 import java.io.IOException;
 
@@ -10,6 +10,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -24,7 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public abstract class GameController {
+public abstract class GameView {
 
     @FXML
     GridPane gridPane;
@@ -35,22 +36,18 @@ public abstract class GameController {
     @FXML
     ImageView imageView;
 
-    protected Boolean blitzMode;
     protected Game game;
 
     @FXML
-    protected LoadingBarController loadingBarController = null;
+    protected LoadingBarView loadingBarView = null;
 
-    public GameController() {
-    }
-
-    public GameController(Game game) {
+    public GameView(Game game) {
         this.game = game;
     }
 
-    public void setLoadingBarController(LoadingBarController loadingBarController) {
-        this.loadingBarController = loadingBarController;
-        blitzMode = true;
+    public void setLoadingBarController(LoadingBarView loadingBarView) {
+        this.loadingBarView = loadingBarView;
+        this.game.setBlitzMode(true);
     }
 
     public Game getGame() {
@@ -60,13 +57,11 @@ public abstract class GameController {
     protected void handleTimerEnd() {
         if (game.isOnGoing()) {
             game.setRemainingCardGuess(0);
-
         }
     }
 
     @FXML
     public void initialize() {
-        info.setText("Click above to start");
         int cols = game.getCols();
         final int[] currentPos = { 0, 0 };
 
@@ -79,8 +74,11 @@ public abstract class GameController {
 
                 Label label =  new Label(((TextCard) playableCard.getCard()).getText());
                 label.setTextFill(playableCard.getColor());
+                label.setPadding(new Insets(35, 0, 0, 0));
                 ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
-                
+                background.setFitWidth(100);
+                background.setFitHeight(80);
+
                 stackPane.getChildren().addAll(background, label);
                 playableCard.setStackPane(stackPane);
 
@@ -128,7 +126,7 @@ public abstract class GameController {
     protected void displayStatistics() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Statistics.fxml"));
 
-        StatisticsController controller = new StatisticsController(game.getBlueStatistics(), game.getRedStatistics());
+        StatisticsView controller = new StatisticsView(game);
 
         loader.setController(controller);
 

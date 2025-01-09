@@ -1,10 +1,10 @@
 package codenames.structure.AI;
 
-import codenames.controller.GameController;
+import codenames.observers.GameView;
 
 public abstract class AllyAI extends AI {
 
-    public AllyAI(GameController gameController) {
-        super(gameController);
+    public AllyAI(GameView gameView) {
+        super(gameView);
     }
 }
