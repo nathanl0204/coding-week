@@ -1,4 +1,13 @@
+@startuml classe
+
 class ImageCard implements Card {
+    - String url
+
+    + ImageCard(String url)
+    + String getUrl()
+}
+
+class TextCard implements Card {
     - String url
 
     + ImageCard(String url)

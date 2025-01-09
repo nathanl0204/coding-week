@@ -7,38 +7,48 @@ import java.util.stream.Collectors;
 
 public class DeckFactory {
 
+    private List<ThemedDeck> allThemedDeck;
+
     public DeckFactory(){}
 
 
     private class Tmp {
-        public String word;
+        public Card card;
         public List<String> hints;
 
-        public Tmp(String word,List<String> hints){
-            this.word = word;
+        public Tmp(Card card,List<String> hints){
+            this.card = card;
             this.hints = hints;
         }
     }   
 
     public DeckSinglePlayer createTextDeckSinglePlayer(int numberOfCard){
-        List<PlayableCardWithHints> cards = new ArrayList<>();
+        allThemedDeck = TextThemedDeckDB.getInstance().getData();
+        return createDeckSinglePlayer(numberOfCard);
+    }
 
-        List<ThemedDeck> allThemedDeck = ThemedDeckDB.getInstance().getData();
+    public DeckSinglePlayer createImageDeckSinglePlayer(int numberOfCard){
+        allThemedDeck = ImageThemedDeckDB.getInstance().getData();
+        return createDeckSinglePlayer(numberOfCard);
+    }
+
+    private DeckSinglePlayer createDeckSinglePlayer(int numberOfCard){
+        List<PlayableCardWithHints> cards = new ArrayList<>();
 
         //allThemedDeck.forEach(deck -> System.out.println(deck.getWords()));
     
-        allThemedDeck.removeIf( deck -> deck.getWords().size() == 0);
+        allThemedDeck.removeIf( deck -> deck.getCards().size() == 0);
 
         int totalWords = allThemedDeck.stream()
-                              .mapToInt(deck -> deck.getWords().size())
+                              .mapToInt(deck -> deck.getCards().size())
                               .sum();
 
         if (totalWords >= numberOfCard){
 
             List<Tmp> allTmps = allThemedDeck.stream()
             .flatMap(deck -> {
-                return deck.getWords().stream()
-                        .map(word -> new Tmp(word, deck.getHints())); 
+                return deck.getCards().stream()
+                        .map(card -> new Tmp(card, deck.getHints())); 
             })
             .collect(Collectors.toList());
 
@@ -47,7 +57,7 @@ public class DeckFactory {
             allTmps = allTmps.subList(0, numberOfCard);
 
             allTmps.forEach(tmp -> {
-                cards.add(new PlayableCardWithHints(new TextCard(tmp.word), CardType.White, tmp.hints));
+                cards.add(new PlayableCardWithHints(tmp.card, CardType.White, tmp.hints));
             });
 
             for (int i = 0; i < cards.size(); i++) {
@@ -68,20 +78,27 @@ public class DeckFactory {
         return new DeckSinglePlayer(cards);
     }
 
-    public DeckTwoTeams createTextDeckTwoTeams(int numberOfCard) /*throws Exception*/{
+    public DeckTwoTeams createTextDeckTwoTeams(int numberOfCard){
+        allThemedDeck = TextThemedDeckDB.getInstance().getData();
+        return createDeckTwoTeams(numberOfCard);
+    }
+
+    public DeckTwoTeams createImageDeckTwoTeams(int numberOfCard){
+        allThemedDeck = ImageThemedDeckDB.getInstance().getData();
+        return createDeckTwoTeams(numberOfCard);
+    }
+
+    private DeckTwoTeams createDeckTwoTeams(int numberOfCard) /*throws Exception*/{
         List<PlayableCard> cards = new ArrayList<>();
 
-
-        List<ThemedDeck> allThemedDeck = ThemedDeckDB.getInstance().getData();
-
-        allThemedDeck.forEach(deck -> System.out.println(deck.getWords()));
+        allThemedDeck.forEach(deck -> System.out.println(deck.getCards()));
     
-        allThemedDeck.removeIf( deck -> deck.getWords().size() == 0);
+        allThemedDeck.removeIf( deck -> deck.getCards().size() == 0);
 
         //if (allThemedDeck.size() == 0) throw new Exception("aucune carte dispo");
 
         int totalWords = allThemedDeck.stream()
-                              .mapToInt(deck -> deck.getWords().size())
+                              .mapToInt(deck -> deck.getCards().size())
                               .sum();
 
         //if (totalWords < numberOfCard) throw new Exception("Nb de carte insuffisant");
@@ -89,15 +106,15 @@ public class DeckFactory {
         if (totalWords >= numberOfCard){
 
 
-            List<String> allWords = allThemedDeck.stream()
-                                         .flatMap(deck -> deck.getWords().stream())
+            List<Card> allWords = allThemedDeck.stream()
+                                         .flatMap(deck -> deck.getCards().stream())
                                          .collect(Collectors.toList());
                             
             Collections.shuffle(allWords);
 
             allWords = allWords.subList(0, numberOfCard);
 
-            allWords.forEach(word -> cards.add(new PlayableCard(new TextCard(word), CardType.White)));
+            allWords.forEach(card -> cards.add(new PlayableCard(card, CardType.White)));
 
             for (int i = 0; i < cards.size(); i++) {
                 PlayableCard card = cards.get(i);
@@ -110,8 +127,6 @@ public class DeckFactory {
                 }
             }
         }
-
-        
 
         Collections.shuffle(cards);
 

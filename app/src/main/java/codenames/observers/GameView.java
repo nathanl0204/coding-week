@@ -82,9 +82,13 @@ public abstract class GameView implements Observer {
                 playableCard.setStackPane(stackPane);
 
             } else {
+                System.out.println(playableCard.getCard().getString());
+
                 ImageView imgView = new ImageView(new Image(playableCard.getCard().getString()));
 
-                gridPane.add(stackPane, currentPos[1], currentPos[0]);
+                imgView.setFitWidth(800/cols);
+                imgView.setPreserveRatio(true);
+
                 stackPane.getChildren().add(imgView);
                 playableCard.setStackPane(stackPane);
             }

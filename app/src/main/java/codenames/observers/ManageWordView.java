@@ -1,6 +1,8 @@
 package codenames.observers;
 
 import codenames.observers.view.InputDialogView;
+import codenames.structure.Card;
+import codenames.structure.TextCard;
 import codenames.structure.ThemedDeck;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -109,8 +111,9 @@ public class ManageWordView {
                     String line = "ee";
                     while (line != null) {
                         line = br.readLine();
-                        currentDeck.addWord(line);
-                    }br.close();
+                        currentDeck.addCard(new TextCard(line));
+                    }
+                    br.close();
 
                 } catch (IOException e) {
                     
@@ -151,9 +154,9 @@ public class ManageWordView {
 
     public void displaycurrentDeck() {
         wordsContainer.getItems().clear();
-        for(String s : currentDeck.getWords()) {
-            if(s != null && !s.equals("null")) {
-                wordsContainer.getItems().add(s);
+        for(Card s : currentDeck.getCards()) {
+            if(s.getString() != null && !s.getString().equals("null")) {
+                wordsContainer.getItems().add(s.getString());
             }
         }
         hintsContainer.getItems().clear();
@@ -206,7 +209,7 @@ public class ManageWordView {
         String filePathHint = dirPathHint + fileName;
 
         // Sauvegarde des mots
-        saveWordsToFile(currentDeck.getWords(), filePathWord);
+        saveCardsToFile(currentDeck.getCards(), filePathWord);
 
         // Sauvegarde des indices
         saveHintsToFile(currentDeck.getHints(), filePathHint);
@@ -216,11 +219,11 @@ public class ManageWordView {
     }
 
     // Sauvegarde des mots dans un fichier spécifique
-    private void saveWordsToFile(List<String> words, String filePath) {
+    private void saveCardsToFile(List<Card> cards, String filePath) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            for (String word : words) {
-                if (word != null && !word.trim().isEmpty()) {
-                    bw.write(word);
+            for (Card card : cards) {
+                if (card.getString() != null && !card.getString().trim().isEmpty()) {
+                    bw.write(card.getString());
                     bw.newLine();
                 }
             }
@@ -261,7 +264,7 @@ public class ManageWordView {
 
 
         int index = listContainer.getSelectionModel().getSelectedIndex();
-        currentDeck.addWord(word);
+        currentDeck.addCard(new TextCard(word));
         savecurrentDeck();
         listContainer.getSelectionModel().select(index);
     }
@@ -274,7 +277,7 @@ public class ManageWordView {
 
         if(wordsContainer.getSelectionModel() != null) {
             String word = wordsContainer.getSelectionModel().getSelectedItem();
-            currentDeck.removeWord(word);
+            currentDeck.removeCard(word);
             savecurrentDeck();
         }
     }

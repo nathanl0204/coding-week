@@ -4,36 +4,25 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="codenames.controller.GameController">
-    <top>
-        <VBox fx:id="vboxTop" alignment="CENTER" spacing="20">
-        </VBox>
-    </top>
 
-    <center>
-        <VBox fx:id="timerContainer" alignment="CENTER" spacing="40" style="-fx-background-color: linear-gradient(to right, #0003a5, #b80000);">
-            <children>
-                <ImageView fx:id="imageView" fitWidth="200" fitHeight="200"/>
-                <GridPane minHeight="400.0" fx:id="gridPane"/>
-                <Button fx:id="button"
-                        onAction="#handleButton"
-                        text="Play"
-                        style="
-                        -fx-background-color:  #8b00ff;
-                        -fx-text-fill: white;
-                        -fx-font-size: 16px;
-                        -fx-font-weight: bold;
-                        -fx-padding: 10px 20px;
-                        -fx-border-radius: 5px;
-                        -fx-background-radius: 5px;
-                        -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.0, 2, 2);
-                    " />
-                <Label fx:id="info"/>
-            </children>
-        </VBox>
-    </center>
-
-    <bottom>
+<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:id="timerContainer" alignment="CENTER" spacing="40" style="-fx-background-color: linear-gradient(to right, #0003a5, #b80000);" fx:controller="codenames.observers.GameView">
+    <children>
+        <ImageView fx:id="imageView" fitWidth="200" fitHeight="200"/>
+        <GridPane minHeight="400.0" fx:id="gridPane">
+        </GridPane>
+        <Button fx:id="button"
+                onAction="#handleButton"
+                text="Play"
+                style="
+                -fx-background-color:  #8b00ff;
+                -fx-text-fill: white;
+                -fx-font-size: 16px;
+                -fx-font-weight: bold;
+                -fx-padding: 10px 20px;
+                -fx-border-radius: 5px;
+                -fx-background-radius: 5px;
+                -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.0, 2, 2);
+            " />
         <fx:include source="LoadingBar.fxml"/>
-    </bottom>
-</BorderPane>
+    </children>
+</VBox>

@@ -71,7 +71,7 @@ public class LoadingGameView {
                 
 
                 
-                DeckTwoTeams deck = factory.createTextDeckTwoTeams(height*width);
+                DeckTwoTeams deck = factory.createImageDeckTwoTeams(height*width);
                 game = new GameTwoTeams(deck, width, 7, 7);
                 gameView = new GameTwoTeamsView( (GameTwoTeams) game);
                 
