@@ -36,26 +36,32 @@ public class DeckFactory {
 
         if (totalWords >= numberOfCard){
 
-/* 
             List<Tmp> allTmps = allThemedDeck.stream()
-                .flatMap(deck -> tmp.getWords()
-                                    =
-                                                    
-                
-                
-                )
-                .collect(Collectors.toList());
+            .flatMap(deck -> {
+                return deck.getWords().stream()
+                        .map(word -> new Tmp(word, deck.getHints())); 
+            })
+            .collect(Collectors.toList());
 
+            Collections.shuffle(allTmps);
 
-            Collections.shuffle(allCards);
+            allTmps = allTmps.subList(0, numberOfCard);
 
-            allCards.subList(0, numberOfCard);
+            allTmps.forEach(tmp -> {
+                cards.add(new PlayableCardWithHints(new TextCard(tmp.word), CardType.White, tmp.hints));
+            });
 
-            allCards.stream()
-                .flatMap(null)
-                .collect(Collectors.toList());
-
-        */                                        
+            for (int i = 0; i < cards.size(); i++) {
+                PlayableCard card = cards.get(i);
+                if (i == 0) {
+                    card.setCardType(CardType.Black);
+                } else if (i < numberOfCard*0.3) {
+                    card.setCardType(CardType.Blue);
+                } else if (i < numberOfCard*0.6) {
+                    card.setCardType(CardType.Red);
+                }
+            }
+                                   
         }
 
         Collections.shuffle(cards);

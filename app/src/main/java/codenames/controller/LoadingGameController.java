@@ -62,26 +62,19 @@ public class LoadingGameController {
                 throw new NumberFormatException("Les dimensions doivent être supérieures à zéro.");
             }
             
-
             GameController gameController;
-            Game game;
-            Deck deck;
+            DeckFactory factory = new DeckFactory();
 
             if (selectedGameMode.endsWith("Two Teams")){
-                DeckFactory factory = new DeckFactory();
-
-                
-                deck = factory.createDeckTwoTeams(height*width);
-                game = new GameTwoTeams((DeckTwoTeams) deck, width, width, height);
-                gameController = new GameTwoTeamsController( (GameTwoTeams) game);
+                DeckTwoTeams deck = factory.createDeckTwoTeams(height*width);
+                GameTwoTeams game = new GameTwoTeams(deck, width, width, height);
+                gameController = new GameTwoTeamsController(game);
                 
             }
             else {
-                // Creer les IA
-                deck = new DeckSinglePlayer(null);
-                game = new GameSinglePlayer((DeckSinglePlayer) deck, width, 9, 9);
-                gameController = new GameSinglePlayerController((GameSinglePlayer) game);
-                
+                DeckSinglePlayer deck = factory.createDeckSinglePlayer(height*width);
+                GameSinglePlayer game = new GameSinglePlayer( deck, width, 9, 9);
+                gameController = new GameSinglePlayerController(game);
             }
 
             Chronometer loadingBarController;

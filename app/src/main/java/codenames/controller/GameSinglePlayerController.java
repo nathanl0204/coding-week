@@ -115,6 +115,7 @@ public class GameSinglePlayerController extends GameController {
                 info.setText("Red turn");
                 game.changeTurn(0);
                 EasyOpponentAI ai = new EasyOpponentAI(this);
+                System.out.println("L'ia joue");
                 ai.play();
             } else
                 info.setText("Blue turn");
