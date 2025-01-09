@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Arrays;
 
 import codenames.controller.*;
+import codenames.controller.view.ManageWordView;
 import codenames.structure.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +16,15 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        LoadingGameController loadingGameController = new LoadingGameController();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingGame.fxml"));
-        loader.setControllerFactory(iC-> loadingGameController);
-        
-        Scene scene = new Scene(loader.load());
+        ManageWordView manageWordView = new ManageWordView();
+        BorderPane manageWordPane = manageWordView.getGraphic();
+
+        Scene scene = new Scene(manageWordPane);
+
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+        primaryStage.setTitle("CodeName");
+        primaryStage.show();
 
         /* 
         GameTwoTeams game = testGame();
@@ -60,6 +65,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("CodeName");
         primaryStage.show();
+        */
     }
 
     private GameTwoTeams testGame() {
