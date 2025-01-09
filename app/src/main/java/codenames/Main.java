@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Arrays;
 
 import codenames.controller.*;
+import codenames.controller.view.ManageWordView;
 import codenames.structure.*;
 import codenames.structure.AI.EasyOpponentAI;
 import javafx.application.Application;
@@ -17,6 +18,17 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        ManageWordView manageWordView = new ManageWordView();
+        BorderPane manageWordPane = manageWordView.getGraphic();
+
+        Scene scene = new Scene(manageWordPane);
+
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+        primaryStage.setTitle("CodeName");
+        primaryStage.show();
+
+        /* 
         GameTwoTeams game = testGame();
         
         LoadingBarController loadingBarController = new LoadingBarController(200, 20);
@@ -54,6 +66,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("CodeName");
         primaryStage.show();
+        */
     }
 
     private GameTwoTeams testGame() {

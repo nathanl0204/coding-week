@@ -20,9 +20,6 @@ public class InputDialogController {
     public String getValue() {
         String value;
         value = inputField.getText();
-
-
-
         return value;
     }
 }

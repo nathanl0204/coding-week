@@ -1,50 +1,37 @@
 package codenames.controller;
 
 import codenames.controller.view.InputDialogView;
-import javafx.fxml.FXML;
+import codenames.structure.ThemedDeck;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ManageWordController {
 
     public ListView<String> wordsContainer;
     public ListView<String> listContainer;
-    public Button removeList;
-    public Button addWordInList;
-    public Button removeWordInList;
-    @FXML
-    private Button addNewList;
-    private ArrayList<String> currentList = new ArrayList<>();
+    public ListView<String> hintsContainer;
+
+    private ThemedDeck currentDeck = new ThemedDeck();
     private Integer selectedIndexListContainer = null;
 
     public ManageWordController() {
     }
 
     public void initialize() {
-        System.out.println(addNewList.isVisible());
-        this.addNewList.setOnAction(e -> test());
+        listContainer.setOnMouseClicked(e -> { 
+            loadcurrentDeck();
 
-        removeList.setOnAction(e -> {
-            deleteOneList();
-        });
-        listContainer.setOnMouseClicked(e -> { loadCurrentList();
-        });
-        removeWordInList.setOnAction(e -> {
-            removeWordInList();
-        });
-        addWordInList.setOnAction(e -> {
-            addWordInList();
         });
         update();
     }
 
-    public void test() {
+    public void addNewList() {
         InputDialogView dialog = null;
         try {
             dialog = new InputDialogView();
@@ -95,56 +82,89 @@ public class ManageWordController {
     }
 
     public void update() {
-        selectedIndexListContainer = listContainer.getSelectionModel().getSelectedIndex();
-        loadList();
-        loadCurrentList();
         if(selectedIndexListContainer != null) {
+            selectedIndexListContainer = listContainer.getSelectionModel().getSelectedIndex();
+            loadList();
+            loadcurrentDeck();
             listContainer.getSelectionModel().select(selectedIndexListContainer);
         }
 
     }
 
-    public void loadCurrentList() {
-        currentList.clear();
+    public void loadcurrentDeck() {
+        currentDeck.clear();
         if(listContainer.getSelectionModel().getSelectedItem() == null)
             return;
 
         String fileName = listContainer.getSelectionModel().getSelectedItem();
-        String dirPath = "resources/wordslist/";
-        String filePath = dirPath + fileName;
-        File file = new File(filePath);
 
-        if(file.exists()) {
+        String dirPathWord = "resources/wordslist/";
+        String filePathWord = dirPathWord + fileName;
+        File fileWord = new File(filePathWord);
+
+        if(fileWord.exists()) {
             try {
-                BufferedReader br = new BufferedReader(new FileReader(file));
+                BufferedReader br = new BufferedReader(new FileReader(fileWord));
                 try {
                     String line = "ee";
                     while (line != null) {
                         line = br.readLine();
-                        currentList.add(line);
-                    }
+                        currentDeck.addWord(line);
+                    }br.close();
 
                 } catch (IOException e) {
+                    
                     throw new RuntimeException(e);
                 }
+                
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        displayCurrentList();
+        String dirPathHint = "resources/hintslist/";
+        String filePathHint = dirPathHint + fileName;
+        File fileHint = new File(filePathHint);
+
+        if(fileHint.exists()) {
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(fileHint));
+                try {
+                    String line = "ee";
+                    while (line != null) {
+                        line = br.readLine();
+                        currentDeck.addHint(line);
+                    }br.close();
+
+                } catch (IOException e) {
+                    
+                    throw new RuntimeException(e);
+                }
+                
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        displaycurrentDeck();
     }
 
-    public void displayCurrentList() {
+    public void displaycurrentDeck() {
         wordsContainer.getItems().clear();
-        for(String s : currentList) {
+        for(String s : currentDeck.getWords()) {
             if(s != null && !s.equals("null")) {
                 wordsContainer.getItems().add(s);
             }
         }
+        hintsContainer.getItems().clear();
+        for(String s : currentDeck.getHints()) {
+            if(s != null && !s.equals("null")) {
+                hintsContainer.getItems().add(s);
+            }
+        }
     }
 
-    public void deleteOneList() {
+    public void removeList() {
         if(listContainer.getSelectionModel() != null) {
             String fileName = listContainer.getSelectionModel().getSelectedItem();
             String dirPath = "resources/wordslist/";
@@ -157,6 +177,58 @@ public class ManageWordController {
                 }
         }
 
+        }
+    }
+
+
+
+    public void savecurrentDeck() {
+        String fileName = listContainer.getSelectionModel().getSelectedItem();
+
+        // Chemins des fichiers
+        String dirPathWord = "resources/wordslist/";
+        String filePathWord = dirPathWord + fileName;
+
+        String dirPathHint = "resources/hintslist/";
+        String filePathHint = dirPathHint + fileName;
+
+        // Sauvegarde des mots
+        saveWordsToFile(currentDeck.getWords(), filePathWord);
+
+        // Sauvegarde des indices
+        saveHintsToFile(currentDeck.getHints(), filePathHint);
+
+        update();
+        displaycurrentDeck();
+    }
+
+    // Sauvegarde des mots dans un fichier spécifique
+    private void saveWordsToFile(List<String> words, String filePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (String word : words) {
+                if (word != null && !word.trim().isEmpty()) {
+                    bw.write(word);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR, "Error saving words data: " + e.getMessage(), ButtonType.OK).showAndWait();
+            e.printStackTrace();
+        }
+    }
+
+    // Sauvegarde des indices dans un fichier spécifique
+    private void saveHintsToFile(List<String> hints, String filePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (String hint : hints) {
+                if (hint != null && !hint.trim().isEmpty()) {
+                    bw.write(hint);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR, "Error saving hints data: " + e.getMessage(), ButtonType.OK).showAndWait();
+            e.printStackTrace();
         }
     }
 
@@ -174,34 +246,11 @@ public class ManageWordController {
         }
         String word = dialog.getValue();
 
-        currentList.add(word);
-        saveCurrentList(currentList);
-        update();
-    }
 
-    public void saveCurrentList(ArrayList<String> currentList) {
-
-        String fileName = listContainer.getSelectionModel().getSelectedItem();
-        String dirPath = "resources/wordslist/";
-        String filePath = dirPath + fileName;
-
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
-            for(String s : currentList) {
-                if(s != null && !s.equals("null")) {
-                    bw.write(s);
-                    System.out.println(s +"-" + filePath);
-                    bw.newLine();
-                }
-            }
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        displayCurrentList();
-
+        int index = listContainer.getSelectionModel().getSelectedIndex();
+        currentDeck.addWord(word);
+        savecurrentDeck();
+        listContainer.getSelectionModel().select(index);
     }
 
     public void removeWordInList() {
@@ -212,11 +261,40 @@ public class ManageWordController {
 
         if(wordsContainer.getSelectionModel() != null) {
             String word = wordsContainer.getSelectionModel().getSelectedItem();
-            currentList.remove(word);
-            saveCurrentList(currentList);
-            update();
+            currentDeck.removeWord(word);
+            savecurrentDeck();
+        }
+    }
+
+
+    public void addHintInList(){
+        if(listContainer.getSelectionModel() == null) {
+            new Alert(Alert.AlertType.ERROR, "Select list before", ButtonType.OK).showAndWait();
+            return;
+        }
+        InputDialogView dialog = null;
+        try {
+            dialog = new InputDialogView();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String hint = dialog.getValue();
+
+        currentDeck.addHint(hint);
+        savecurrentDeck();
+    }
+
+    public void removeHintInList(){
+        if(listContainer.getSelectionModel() == null) {
+            new Alert(Alert.AlertType.ERROR, "Select list before", ButtonType.OK).showAndWait();
+            return;
         }
 
-
+        if(hintsContainer.getSelectionModel() != null) {
+            String hint = hintsContainer.getSelectionModel().getSelectedItem();
+            
+            currentDeck.removeHint(hint);
+            savecurrentDeck();
+        }
     }
 }
