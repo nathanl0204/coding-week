@@ -1,4 +1,4 @@
-package codenames.controller;
+package codenames.observers;
 
 import codenames.structure.AI.*;
 
@@ -12,16 +12,16 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class GameSinglePlayerController extends GameController {
+public class GameSinglePlayerView extends GameView {
 
     private AI AllyAI;
     private AI OpponentAI;
 
-    public GameSinglePlayerController() {
+    public GameSinglePlayerView() {
         super();
     }
 
-    public GameSinglePlayerController(GameSinglePlayer game) {
+    public GameSinglePlayerView(GameSinglePlayer game) {
         super(game);
     }
 
@@ -57,7 +57,6 @@ public class GameSinglePlayerController extends GameController {
                     alertWrongGuest("Black Card selected, you lose");
                     game.wrongGuess(CardType.Black);
                     game.ends();
-                    info.setText("Red Team win");
                     button.setVisible(false);
                     displayStatistics();
                     break;

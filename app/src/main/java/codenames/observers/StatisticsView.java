@@ -1,10 +1,10 @@
-package codenames.controller;
+package codenames.observers;
 
 import codenames.structure.Statistics;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class StatisticsController {
+public class StatisticsView {
     @FXML
     private Label blueAverageTimeLabel;
     @FXML
@@ -34,10 +34,10 @@ public class StatisticsController {
     private Statistics blueTeamStatistics;
     private Statistics redTeamStatistics;
 
-    public StatisticsController() {
+    public StatisticsView() {
     }
 
-    public StatisticsController(Statistics blueTeamStatistics, Statistics redTeamStatistics) {
+    public StatisticsView(Statistics blueTeamStatistics, Statistics redTeamStatistics) {
         this.blueTeamStatistics = blueTeamStatistics;
         this.redTeamStatistics = redTeamStatistics;
     }

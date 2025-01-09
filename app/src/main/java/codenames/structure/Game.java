@@ -1,6 +1,6 @@
 package codenames.structure;
 
-import codenames.controller.*;
+import codenames.observers.*;
 
 import java.util.ArrayList;
 

@@ -1,12 +1,12 @@
 package codenames.structure.AI;
 
-import codenames.controller.*;
+import codenames.observers.*;
 
 public class MediumAllyAI extends AllyAI {
-    protected GameController game;
+    protected GameView game;
 
-    public MediumAllyAI(GameController gameController) {
-        super(gameController);
+    public MediumAllyAI(GameView gameView) {
+        super(gameView);
     }
 
     @Override

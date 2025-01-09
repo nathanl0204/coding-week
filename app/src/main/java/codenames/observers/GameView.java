@@ -1,4 +1,4 @@
-package codenames.controller;
+package codenames.observers;
 
 import java.io.IOException;
 
@@ -24,7 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public abstract class GameController {
+public abstract class GameView {
 
     @FXML
     GridPane gridPane;
@@ -39,17 +39,17 @@ public abstract class GameController {
     protected Game game;
 
     @FXML
-    protected LoadingBarController loadingBarController = null;
+    protected LoadingBarView loadingBarView = null;
 
-    public GameController() {
+    public GameView() {
     }
 
-    public GameController(Game game) {
+    public GameView(Game game) {
         this.game = game;
     }
 
-    public void setLoadingBarController(LoadingBarController loadingBarController) {
-        this.loadingBarController = loadingBarController;
+    public void setLoadingBarController(LoadingBarView loadingBarView) {
+        this.loadingBarView = loadingBarView;
         blitzMode = true;
     }
 
@@ -66,7 +66,6 @@ public abstract class GameController {
 
     @FXML
     public void initialize() {
-        info.setText("Click above to start");
         int cols = game.getCols();
         final int[] currentPos = { 0, 0 };
 
@@ -128,7 +127,7 @@ public abstract class GameController {
     protected void displayStatistics() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Statistics.fxml"));
 
-        StatisticsController controller = new StatisticsController(game.getBlueStatistics(), game.getRedStatistics());
+        StatisticsView controller = new StatisticsView(game.getBlueStatistics(), game.getRedStatistics());
 
         loader.setController(controller);
 

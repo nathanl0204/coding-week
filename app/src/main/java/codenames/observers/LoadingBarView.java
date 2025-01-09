@@ -1,4 +1,4 @@
-package codenames.controller;
+package codenames.observers;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -9,13 +9,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class LoadingBarController extends StackPane {
+public class LoadingBarView extends StackPane {
     @FXML
     private Rectangle background;
     @FXML
     private Rectangle bar;
 
-    private GameController gameController;
+    private GameView gameView;
 
     private Timeline timeline = new Timeline();
     private boolean isComplete = false;
@@ -24,17 +24,17 @@ public class LoadingBarController extends StackPane {
     private double width;
     private double height;
 
-    public LoadingBarController() {
+    public LoadingBarView() {
     }
 
-    public LoadingBarController(double width, double height) {
+    public LoadingBarView(double width, double height) {
         this.height = height;
         this.width = width;
 
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(GameView gameView) {
+        this.gameView = gameView;
     }
 
     @FXML
@@ -76,7 +76,7 @@ public class LoadingBarController extends StackPane {
 
         timeline.setOnFinished(event -> {
             isComplete = true;
-            gameController.handleTimerEnd();
+            gameView.handleTimerEnd();
         });
 
         timeline.play();

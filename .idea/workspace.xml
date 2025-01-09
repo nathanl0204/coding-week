@@ -7,13 +7,32 @@
     <list default="true" id="7f158f1b-0ab7-4125-b986-d2d6b628ee28" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/GameDuoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/controller/GameTwoTeamsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/MenuBarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/controller/MenuBarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/TeamView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/controller/TeamView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/AllController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/GameSinglePlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameSinglePlayerView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/GameTwoTeamsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameTwoTeamsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/LoadingBarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/LoadingBarView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/MenuBarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/MenuBarView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/Observer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/Observer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/StatisticsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/StatisticsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/controller/TeamView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/TeamView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/AI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/AllyAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/AllyAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/EasyAllyAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/EasyAllyAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/EasyOpponentAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/EasyOpponentAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/HardAllyAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/HardAllyAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/HardOpponentAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/HardOpponentAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/MediumAllyAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/MediumAllyAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/MediumOpponentAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/MediumOpponentAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/OpponentAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/AI/OpponentAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/structure/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/structure/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/All.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/BlueTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/BlueTeam.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/Game.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/Game.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/Menu.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/LoadingBar.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/LoadingBar.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/MenuBar.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/MenuBar.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/RedTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/view/RedTeam.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/view/all.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +92,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "structure__rework",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/gapial/Bureau/TN/2A/PCD/coding_week/grp05/app/src/main/resources",
     "node.js.detected.package.eslint": "true",

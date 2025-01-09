@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
-import codenames.controller.*;
+import codenames.observers.*;
 import codenames.structure.*;
 import codenames.structure.AI.EasyOpponentAI;
 import javafx.application.Application;
@@ -16,26 +16,28 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+        BorderPane root = new BorderPane();
 
         GameTwoTeams game = testGame();
         
-        LoadingBarController loadingBarController = new LoadingBarController(200, 20);
+        LoadingBarView loadingBarView = new LoadingBarView(200, 20);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingBar.fxml"));
-        loader.setControllerFactory(iC-> loadingBarController);
+        loader.setControllerFactory(iC-> loadingBarView);
         loader.load();
 
-        GameTwoTeamsController gc = new GameTwoTeamsController(game);
-
-        gc.setLoadingBarController(loadingBarController);
-        loadingBarController.setGameController(gc);
+        GameTwoTeamsView gc = new GameTwoTeamsView(game);
+        gc.setLoadingBarController(loadingBarView);
+        loadingBarView.setGameController(gc);
 
         EasyOpponentAI ai = new EasyOpponentAI(gc);
-
-
         
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
         loader2.setControllerFactory(iC-> gc);
-        BorderPane root = loader2.load();
+        root.setCenter(loader2.load());
+
+        FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
+        loader.setControllerFactory(iC-> new MenuBarView(gc, game));
+        root.setTop(menuLoader.load());
 
         FXMLLoader loader3 = new FXMLLoader();
         loader3.setLocation(getClass().getResource("/view/BlueTeam.fxml"));
