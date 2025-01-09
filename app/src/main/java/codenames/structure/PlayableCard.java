@@ -1,9 +1,16 @@
 package codenames.structure;
 
+import java.io.Serializable;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.control.Label;
+import javafx.geometry.Insets;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
-public class PlayableCard {
+public class PlayableCard implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Card card;
     private CardType cardType;
@@ -67,6 +74,27 @@ public class PlayableCard {
                 return 'b';
             default:
                 return 'w';
+        }
+    }
+
+    // Méthode pour recréer le StackPane après désérialisation
+    public void recreateStackPane() {
+        this.stackPane = new StackPane();
+        // Recréer l'apparence visuelle de la carte
+        if (card instanceof TextCard) {
+            Label label = new Label(((TextCard) card).getText());
+            label.setTextFill(getColor());
+            label.setPadding(new Insets(35, 0, 0, 0));
+            ImageView background = new ImageView(new Image(getClass().getResource("/card_back.jpg").toString()));
+            background.setFitWidth(100);
+            background.setFitHeight(80);
+            stackPane.getChildren().addAll(background, label);
+        }
+        // Ajouter la transparence si la carte a été devinée
+        if (guessed) {
+            Rectangle transparency = new Rectangle(stackPane.getWidth(), stackPane.getHeight());
+            transparency.setFill(getColor().deriveColor(0, 1, 1, 0.5));
+            stackPane.getChildren().add(transparency);
         }
     }
 }

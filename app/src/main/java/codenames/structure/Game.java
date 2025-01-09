@@ -3,8 +3,15 @@ package codenames.structure;
 import codenames.observers.*;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.io.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-public abstract class Game {
+public abstract class Game implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     protected int id;
 
@@ -160,31 +167,84 @@ public abstract class Game {
             return redStat.getNumberOfRemainingCardsToFind();
     }
 
-    /*
-     * game.simuleOpponent(){
-     * // blueTurn = false;
-     * // temps artificiel
-     * // pick nb random de case a retourner
-     * // pick des cartes aleatoirement
-     * // blueTurn = true;
-     * }
-     * 
-     */
+    private static class GameState implements Serializable {
+        private static final long serialVersionUID = 1L;
 
-    /*
-     * game.simuleCoequipier(){
-     * // changer la structure des mots
-     * // et renvoie un int (nb de carte) et un string (indice)
-     * parmi les differents liste de mots du jeu
-     * }
-     * 
-     */
+        int id;
+        Boolean onGoing;
+        Statistics blueStat;
+        Statistics redStat;
+        Boolean blueTurn;
+        int remainingCardGuess;
+        int cols;
+        boolean blitzMode;
+        List<PlayableCard> cards;
+        String gameType; // "TwoTeams" ou "SinglePlayer"
 
-    /*
-     * utilisation du pattern strategy pour different type d'ia
-     * 
-     * 
-     * creer nouvelle classe pour gameSoloController
-     * 
-     */
+        GameState(Game game) {
+            this.id = game.id;
+            this.onGoing = game.onGoing;
+            this.blueStat = game.blueStat;
+            this.redStat = game.redStat;
+            this.blueTurn = game.blueTurn;
+            this.remainingCardGuess = game.remainingCardGuess;
+            this.cols = game.cols;
+            this.blitzMode = game.blitzMode;
+            this.cards = game.getDeck().getCard();
+            this.gameType = (game instanceof GameTwoTeams) ? "TwoTeams" : "SinglePlayer";
+        }
+    }
+
+    public void saveGame(File file) throws IOException {
+        GameState state = new GameState(this);
+
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(state, writer);
+        }
+    }
+
+    public static Game loadGame(File file) throws IOException {
+        Gson gson = new GsonBuilder().create();
+
+        try (FileReader reader = new FileReader(file)) {
+            GameState state = gson.fromJson(reader, GameState.class);
+
+            // Créer le bon type de jeu
+            Game game;
+            if (state.gameType.equals("TwoTeams")) {
+                DeckTwoTeams deck = new DeckTwoTeams(state.cards);
+                game = new GameTwoTeams(deck, state.cols,
+                        state.blueStat.getNumberOfRemainingCardsToFind(),
+                        state.redStat.getNumberOfRemainingCardsToFind());
+            } else {
+                // Conversion des cartes normales en cartes avec hints pour le mode solo
+                List<PlayableCardWithHints> cardsWithHints = state.cards.stream()
+                        .map(card -> new PlayableCardWithHints(card.getCard(), card.getCardType(),
+                                Arrays.asList("hint1", "hint2"))) // Vous devrez adapter ceci selon vos besoins
+                        .collect(Collectors.toList());
+                DeckSinglePlayer deck = new DeckSinglePlayer(cardsWithHints);
+                game = new GameSinglePlayer(deck, state.cols,
+                        state.blueStat.getNumberOfRemainingCardsToFind(),
+                        state.redStat.getNumberOfRemainingCardsToFind());
+            }
+
+            // Restaurer l'état
+            game.id = state.id;
+            game.onGoing = state.onGoing;
+            game.blueStat = state.blueStat;
+            game.redStat = state.redStat;
+            game.blueTurn = state.blueTurn;
+            game.remainingCardGuess = state.remainingCardGuess;
+            game.setBlitzMode(state.blitzMode);
+
+            // Recréer les composants visuels
+            game.getDeck().getCard().forEach(PlayableCard::recreateStackPane);
+
+            return game;
+        }
+    }
 }
