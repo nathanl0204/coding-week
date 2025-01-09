@@ -1,6 +1,5 @@
 package codenames.structure;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ThemedDeckDB {
@@ -85,7 +84,6 @@ public class ThemedDeckDB {
                 throw new RuntimeException(e);
             }
         }
-
 
         return currentList;
     }
