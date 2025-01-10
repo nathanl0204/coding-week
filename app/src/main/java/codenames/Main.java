@@ -25,7 +25,7 @@ public class Main extends Application {
         EasyOpponentAI ai = new EasyOpponentAI(gc);
         
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
-        loader2.setControllerFactory(iC-> gc);
+        loader2.setController(gc);
         root.setCenter(loader2.load());
 
         LoadingBarView loadingBarView = new LoadingBarView(game, 200, 20);
@@ -36,6 +36,8 @@ public class Main extends Application {
         gc.setLoadingBarController(loadingBarView);
 
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
+        MenuBarView menuBarController = new MenuBarView(game);
+        menuBarController.setPrimaryStage(primaryStage);
         menuLoader.setControllerFactory(iC-> new MenuBarView(game));
         root.setTop(menuLoader.load());
 

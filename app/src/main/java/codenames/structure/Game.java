@@ -249,6 +249,8 @@ public abstract class Game implements Serializable {
                     }
                 })
                 .registerTypeAdapter(Card.class, new CardTypeAdapter())
+                .registerTypeAdapter(PlayableCard.class, new PlayableCardAdapter())
+                .setPrettyPrinting()
                 .create();
 
         try (FileReader reader = new FileReader(file)) {
@@ -257,38 +259,16 @@ public abstract class Game implements Serializable {
             // Créer le bon type de jeu
             Game game;
             if (state.getGameType().equals("TwoTeams")) {
-                List<PlayableCard> newCards = state.getCards().stream()
-                        .map(card -> {
-                            Card newCard;
-                            if (card.getCard() instanceof TextCard) {
-                                newCard = new TextCard(((TextCard) card.getCard()).getText());
-                            } else {
-                                newCard = new ImageCard(((ImageCard) card.getCard()).getUrl());
-                            }
-                            return new PlayableCard(newCard, card.getCardType());
-                        })
-                        .collect(Collectors.toList());
-
-                DeckTwoTeams deck = new DeckTwoTeams(newCards);
+                DeckTwoTeams deck = new DeckTwoTeams(state.getCards());
                 game = new GameTwoTeams(deck, state.getCols(),
                         state.getBlueStat().getNumberOfRemainingCardsToFind(),
                         state.getRedStat().getNumberOfRemainingCardsToFind());
             } else {
-                // Conversion des cartes normales en cartes avec hints pour le mode solo
-                List<PlayableCardWithHints> newCardsWithHints = state.getCards().stream()
-                        .map(card -> {
-                            Card newCard;
-                            if (card.getCard() instanceof TextCard) {
-                                newCard = new TextCard(((TextCard) card.getCard()).getText());
-                            } else {
-                                newCard = new ImageCard(((ImageCard) card.getCard()).getUrl());
-                            }
-                            return new PlayableCardWithHints(newCard, card.getCardType(),
-                                    Arrays.asList("hint1", "hint2"));
-                        })
+                List<PlayableCardWithHints> cardsWithHints = state.getCards().stream()
+                        .map(card -> new PlayableCardWithHints(card.getCard(), card.getCardType(),
+                                Arrays.asList("hint1", "hint2")))
                         .collect(Collectors.toList());
-
-                DeckSinglePlayer deck = new DeckSinglePlayer(newCardsWithHints);
+                DeckSinglePlayer deck = new DeckSinglePlayer(cardsWithHints);
                 game = new GameSinglePlayer(deck, state.getCols(),
                         state.getBlueStat().getNumberOfRemainingCardsToFind(),
                         state.getRedStat().getNumberOfRemainingCardsToFind());
@@ -298,9 +278,7 @@ public abstract class Game implements Serializable {
             game.id = state.getId();
             game.onGoing = state.getOnGoing();
             game.blueTurn = state.getBlueTurn();
-            game.blueStat = new Statistics(state.getBlueStat().getNumberOfRemainingCardsToFind());
-            game.redStat = new Statistics(state.getRedStat().getNumberOfRemainingCardsToFind());
-            game.remainingCardGuess = state.remainingCardGuess;
+            game.remainingCardGuess = state.getRemainingCardGuess();
             game.setBlitzMode(state.isBlitzMode());
             copyStatistics(state.getBlueStat(), game.blueStat);
             copyStatistics(state.getRedStat(), game.redStat);

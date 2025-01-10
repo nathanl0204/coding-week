@@ -29,7 +29,17 @@ public class CardTypeAdapter implements JsonSerializer<Card>, JsonDeserializer<C
     @Override
     public Card deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
+        if (!json.isJsonObject()) {
+            throw new JsonParseException("Expected JsonObject");
+        }
+
         JsonObject jsonObject = json.getAsJsonObject();
+
+        if (jsonObject.has(TEXT_KEY)) {
+            return new TextCard(jsonObject.get(TEXT_KEY).getAsString());
+        } else if (jsonObject.has(URL_KEY)) {
+            return new ImageCard(jsonObject.get(URL_KEY).getAsString());
+        }
 
         if (!jsonObject.has(TYPE_KEY) || !jsonObject.has(DATA_KEY)) {
             throw new JsonParseException("Invalid card format: missing type or data");

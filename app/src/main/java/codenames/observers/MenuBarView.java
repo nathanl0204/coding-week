@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.Node;
+import javafx.fxml.FXMLLoader;
 
 public class MenuBarView implements Observer {
 
@@ -28,10 +30,15 @@ public class MenuBarView implements Observer {
     private CheckMenuItem blitzMode;
 
     private Game game;
+    private Stage primaryStage;
 
     public MenuBarView(Game game) {
         this.game = game;
         this.game.addObserver(this);
+    }
+
+    public void setPrimaryStage(Stage stage) {
+        this.primaryStage = stage;
     }
 
     @FXML
@@ -41,6 +48,20 @@ public class MenuBarView implements Observer {
 
     @FXML
     private void handleLoadGame() {
+        if (primaryStage == null) {
+            // Attempt to get stage through the menu items if not set directly
+            if (classicMode != null && classicMode.getParentPopup() != null) {
+                primaryStage = (Stage) classicMode.getParentPopup().getOwnerWindow();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Cannot access main window");
+                alert.setContentText("Application window reference not found");
+                alert.showAndWait();
+                return;
+            }
+        }
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Charger une partie");
         fileChooser.getExtensionFilters().add(
@@ -51,7 +72,7 @@ public class MenuBarView implements Observer {
                 Game loadedGame = Game.loadGame(file);
 
                 // Utiliser classicMode (ou n'importe quel autre élément FXML) pour obtenir la référence à la fenêtre
-                Stage stage = (Stage) classicMode.getParentPopup().getOwnerWindow();
+                //Stage stage = (Stage) classicMode.getParentPopup().getOwnerWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
 
                 // Reste du code inchangé...
@@ -64,7 +85,7 @@ public class MenuBarView implements Observer {
 
                 loader.setController(gameView);
                 Scene scene = new Scene(loader.load());
-                stage.setScene(scene);
+                primaryStage.setScene(scene);
 
                 // Notifier les observers
                 loadedGame.notifyObservers();
@@ -76,6 +97,7 @@ public class MenuBarView implements Observer {
                 alert.setHeaderText("Erreur lors du chargement");
                 alert.setContentText("Impossible de charger la partie : " + e.getMessage());
                 alert.showAndWait();
+                e.printStackTrace();
             }
         }
     }

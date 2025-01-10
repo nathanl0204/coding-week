@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:id="timerContainer" alignment="CENTER" spacing="40" style="-fx-background-color: linear-gradient(to right, #0003a5, #b80000);" fx:controller="codenames.observers.GameView">
+<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:id="timerContainer" alignment="CENTER" spacing="40" style="-fx-background-color: linear-gradient(to right, #0003a5, #b80000);">
     <children>
         <ImageView fx:id="imageView" fitWidth="200" fitHeight="200"/>
         <GridPane minHeight="400.0" fx:id="gridPane">
