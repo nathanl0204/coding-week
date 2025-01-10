@@ -87,7 +87,7 @@ public class PlayableCard implements Serializable {
             this.stackPane = new StackPane();
             // Recréer l'apparence visuelle de la carte
             if (card instanceof TextCard) {
-                Label label = new Label(((TextCard) card).getText());
+                Label label = new Label(((TextCard) card).getString());
                 label.setTextFill(getColor());
                 label.setPadding(new Insets(35, 0, 0, 0));
                 String resourcePath = "/card_back.jpg";
@@ -97,7 +97,7 @@ public class PlayableCard implements Serializable {
                 background.setFitHeight(80);
                 stackPane.getChildren().addAll(background, label);
             } else if (card instanceof ImageCard) {
-                ImageView imgView = new ImageView(((ImageCard) card).getUrl());
+                ImageView imgView = new ImageView(((ImageCard) card).getString());
                 stackPane.getChildren().add(imgView);
             }
 

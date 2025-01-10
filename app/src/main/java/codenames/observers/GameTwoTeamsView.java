@@ -103,9 +103,14 @@ public class GameTwoTeamsView extends GameView {
             cover.fitHeightProperty().bind(card.getStackPane().heightProperty());
             cover.fitWidthProperty().bind(card.getStackPane().widthProperty());
             StackPane.setAlignment(cover, Pos.CENTER);
+        
             card.getStackPane().getChildren().add(cover);
+
             card.guessed();
         }
+
+        gridPane.requestLayout();
+        gridPane.layout();
 
         if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()){
             game.ends();

@@ -16,10 +16,10 @@ public class CardTypeAdapter implements JsonSerializer<Card>, JsonDeserializer<C
 
         if (card instanceof TextCard) {
             json.addProperty(TYPE_KEY, "TextCard");
-            data.addProperty(TEXT_KEY, ((TextCard) card).getText());
+            data.addProperty(TEXT_KEY, ((TextCard) card).getString());
         } else if (card instanceof ImageCard) {
             json.addProperty(TYPE_KEY, "ImageCard");
-            data.addProperty(URL_KEY, ((ImageCard) card).getUrl());
+            data.addProperty(URL_KEY, ((ImageCard) card).getString());
         }
 
         json.add(DATA_KEY, data);

@@ -26,6 +26,7 @@ public class GameTwoTeams extends Game {
     }
 
     public Image getQRCode() {
+        if (QRCode == null) generateQRCode();
         return QRCode;
     }
 

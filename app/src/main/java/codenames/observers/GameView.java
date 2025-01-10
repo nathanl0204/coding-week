@@ -1,6 +1,7 @@
 package codenames.observers;
 
 import java.io.IOException;
+import java.util.Random;
 
 import codenames.structure.Game;
 import codenames.structure.PlayableCard;
@@ -10,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -77,8 +79,7 @@ public abstract class GameView implements Observer {
 
                 Label label = new Label(playableCard.getCard().getString());
                 label.setPadding(new Insets(38, 0, 0, 0));
-                ImageView background = new ImageView(
-                        new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
+                ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
 
                 stackPane.getChildren().addAll(background, label);
                 playableCard.setStackPane(stackPane);
@@ -94,6 +95,8 @@ public abstract class GameView implements Observer {
                 stackPane.getChildren().add(imgView);
                 playableCard.setStackPane(stackPane);
             }
+            
+            
 
             stackPane.setOnMouseClicked(new EventHandler<Event>() {
                 @Override
@@ -108,12 +111,60 @@ public abstract class GameView implements Observer {
                 }
             });
 
+            
+
             currentPos[1]++;
             if (currentPos[1] >= cols) {
                 currentPos[1] = 0;
                 currentPos[0]++;
             }
         });
+        
+        gridPane.requestLayout();
+        gridPane.layout();
+
+        game.getDeck().getCards().forEach(playableCard -> {
+            if (playableCard.isGuessed()){
+                String path = null;
+                Random rand = new Random();
+
+                switch ( playableCard.getCardType()) {
+                    case Black:
+                        path = String.valueOf(getClass().getResource("/assassin.jpg"));
+                        break;
+                    case White:
+                        if (rand.nextBoolean()) {
+                            path = String.valueOf(getClass().getResource("/White1.jpg"));
+                        } else {
+                            path = String.valueOf(getClass().getResource("/White2.jpg"));
+                        }
+                        break;
+                    case Blue:
+                        if (rand.nextBoolean()) {
+                            path = String.valueOf(getClass().getResource("/Blue1.jpg"));
+                        } else {
+                            path = String.valueOf(getClass().getResource("/Blue2.jpg"));
+                        }
+                        break;
+                    case Red:
+                        if (rand.nextBoolean()) {
+                            path = String.valueOf(getClass().getResource("/Blue1.jpg"));
+                        } else {
+                            path = String.valueOf(getClass().getResource("/Blue2.jpg"));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                ImageView cover = new ImageView(new Image(path));
+                cover.setFitWidth(playableCard.getStackPane().getWidth()); 
+                cover.setFitHeight(playableCard.getStackPane().getHeight());
+                StackPane.setAlignment(cover, Pos.CENTER);
+                playableCard.getStackPane().getChildren().add(cover);
+            }
+        });
+
+        game.notifyObservers();
     }
 
     public abstract void processCardSelection(PlayableCard card);

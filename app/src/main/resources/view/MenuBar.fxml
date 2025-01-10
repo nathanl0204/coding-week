@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.input.*?>
 
-<MenuBar xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="codenames.observers.MenuBarView">
+<MenuBar xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="codenames.observers.MenuBarView" fx:id="tmp">
     <menus>
         <Menu text="Fichier">
             <items>
@@ -32,16 +32,13 @@
         </Menu>
         <Menu text="Édition">
             <items>
-                <MenuItem text="Éditer les cartes" onAction="#handleEditCards" />
-                <MenuItem text="Gérer les thèmes" onAction="#handleEditThemes" />
-                <SeparatorMenuItem />
-                <MenuItem text="Préférences" onAction="#handlePreferences" />
+                <MenuItem text="Éditer les cartes textes" onAction="#handleEditTextCards" />
+                <MenuItem text="Éditer les cartes images" onAction="#handleEditImageCards" />
             </items>
         </Menu>
         <Menu text="Aide">
             <items>
                 <MenuItem text="Règles du jeu" onAction="#handleRules" />
-                <MenuItem text="À propos" onAction="#handleAbout" />
             </items>
         </Menu>
     </menus>

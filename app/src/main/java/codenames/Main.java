@@ -18,6 +18,30 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingGame.fxml"));
+        loader.setControllerFactory(iC->new LoadingGameView());
+        GridPane root = loader.load();
+
+        /* 
+        ManageImageView rc = new ManageImageView();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("view/manageword.fxml"));
+        loader.setControllerFactory(iC -> iC.equals(codenames.observers.ManageWordView.class) ? rc : null);
+        Pane root = loader.load();
+        */
+        
+
+        Scene scene = new Scene(root);
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("CodeName");
+        primaryStage.setMaximized(true);
+        primaryStage.show();
+
+        
+
+
+        /* 
         BorderPane root = new BorderPane();
 
         GameTwoTeams game = testGame();
@@ -27,7 +51,7 @@ public class Main extends Application {
         EasyOpponentAI ai = new EasyOpponentAI(gc);
         
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
-        loader2.setController(gc);
+        loader2.setControllerFactory(iC-> gc);
         root.setCenter(loader2.load());
 
         LoadingBarView loadingBarView = new LoadingBarView(game, 200, 20);
@@ -35,7 +59,7 @@ public class Main extends Application {
         loader.setControllerFactory(iC-> loadingBarView);
         loader.load();
 
-        gc.setLoadingBarController(loadingBarView);
+        gc.setLoadingBarView(loadingBarView);
 
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
         MenuBarView menuBarController = new MenuBarView(game);
@@ -60,7 +84,7 @@ public class Main extends Application {
 
                                 primaryStage.setScene(scene);
                                 primaryStage.setTitle("CodeName");
-                                primaryStage.show();
+                                primaryStage.show();*/
 
                 }
 

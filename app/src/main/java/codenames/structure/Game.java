@@ -54,14 +54,6 @@ public abstract class Game implements Serializable {
         return this.blitzMode;
     }
 
-    public void setBlitzMode(boolean blitzMode) {
-        this.blitzMode = blitzMode;
-    }
-
-    public boolean getBlitzMode() {
-        return this.blitzMode;
-    }
-
     public int getCols() {
         return cols;
     }
@@ -186,7 +178,7 @@ public abstract class Game implements Serializable {
             this.remainingCardGuess = game.remainingCardGuess;
             this.cols = game.cols;
             this.blitzMode = game.blitzMode;
-            this.cards = game.getDeck().getCard();
+            this.cards = game.getDeck().getCards();
             this.gameType = (game instanceof GameTwoTeams) ? "TwoTeams" : "SinglePlayer";
         }
 
@@ -275,7 +267,7 @@ public abstract class Game implements Serializable {
             copyStatistics(state.getBlueStat(), game.blueStat);
             copyStatistics(state.getRedStat(), game.redStat);
 
-            game.getDeck().getCard().forEach(PlayableCard::recreateStackPane);
+            game.getDeck().getCards().forEach(PlayableCard::recreateStackPane);
 
             return game;
         }

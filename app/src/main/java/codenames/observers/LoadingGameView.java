@@ -214,7 +214,8 @@ public class LoadingGameView {
             root.setCenter(loader.load());
 
             FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
-            menuLoader.setControllerFactory(iC-> new MenuBarView(game));
+            MenuBarView menuBarView = new MenuBarView(game);
+            menuLoader.setControllerFactory(iC-> menuBarView);
             root.setTop(menuLoader.load());
 
             FXMLLoader loader3 = new FXMLLoader();
@@ -234,10 +235,6 @@ public class LoadingGameView {
             Stage currentStage = (Stage) blitzLabel.getScene().getWindow();
 
             currentStage.setScene(scene);
-            System.out.println("Mode Blitz: " + isBlitz);
-            System.out.println("Mode de jeu: " + selectedGameMode);
-            System.out.println("Largeur de la grille: " + width);
-            System.out.println("Hauteur de la grille: " + height);
 
         } catch (NumberFormatException e) {
             Alert alert = new Alert(AlertType.ERROR);
