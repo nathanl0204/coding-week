@@ -128,7 +128,6 @@ public abstract class Game implements Serializable {
     }
 
     public void wrongGuess(CardType cardType, double temps) {
-        System.out.println("" + temps);
         remainingCardGuess = 0;
         if (blueTurn) {
             blueStat.incrNumberOfErrors();

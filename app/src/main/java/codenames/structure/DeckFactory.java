@@ -90,12 +90,8 @@ public class DeckFactory {
 
     private DeckTwoTeams createDeckTwoTeams(int numberOfCard) /*throws Exception*/{
         List<PlayableCard> cards = new ArrayList<>();
-
-        allThemedDeck.forEach(deck -> System.out.println(deck.getCards()));
     
         allThemedDeck.removeIf( deck -> deck.getCards().size() == 0);
-
-        //if (allThemedDeck.size() == 0) throw new Exception("aucune carte dispo");
 
         int totalWords = allThemedDeck.stream()
                               .mapToInt(deck -> deck.getCards().size())

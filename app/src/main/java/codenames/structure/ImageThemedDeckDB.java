@@ -1,7 +1,5 @@
 package codenames.structure;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ImageThemedDeckDB extends ThemedDeckDB {
 
@@ -21,7 +19,6 @@ public class ImageThemedDeckDB extends ThemedDeckDB {
 
         File dir = new File(dirPath);
         File[] fileList = dir.listFiles();
-        System.out.println(fileList);
 
         if (fileList == null) {
             return;
@@ -29,7 +26,6 @@ public class ImageThemedDeckDB extends ThemedDeckDB {
 
         for (File f : fileList) {
             data.add(loadFromFile(f.getName()));
-            System.out.println(f.getName());
         }
     }
 
@@ -48,7 +44,6 @@ public class ImageThemedDeckDB extends ThemedDeckDB {
                     while ((line = br.readLine()) != null) {
                         if (line != null && !line.trim().isEmpty() && !line.equals("null")) {
                             currentList.addHint(line);
-                            System.out.println(line);
                         }
                     }
                     br.close();
@@ -85,7 +80,6 @@ public class ImageThemedDeckDB extends ThemedDeckDB {
                     String fileName_ = file.getName().toLowerCase();
                     for (String ext : imageExtensions) {
                         if (fileName_.endsWith(ext)) {
-                            System.out.println(file.getAbsolutePath());
                             currentList.addCard(new ImageCard("file://"+file.getAbsolutePath()));
                             break;
                         }

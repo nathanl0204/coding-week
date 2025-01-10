@@ -1,8 +1,6 @@
 package codenames.structure;
 
-import java.io.Serializable;
-
-public class ImageCard implements Card, Serializable {
+public class ImageCard implements Card {
 
     private static final long serialVersionUID = 1L;
     private String url;

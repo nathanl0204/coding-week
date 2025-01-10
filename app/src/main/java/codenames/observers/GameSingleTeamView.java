@@ -3,7 +3,6 @@ package codenames.observers;
 import codenames.structure.AI.*;
 
 import codenames.structure.CardType;
-import codenames.structure.GameSinglePlayer;
 import codenames.structure.GameTwoTeams;
 import codenames.structure.PlayableCard;
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 

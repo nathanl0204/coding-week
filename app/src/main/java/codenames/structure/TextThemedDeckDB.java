@@ -19,7 +19,6 @@ public class TextThemedDeckDB extends ThemedDeckDB {
 
         File dir = new File(dirPath);
         File[] fileList = dir.listFiles();
-        System.out.println(fileList);
 
         if (fileList == null) {
             return;
@@ -27,7 +26,6 @@ public class TextThemedDeckDB extends ThemedDeckDB {
 
         for (File f : fileList) {
             data.add(loadFromFile(f.getName()));
-            System.out.println(f.getName());
         }
     }
 

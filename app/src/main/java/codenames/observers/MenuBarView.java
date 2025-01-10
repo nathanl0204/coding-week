@@ -10,8 +10,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.awt.Desktop;
@@ -21,11 +19,8 @@ import java.net.URI;
 
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.Node;
-import codenames.observers.*;
 
 public class MenuBarView implements Observer {
 
