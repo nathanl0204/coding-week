@@ -107,9 +107,7 @@ public class GameTwoTeamsView extends GameView {
             card.guessed();
         }
 
-        if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing())
-
-        {
+        if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()){
             game.ends();
             displayStatistics();
             button.setVisible(false);

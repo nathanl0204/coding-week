@@ -38,13 +38,6 @@ public class MediumOpponentAI extends OpponentAI {
             }
         }
 
-        for (PlayableCard card : selectedCards) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                System.out.println("Sleep interrupted");
-            }
-            gameView.processCardSelection(card);
-        }
+        playNextCard(selectedCards, 0);
     }
 }

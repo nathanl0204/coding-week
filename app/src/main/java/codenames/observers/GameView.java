@@ -44,6 +44,8 @@ public abstract class GameView implements Observer {
     }
 
     public void react() {
+        gridPane.requestLayout();
+        gridPane.layout();
     }
 
     public void setLoadingBarView(Chronometer loadingBarView) {

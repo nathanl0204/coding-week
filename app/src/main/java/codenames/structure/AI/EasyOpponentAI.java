@@ -1,9 +1,12 @@
 package codenames.structure.AI;
 
+import java.util.Collections;
+import java.util.List;
+
 import codenames.observers.*;
 import codenames.structure.*;
-
-import java.util.*;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 public class EasyOpponentAI extends OpponentAI {
 
@@ -28,13 +31,7 @@ public class EasyOpponentAI extends OpponentAI {
         Collections.shuffle(remainingCards);
         List<PlayableCard> selectedCards = remainingCards.subList(0, Math.min(cardsToGuess, remainingCards.size()));
 
-        for (PlayableCard card : selectedCards) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                System.out.println("Sleep interrupted");
-            }
-            gameView.processCardSelection(card);
-        }
+        playNextCard(selectedCards, 0);
+        
     }
 }
