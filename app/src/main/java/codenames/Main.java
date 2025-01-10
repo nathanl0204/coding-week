@@ -37,8 +37,9 @@ public class Main extends Application {
 
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
         MenuBarView menuBarController = new MenuBarView(game);
+        System.out.println(primaryStage == null);
         menuBarController.setPrimaryStage(primaryStage);
-        menuLoader.setControllerFactory(iC-> new MenuBarView(game));
+        menuLoader.setControllerFactory(iC-> menuBarController);
         root.setTop(menuLoader.load());
 
         FXMLLoader loader3 = new FXMLLoader();

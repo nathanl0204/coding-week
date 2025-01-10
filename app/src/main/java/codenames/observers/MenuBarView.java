@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +50,6 @@ public class MenuBarView implements Observer {
     @FXML
     private void handleLoadGame() {
         if (primaryStage == null) {
-            // Attempt to get stage through the menu items if not set directly
             if (classicMode != null && classicMode.getParentPopup() != null) {
                 primaryStage = (Stage) classicMode.getParentPopup().getOwnerWindow();
             } else {
@@ -60,46 +60,65 @@ public class MenuBarView implements Observer {
                 alert.showAndWait();
                 return;
             }
-        }
+        } else {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Charger une partie");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Fichiers de sauvegarde", "*.save"));
+            File file = fileChooser.showOpenDialog(null);
+            if (file != null) {
+                try {
+                    Game loadedGame = Game.loadGame(file);
+                    BorderPane root = new BorderPane();
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Charger une partie");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Fichiers de sauvegarde", "*.save"));
-        File file = fileChooser.showOpenDialog(null);
-        if (file != null) {
-            try {
-                Game loadedGame = Game.loadGame(file);
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
 
-                // Utiliser classicMode (ou n'importe quel autre élément FXML) pour obtenir la référence à la fenêtre
-                //Stage stage = (Stage) classicMode.getParentPopup().getOwnerWindow();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
+                    GameView gameView;
+                    if (loadedGame instanceof GameTwoTeams) {
+                        gameView = new GameTwoTeamsView((GameTwoTeams) loadedGame);
+                    } else {
+                        gameView = new GameSinglePlayerView((GameSinglePlayer) loadedGame);
+                    }
 
-                // Reste du code inchangé...
-                GameView gameView;
-                if (loadedGame instanceof GameTwoTeams) {
-                    gameView = new GameTwoTeamsView((GameTwoTeams) loadedGame);
-                } else {
-                    gameView = new GameSinglePlayerView((GameSinglePlayer) loadedGame);
+                    loader.setController(gameView);
+                    root.setCenter(loader.load());
+
+                    LoadingBarView loadingBarView = new LoadingBarView(game, 200, 20);
+                    FXMLLoader barLoader = new FXMLLoader(getClass().getResource("/view/LoadingBar.fxml"));
+                    barLoader.setControllerFactory(iC-> loadingBarView);
+                    barLoader.load();
+                    gameView.setLoadingBarController(loadingBarView);
+
+                    FXMLLoader blueLoader = new FXMLLoader();
+                    blueLoader.setLocation(getClass().getResource("/view/BlueTeam.fxml"));
+                    TeamView blueTeamView = new TeamView(game, true);
+                    blueLoader.setControllerFactory(iC->blueTeamView);
+                    root.setLeft(blueLoader.load());
+
+                    FXMLLoader redLoader = new FXMLLoader();
+                    redLoader.setLocation(getClass().getResource("/view/RedTeam.fxml"));
+                    TeamView redTeamView = new TeamView(game, false);
+                    redLoader.setControllerFactory(iC->redTeamView);
+                    root.setRight(redLoader.load());
+
+                    Scene scene = new Scene(root);
+                    primaryStage.setScene(scene);
+
+                    loadedGame.notifyObservers();
+
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText("Erreur lors du chargement");
+                    alert.setContentText("Impossible de charger la partie : " + e.getMessage());
+                    alert.showAndWait();
+                    e.printStackTrace();
                 }
-
-                loader.setController(gameView);
-                Scene scene = new Scene(loader.load());
-                primaryStage.setScene(scene);
-
-                // Notifier les observers
-                loadedGame.notifyObservers();
-
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText("Erreur lors du chargement");
-                alert.setContentText("Impossible de charger la partie : " + e.getMessage());
-                alert.showAndWait();
-                e.printStackTrace();
             }
         }
+
+
     }
 
     @FXML
@@ -113,7 +132,6 @@ public class MenuBarView implements Observer {
             try {
                 game.saveGame(file);
 
-                // Afficher un message de succès
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Sauvegarde réussie");
                 alert.setHeaderText(null);
@@ -121,7 +139,6 @@ public class MenuBarView implements Observer {
                 alert.showAndWait();
 
             } catch (IOException e) {
-                // Afficher une erreur
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur");
                 alert.setHeaderText("Erreur lors de la sauvegarde");

@@ -256,7 +256,6 @@ public abstract class Game implements Serializable {
         try (FileReader reader = new FileReader(file)) {
             GameState state = gson.fromJson(reader, GameState.class);
 
-            // Créer le bon type de jeu
             Game game;
             if (state.getGameType().equals("TwoTeams")) {
                 DeckTwoTeams deck = new DeckTwoTeams(state.getCards());
@@ -274,7 +273,6 @@ public abstract class Game implements Serializable {
                         state.getRedStat().getNumberOfRemainingCardsToFind());
             }
 
-            // Restaurer l'état
             game.id = state.getId();
             game.onGoing = state.getOnGoing();
             game.blueTurn = state.getBlueTurn();
@@ -283,7 +281,6 @@ public abstract class Game implements Serializable {
             copyStatistics(state.getBlueStat(), game.blueStat);
             copyStatistics(state.getRedStat(), game.redStat);
 
-            // Recréer les composants visuels
             game.getDeck().getCard().forEach(PlayableCard::recreateStackPane);
 
             return game;
