@@ -100,7 +100,7 @@ public class LoadingGameView {
                     default:
                         break;
                 }
-                game = new GameTwoTeams(deck, width, 7, 7);
+                game = new GameTwoTeams(deck, width, (int) (width*height*0.3), (int) (width*height*0.3));
                 gameView = new GameTwoTeamsView( (GameTwoTeams) game);
             } 
             else if (selectedGameMode.endsWith("Une Equipe")){
@@ -115,7 +115,7 @@ public class LoadingGameView {
                     default:
                         break;
                 }
-                game = new GameTwoTeams(deck, width, 7, 7);
+                game = new GameTwoTeams(deck, width, (int) (width*height*0.3), (int) (width*height*0.3));
                 gameView = new GameSingleTeamView( (GameTwoTeams) game);
 
                 OpponentAI oppAI = null;
@@ -150,7 +150,7 @@ public class LoadingGameView {
                         break;
                 }
 
-                game = new GameSinglePlayer( deck, width, 7, 7);
+                game = new GameSinglePlayer( deck, width, (int) (width*height*0.3), (int) (width*height*0.3));
                 gameView = new GameSinglePlayerView((GameSinglePlayer) game);
                 
                 AllyAI allyAI = null;
@@ -222,7 +222,9 @@ public class LoadingGameView {
             TeamView redTeamView = new TeamView(game, false);
             loader4.setControllerFactory(iC->redTeamView);
             root.setRight(loader4.load());
-
+            
+            game.notifyObservers();
+            
             Scene scene = new Scene(root);
 
             Stage currentStage = (Stage) blitzLabel.getScene().getWindow();

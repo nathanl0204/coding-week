@@ -14,29 +14,12 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.application.Platform;
 
 public class GameTwoTeamsView extends GameView {
 
     public GameTwoTeamsView(GameTwoTeams game) {
         super(game);
         this.game.addObserver(this);
-    }
-
-    public void handleTimerComplete() {
-        if (game.getRemainingCardGuess() > 0) {
-            // Time's up, switch turns
-            Platform.runLater(() -> {
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Temps écoulé");
-                alert.setHeaderText(null);
-                alert.setContentText("Le temps est écoulé ! Au tour de l'équipe suivante.");
-                alert.showAndWait();
-
-                game.setRemainingCardGuess(0);
-
-            });
-        }
     }
 
     @FXML

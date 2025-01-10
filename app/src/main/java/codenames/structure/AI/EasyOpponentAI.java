@@ -24,11 +24,13 @@ public class EasyOpponentAI extends OpponentAI {
 
         List<PlayableCard> remainingCards = deck.getRemainingCards();
         int cardsToGuess = random.nextInt(remainingRedCards.size()) + 1;
-        game.setRemainingCardGuess(cardsToGuess);
+        
 
         Collections.shuffle(remainingCards);
         List<PlayableCard> selectedCards = remainingCards.subList(0, Math.min(cardsToGuess, remainingCards.size()));
 
+
+        game.setRemainingCardGuess(selectedCards.size());
         playNextCard(getCardsUntilFirstNonRed(selectedCards), 0);
 
     }

@@ -26,6 +26,12 @@ public class GameSingleTeamView extends GameView {
         this.game.addObserver(this);
     }
 
+    @FXML
+    public void initialize() {
+        imageView.setImage(((GameTwoTeams) game).getQRCode());
+        super.initialize();
+    }
+
 
     public void setOpponentAI(OpponentAI opponentAI) {
         this.opponentAI = opponentAI;
@@ -148,7 +154,7 @@ public class GameSingleTeamView extends GameView {
 
             game.changeTurn(0);
             opponentAI.play();
-
+            
         } else if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();
             displayStatistics();
@@ -159,7 +165,7 @@ public class GameSingleTeamView extends GameView {
 
     @FXML
     public void handleButton() {
-        if (game.getRemainingCardGuess() == 0) {
+        if (game.getRemainingCardGuess() == 0 && !game.isBlueTurn()) {
             askForNumberGuess().ifPresent(n -> {
                 int N = Integer.parseInt(n);
                 if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind())

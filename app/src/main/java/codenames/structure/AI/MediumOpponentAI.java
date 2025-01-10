@@ -25,7 +25,6 @@ public class MediumOpponentAI extends OpponentAI {
         remainingNonRedCards.removeAll(remainingRedCards);
 
         int cardsToGuess = random.nextInt(remainingRedCards.size()) + 1;
-        game.setRemainingCardGuess(cardsToGuess);
 
         List<PlayableCard> selectedCards = new ArrayList<>();
         for (int i = 0; i < cardsToGuess && (!remainingRedCards.isEmpty() || !remainingNonRedCards.isEmpty()); i++) {
@@ -38,6 +37,7 @@ public class MediumOpponentAI extends OpponentAI {
             }
         }
 
+        game.setRemainingCardGuess(selectedCards.size());
         playNextCard(getCardsUntilFirstNonRed(selectedCards), 0);
     }
 }

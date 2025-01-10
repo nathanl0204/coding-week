@@ -3,28 +3,25 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.shape.Rectangle?>
 
-<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" alignment="CENTER">
-
-    <VBox fx:id="blueStats" spacing="20" alignment="CENTER" style="-fx-background-color: lightblue; -fx-padding: 10;">
-        <Label text="BLUE TEAM"/>
-        <Label fx:id="blueAverageTimeLabel"/>
-        <Label fx:id="blueAverageCardsLabel"/>
-        <Label fx:id="blueNumberOfErrorsLabel"/>
-        <Label fx:id="blueNumberOfGuessLabel"/>
-        <Label fx:id="blueNumberOfTurnsLabel"/>
-        <Label fx:id="blueRemainingCardsLabel"/>
+<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" alignment="CENTER" style="-fx-background-color: #0003a5;"  prefWidth="600">
+    <VBox fx:id="blueStats" spacing="20" alignment="CENTER" style="-fx-background-color: #00297a; -fx-border-radius: 5px; -fx-border-width: 2px; -fx-border-color: black; -fx-padding: 10;">
+        <Label text="BLUE TEAM" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueAverageTimeLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueAverageCardsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueNumberOfErrorsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueNumberOfGuessLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueNumberOfTurnsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueRemainingCardsLabel" style="-fx-text-fill: white;"/>
     </VBox>
 
-    <VBox fx:id="redStats" spacing="20" alignment="CENTER" style="-fx-background-color: lightcoral; -fx-padding: 10;">
-        <Label text="RED TEAM"/>
-        <Label fx:id="redAverageTimeLabel"/>
-        <Label fx:id="redAverageCardsLabel"/>
-        <Label fx:id="redNumberOfErrorsLabel"/>
-        <Label fx:id="redNumberOfGuessLabel"/>
-        <Label fx:id="redNumberOfTurnsLabel"/>
-        <Label fx:id="redRemainingCardsLabel"/>
+    <VBox fx:id="redStats" spacing="20" alignment="CENTER" style="-fx-background-color: #971b00; -fx-border-radius: 5px; -fx-border-width: 2px; -fx-border-color: black; -fx-padding: 10;">
+        <Label text="RED TEAM" style="-fx-text-fill: white;"/>
+        <Label fx:id="redAverageTimeLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="redAverageCardsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="redNumberOfErrorsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="redNumberOfGuessLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="redNumberOfTurnsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="redRemainingCardsLabel" style="-fx-text-fill: white;"/>
     </VBox>
-
 </HBox>

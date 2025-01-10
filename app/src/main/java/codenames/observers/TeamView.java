@@ -28,7 +28,7 @@ public class TeamView implements Observer {
 
     public void react() {
         if (this.isRedTeam) {
-            this.points.setText(String.valueOf(game.getBlueStatistics().getNumberOfCorrectGuess()));
+            this.points.setText(String.valueOf(game.getBlueStatistics().getNumberOfRemainingCardsToFind()));
 
             if (game.isBlueTurn()) {
                 this.info_zone.setText("Blue turn");
@@ -36,7 +36,7 @@ public class TeamView implements Observer {
                 this.info_zone.setText("Red turn");
             }
         } else {
-            this.points.setText(String.valueOf(game.getRedStatistics().getNumberOfCorrectGuess()));
+            this.points.setText(String.valueOf(game.getRedStatistics().getNumberOfRemainingCardsToFind()));
 
             if (game.isBlueTurn()) {
                 if (game.isOnGoing()) {

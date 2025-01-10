@@ -79,6 +79,7 @@ public abstract class GameView implements Observer {
 
                 Label label = new Label(playableCard.getCard().getString());
                 label.setPadding(new Insets(38, 0, 0, 0));
+
                 ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
 
                 stackPane.getChildren().addAll(background, label);
@@ -195,8 +196,7 @@ public abstract class GameView implements Observer {
 
         Stage newStage = new Stage();
         newStage.setScene(scene);
-        newStage.setMaximized(false);
-        newStage.setResizable(true);
+        newStage.setWidth(500);
         newStage.setTitle("Statistics");
         newStage.show();
     }
