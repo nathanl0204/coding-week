@@ -6,11 +6,18 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 
-import codenames.observers.*;
-import codenames.structure.*;
-import codenames.structure.AI.*;
+import codenames.observers.LoadingGameView;
+import codenames.observers.ManageImageView;
 import codenames.observers.ManageWordView;
 import codenames.observers.view.ManageWordLoader;
+import codenames.structure.CardType;
+import codenames.structure.DeckSinglePlayer;
+import codenames.structure.DeckTwoTeams;
+import codenames.structure.GameSinglePlayer;
+import codenames.structure.GameTwoTeams;
+import codenames.structure.PlayableCard;
+import codenames.structure.PlayableCardWithHints;
+import codenames.structure.TextCard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.*;
@@ -18,59 +25,22 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-                @Override
-                public void start(Stage primaryStage) throws Exception {
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingGame.fxml"));
+        loader.setControllerFactory(iC->new LoadingGameView());
+        GridPane root = loader.load();
 
-                                // ManageWordView manageWordView = new ManageWordView();
-                                // BorderPane manageWordPane = manageWordView.getGraphic();
-                                //
-                                // Scene scene = new Scene(manageWordPane);
-                                //
-                                // primaryStage.setScene(scene);
-                                // primaryStage.setMaximized(true);
-                                // primaryStage.setTitle("CodeName");
-                                // primaryStage.show();
+        /* 
+        ManageImageView rc = new ManageImageView();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("view/manageword.fxml"));
+        loader.setControllerFactory(iC -> iC.equals(codenames.observers.ManageWordView.class) ? rc : null);
+        Pane root = loader.load();
+        */
+        
 
-                                // GameTwoTeams game = testGame();
-
-                                GameSinglePlayer game = testSPGame();
-
-                                LoadingBarView loadingBarController = new LoadingBarView(game, 200, 20);
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingBar.fxml"));
-                                loader.setControllerFactory(iC -> loadingBarController);
-                                BorderPane root = new BorderPane();
-
-                                // GameTwoTeamsController gc = new GameTwoTeamsController(game);
-
-                                GameSinglePlayerView gc = new GameSinglePlayerView(game);
-
-                                gc.setLoadingBarView(loadingBarController);
-                                loadingBarController.setGameController(game);
-
-                                HardAllyAI ai = new HardAllyAI(gc);
-                                gc.setAllyAI(ai);
-
-                                EasyOpponentAI ai2 = new EasyOpponentAI(gc);
-                                gc.setOpponentAI(ai2);
-
-                                FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
-                                loader2.setControllerFactory(iC -> gc);
-                                VBox temp = loader2.load();
-                                root.setCenter(temp);
-
-                                FXMLLoader loader3 = new FXMLLoader();
-                                loader3.setLocation(getClass().getResource("/view/BlueTeam.fxml"));
-                                TeamView blueTeamView = new TeamView(game, true);
-                                loader3.setControllerFactory(iC -> blueTeamView);
-                                root.setLeft(loader3.load());
-
-                                FXMLLoader loader4 = new FXMLLoader();
-                                loader4.setLocation(getClass().getResource("/view/RedTeam.fxml"));
-                                TeamView redTeamView = new TeamView(game, false);
-                                loader4.setControllerFactory(iC -> redTeamView);
-                                root.setRight(loader4.load());
-
-                                Scene scene = new Scene(root);
+        Scene scene = new Scene(root);
 
                                 primaryStage.setScene(scene);
                                 primaryStage.setTitle("CodeName");

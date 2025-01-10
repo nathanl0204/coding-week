@@ -13,28 +13,28 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class GameSinglePlayerView extends GameView {
-    private AI AllyAI;
-    private AI OpponentAI;
+    private AllyAI allyAI;
+    private OpponentAI opponentAI;
 
     public GameSinglePlayerView(GameSinglePlayer game) {
         super(game);
         this.game.addObserver(this);
     }
 
-    public void setAllyAI(AI allyAI) {
-        this.AllyAI = allyAI;
+    public void setAllyAI(AllyAI allyAI) {
+        this.allyAI = allyAI;
     }
 
-    public void setOpponentAI(AI opponentAI) {
-        this.OpponentAI = opponentAI;
+    public void setOpponentAI(OpponentAI opponentAI) {
+        this.opponentAI = opponentAI;
     }
 
     public AI getAllyAI() {
-        return AllyAI;
+        return allyAI;
     }
 
     public AI getOpponentAI() {
-        return OpponentAI;
+        return opponentAI;
     }
 
     public void alertAllyAIHint(String hint, int number) {
@@ -56,7 +56,6 @@ public class GameSinglePlayerView extends GameView {
 
             switch (card.getCardType()) {
                 case Black:
-                    alertWrongGuest("Black Card selected, you lose");
                     game.wrongGuess(CardType.Black);
                     game.ends();
                     button.setVisible(false);
@@ -64,14 +63,12 @@ public class GameSinglePlayerView extends GameView {
                     break;
                 case White:
                     game.wrongGuess(CardType.White);
-                    alertWrongGuest("White Card selected, your turn ends");
                     break;
                 case Blue:
                     game.correctGuess();
                     break;
                 case Red:
                     game.wrongGuess(CardType.Red);
-                    alertWrongGuest("Red Card selected, your turn ends");
                     break;
                 default:
                     break;
@@ -89,21 +86,17 @@ public class GameSinglePlayerView extends GameView {
                 case Black:
                     game.wrongGuess(CardType.Black);
                     game.ends();
-                    alertOpponentAIMove("Your opponent chose the black card, you win !");
                     alertWrongGuest("The AI chose the black card, blue team wins !");
                     button.setVisible(false);
                     displayStatistics();
                     break;
                 case White:
                     game.wrongGuess(CardType.White);
-                    alertOpponentAIMove("Your opponent chose a white card");
                     break;
                 case Blue:
-                    alertOpponentAIMove("Your opponent chose a blue card");
                     game.wrongGuess(CardType.Blue);
                     break;
                 case Red:
-                    alertOpponentAIMove("Your opponent chose a red card");
                     game.correctGuess();
                     break;
                 default:
@@ -113,9 +106,8 @@ public class GameSinglePlayerView extends GameView {
         if (game.getRemainingCardGuess() == 0 && game.isOnGoing()) {
             if (game.isBlueTurn()) {
                 game.changeTurn(0);
-                OpponentAI.play();
-            } else
-                info.setText("Blue turn");
+                opponentAI.play();
+            }
         } else if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();
             displayStatistics();
@@ -127,7 +119,7 @@ public class GameSinglePlayerView extends GameView {
     @FXML
     public void handleButton() {
         if (game.getRemainingCardGuess() == 0) {
-            AllyAI.play();
+            allyAI.play();
             askForNumberGuess().ifPresent(n -> {
                 int N = Integer.parseInt(n);
                 if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind())
@@ -151,5 +143,13 @@ public class GameSinglePlayerView extends GameView {
         dialog.setContentText("Number :");
 
         return dialog.showAndWait();
+    }
+
+    public void alertOpponentAIMove(String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText("Opponent");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

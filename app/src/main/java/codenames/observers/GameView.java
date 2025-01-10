@@ -31,8 +31,6 @@ public abstract class GameView implements Observer {
     @FXML
     Button button;
     @FXML
-    Label info;
-    @FXML
     ImageView imageView;
 
     protected Boolean blitzMode;
@@ -122,14 +120,6 @@ public abstract class GameView implements Observer {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText("Wrong Card");
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    public void alertOpponentAIMove(String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText("Opponent");
         alert.setContentText(message);
         alert.showAndWait();
     }
