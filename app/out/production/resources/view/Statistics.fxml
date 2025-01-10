@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+
+<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" alignment="CENTER" style="-fx-background-color: #0003a5;"  prefWidth="600">
+    <VBox fx:id="blueStats" spacing="20" alignment="CENTER" style="-fx-background-color: #00297a; -fx-border-radius: 5px; -fx-border-width: 2px; -fx-border-color: black; -fx-padding: 10;">
+        <Label text="BLUE TEAM" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueAverageTimeLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueAverageCardsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueNumberOfErrorsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueNumberOfGuessLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueNumberOfTurnsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="blueRemainingCardsLabel" style="-fx-text-fill: white;"/>
+    </VBox>
+
+    <VBox fx:id="redStats" spacing="20" alignment="CENTER" style="-fx-background-color: #971b00; -fx-border-radius: 5px; -fx-border-width: 2px; -fx-border-color: black; -fx-padding: 10;">
+        <Label text="RED TEAM" style="-fx-text-fill: white;"/>
+        <Label fx:id="redAverageTimeLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="redAverageCardsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="redNumberOfErrorsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="redNumberOfGuessLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="redNumberOfTurnsLabel" style="-fx-text-fill: white;"/>
+        <Label fx:id="redRemainingCardsLabel" style="-fx-text-fill: white;"/>
+    </VBox>
+</HBox>

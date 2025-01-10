@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+
+<MenuBar xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="codenames.observers.MenuBarView" fx:id="tmp">
+    <menus>
+        <Menu text="Fichier">
+            <items>
+                <MenuItem text="Nouvelle partie" onAction="#handleNewGame">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                    </accelerator>
+                </MenuItem>
+                <MenuItem text="Charger une partie" onAction="#handleLoadGame">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                    </accelerator>
+                </MenuItem>
+                <MenuItem text="Sauvegarder la partie" onAction="#handleSaveGame">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                    </accelerator>
+                </MenuItem>
+                <SeparatorMenuItem />
+                <MenuItem text="Quitter" onAction="#handleExit">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                    </accelerator>
+                </MenuItem>
+            </items>
+        </Menu>
+        <Menu text="Édition">
+            <items>
+                <MenuItem text="Éditer les cartes textes" onAction="#handleEditTextCards" />
+                <MenuItem text="Éditer les cartes images" onAction="#handleEditImageCards" />
+            </items>
+        </Menu>
+        <Menu text="Aide">
+            <items>
+                <MenuItem text="Règles du jeu" onAction="#handleRules" />
+            </items>
+        </Menu>
+    </menus>
+</MenuBar>

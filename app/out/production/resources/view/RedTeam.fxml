@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="self" prefWidth="250.0" spacing="60.0" style="-fx-background-color: #b80000;" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codenames.observers.TeamView">
+    <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" style="-fx-border-radius: 5px; -fx-border-width: 2px; -fx-border-color: black; -fx-background-color: #971b00;">
+        <StackPane prefHeight="90.0" prefWidth="160.0">
+            <ImageView fx:id="teamPicture" fitHeight="140.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../Red2.jpg" />
+                </image>
+            </ImageView>
+            <Label fx:id="points" alignment="CENTER" text="0" textFill="WHITE">
+                <font>
+                    <Font size="77.0" />
+                </font>
+                <padding>
+                    <Insets right="180.0" />
+                </padding>
+            </Label>
+        </StackPane>
+    </VBox>
+    <Label text="Game running..." textFill="WHITE" fx:id="info_zone">
+        <font>
+            <Font name="System Bold Italic" size="20.0" />
+        </font>
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+        </padding>
+    </Label>
+</VBox>
