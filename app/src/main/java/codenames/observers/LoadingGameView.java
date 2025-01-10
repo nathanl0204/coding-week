@@ -25,24 +25,52 @@ import codenames.structure.GameSinglePlayer;
 import codenames.structure.GameTwoTeams;
 import codenames.structure.PlayableCard;
 import codenames.structure.TextCard;
+import codenames.structure.AI.*;
+import codenames.structure.AI.OpponentAI;
 import javafx.collections.FXCollections;
+import codenames.observers.*;
 
 public class LoadingGameView {
 
     @FXML private CheckBox blitzMode;
     @FXML private ComboBox<String> gameMode;
+    @FXML private ComboBox<String> aiLevel;
+    @FXML private ComboBox<String> cardMode;
     @FXML private TextField gridWidth;
     @FXML private TextField gridHeight;
     @FXML private TextField blitzTime;
     @FXML private Label blitzLabel;
+    @FXML private Label aiLabel;
 
     public LoadingGameView(){}
 
     @FXML
     public void initialize() {
-        gameMode.setItems(FXCollections.observableArrayList("Single Player", "Two Teams")); 
-        gameMode.setValue("Two Teams");  
+        gameMode.setItems(FXCollections.observableArrayList("Joueur Seul", "Deux Equipes")); 
+        gameMode.setValue("Deux Equipes");  
+        
+        cardMode.setItems(FXCollections.observableArrayList("Texte", "Image"));
+        cardMode.setValue("Texte");  
+
+        aiLevel.setItems(FXCollections.observableArrayList("Facile", "Moyenne", "Difficile"));
+        aiLevel.setValue("Moyenne");
+        aiLevel.setVisible(false);
+        aiLabel.setVisible(false);
     }
+
+    @FXML
+    public void updateGameMode() {
+        
+        if (gameMode.getSelectionModel().getSelectedItem().equals("Joueur Seul")) {
+            aiLevel.setVisible(true);
+            aiLabel.setVisible(true);
+        }
+        else {
+            aiLevel.setVisible(false);
+            aiLabel.setVisible(false);
+        }
+    }
+
 
     @FXML private void toggleBlitzField() {
         boolean isBlitzSelected = blitzMode.isSelected();
@@ -67,21 +95,60 @@ public class LoadingGameView {
             DeckFactory factory = new DeckFactory();
             Game game;
 
-            if (selectedGameMode.endsWith("Two Teams")){
-                
-
-                
-                DeckTwoTeams deck = factory.createImageDeckTwoTeams(height*width);
+            if (selectedGameMode.endsWith("Deux Equipes")){
+                DeckTwoTeams deck = null;
+                switch (cardMode.getSelectionModel().getSelectedItem()) {
+                    case "Texte":
+                        deck  = factory.createTextDeckTwoTeams(height*width);
+                        break;
+                    case "Image":
+                        deck = factory.createImageDeckTwoTeams(height*width);
+                        break;
+                    default:
+                        break;
+                }
                 game = new GameTwoTeams(deck, width, 7, 7);
                 gameView = new GameTwoTeamsView( (GameTwoTeams) game);
                 
             }
             else {
-                // Creer les IA
-                DeckSinglePlayer deck = factory.createTextDeckSinglePlayer(height*width);
+                DeckSinglePlayer deck = null;
+                switch (cardMode.getSelectionModel().getSelectedItem()) {
+                    case "Texte":
+                        deck = factory.createTextDeckSinglePlayer(height*width);
+                        break;
+                    case "Image":
+                        deck = factory.createImageDeckSinglePlayer(height*width);
+                        break;
+                    default:
+                        break;
+                }
+
                 game = new GameSinglePlayer( deck, width, 7, 7);
                 gameView = new GameSinglePlayerView((GameSinglePlayer) game);
+                
+                AllyAI allyAI = null;
+                OpponentAI oppAI = null;
 
+                switch (aiLevel.getSelectionModel().getSelectedItem()) {
+                    case "Facile":
+                        allyAI = new EasyAllyAI(gameView);
+                        oppAI = new EasyOpponentAI(gameView);
+                        break;
+                    case "Moyenne":
+                        allyAI = new MediumAllyAI(gameView);
+                        oppAI = new MediumOpponentAI(gameView);
+                        break;
+                    case "Difficile":
+                        allyAI = new HardAllyAI(gameView);
+                        oppAI = new HardOpponentAI(gameView);
+                        break;
+                    default:
+                        break;
+                }
+
+                ((GameSinglePlayerView) gameView).setAllyAI(allyAI);
+                ((GameSinglePlayerView) gameView).setOpponentAI(oppAI);
                 
             }
 
