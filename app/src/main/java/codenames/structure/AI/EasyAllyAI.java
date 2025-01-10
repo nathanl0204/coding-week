@@ -1,16 +1,24 @@
 package codenames.structure.AI;
 
-import codenames.observers.*;
+import codenames.observers.GameSinglePlayerView;
+import codenames.structure.CardType;
+
+import java.util.Map;
 
 public class EasyAllyAI extends AllyAI {
-    protected GameView game;
 
-    public EasyAllyAI(GameView gameView) {
+    public EasyAllyAI(GameSinglePlayerView gameView) {
         super(gameView);
+    }
+
+    protected Map.Entry<String, Integer> getBestHint(CardType teamColor) {
+        return getSortedHintScores(teamColor).get(0);
     }
 
     @Override
     public void play() {
-        // Implementation will go here
+        Map.Entry<String, Integer> bestHint = getBestHint(CardType.Blue);
+
+        gameView.alertAllyAIHint(bestHint.getKey(), countMatchingCardsForHint(bestHint.getKey(), CardType.Blue));
     }
 }

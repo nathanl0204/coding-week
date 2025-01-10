@@ -37,6 +37,15 @@ public class GameSinglePlayerView extends GameView {
         return OpponentAI;
     }
 
+    public void alertAllyAIHint(String hint, int number) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText("Ally");
+        alert.setContentText(
+                "Your spymaster tells you the following hint: " + hint + " corresponding to " + number + " cards");
+        alert.showAndWait();
+    }
+
     public void processCardSelection(PlayableCard card) {
         if (game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
 
@@ -44,7 +53,6 @@ public class GameSinglePlayerView extends GameView {
             transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
             card.getStackPane().getChildren().add(transparency);
             card.guessed();
-
 
             switch (card.getCardType()) {
                 case Black:
@@ -81,17 +89,21 @@ public class GameSinglePlayerView extends GameView {
                 case Black:
                     game.wrongGuess(CardType.Black);
                     game.ends();
+                    alertOpponentAIMove("Your opponent chose the black card, you win !");
                     alertWrongGuest("The AI chose the black card, blue team wins !");
                     button.setVisible(false);
                     displayStatistics();
                     break;
                 case White:
                     game.wrongGuess(CardType.White);
+                    alertOpponentAIMove("Your opponent chose a white card");
                     break;
                 case Blue:
+                    alertOpponentAIMove("Your opponent chose a blue card");
                     game.wrongGuess(CardType.Blue);
                     break;
                 case Red:
+                    alertOpponentAIMove("Your opponent chose a red card");
                     game.correctGuess();
                     break;
                 default:
@@ -101,10 +113,9 @@ public class GameSinglePlayerView extends GameView {
         if (game.getRemainingCardGuess() == 0 && game.isOnGoing()) {
             if (game.isBlueTurn()) {
                 game.changeTurn(0);
-                EasyOpponentAI ai = new EasyOpponentAI(this);
-                System.out.println("L'ia joue");
-                ai.play();
-            }
+                OpponentAI.play();
+            } else
+                info.setText("Blue turn");
         } else if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();
             displayStatistics();
@@ -116,6 +127,7 @@ public class GameSinglePlayerView extends GameView {
     @FXML
     public void handleButton() {
         if (game.getRemainingCardGuess() == 0) {
+            AllyAI.play();
             askForNumberGuess().ifPresent(n -> {
                 int N = Integer.parseInt(n);
                 if (N > 0 && N <= game.getNumberOfOpponentRemainingCardsToFind())

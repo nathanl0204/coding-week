@@ -45,7 +45,8 @@ public abstract class GameView implements Observer {
         this.game = game;
     }
 
-    public void react(){}
+    public void react() {
+    }
 
     public void setLoadingBarView(Chronometer loadingBarView) {
         this.loadingBarView = loadingBarView;
@@ -67,17 +68,18 @@ public abstract class GameView implements Observer {
         int cols = game.getCols();
         final int[] currentPos = { 0, 0 };
 
-        game.getDeck().getCard().forEach(playableCard -> {
+        game.getDeck().getCards().forEach(playableCard -> {
 
             StackPane stackPane = new StackPane();
             gridPane.add(stackPane, currentPos[1], currentPos[0]);
 
             if (playableCard.getCard() instanceof TextCard) {
 
-                Label label =  new Label(playableCard.getCard().getString());
+                Label label = new Label(playableCard.getCard().getString());
                 label.setPadding(new Insets(38, 0, 0, 0));
-                ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
-                
+                ImageView background = new ImageView(
+                        new Image(String.valueOf(getClass().getResource("/card_back.jpg"))));
+
                 stackPane.getChildren().addAll(background, label);
                 playableCard.setStackPane(stackPane);
 
@@ -86,19 +88,20 @@ public abstract class GameView implements Observer {
 
                 ImageView imgView = new ImageView(new Image(playableCard.getCard().getString()));
 
-                imgView.setFitWidth(800/cols);
+                imgView.setFitWidth(800 / cols);
                 imgView.setPreserveRatio(true);
 
                 stackPane.getChildren().add(imgView);
                 playableCard.setStackPane(stackPane);
             }
-            
+
             stackPane.setOnMouseClicked(new EventHandler<Event>() {
                 @Override
                 public void handle(Event event) {
                     if (event instanceof MouseEvent) {
                         MouseEvent mouseEvent = (MouseEvent) event;
-                        if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed() && game.isOnGoing()) {  
+                        if (mouseEvent.getButton() == MouseButton.PRIMARY && !playableCard.isGuessed()
+                                && game.isOnGoing()) {
                             processCardSelection(playableCard);
                         }
                     }
@@ -119,6 +122,14 @@ public abstract class GameView implements Observer {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText("Wrong Card");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public void alertOpponentAIMove(String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText("Opponent");
         alert.setContentText(message);
         alert.showAndWait();
     }

@@ -34,7 +34,7 @@ public class GameTwoTeamsView extends GameView {
                 alert.showAndWait();
 
                 game.setRemainingCardGuess(0);
-                
+
             });
         }
     }
@@ -47,8 +47,8 @@ public class GameTwoTeamsView extends GameView {
 
     public void processCardSelection(PlayableCard card) {
 
-        if (game.getRemainingCardGuess() > 0 && !card.isGuessed()){
-            
+        if (game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
+
             String path = null;
             Random rand = new Random();
 
@@ -98,8 +98,7 @@ public class GameTwoTeamsView extends GameView {
                     break;
                 default:
                     break;
-            }   
-
+            }
             ImageView cover = new ImageView(new Image(path));
             cover.fitHeightProperty().bind(card.getStackPane().heightProperty());
             cover.fitWidthProperty().bind(card.getStackPane().widthProperty());
@@ -108,9 +107,9 @@ public class GameTwoTeamsView extends GameView {
             card.guessed();
         }
 
-        
+        if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing())
 
-        if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
+        {
             game.ends();
             displayStatistics();
             button.setVisible(false);
@@ -157,5 +156,6 @@ public class GameTwoTeamsView extends GameView {
     }
 
     @Override
-    public void react() {}
+    public void react() {
+    }
 }

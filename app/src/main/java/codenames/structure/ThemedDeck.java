@@ -7,37 +7,37 @@ public class ThemedDeck {
     private List<Card> cards;
     private List<String> hints;
 
-    public ThemedDeck(){
+    public ThemedDeck() {
         cards = new ArrayList<>();
         hints = new ArrayList<>();
     }
 
-    public void clear(){
+    public void clear() {
         cards.clear();
         hints.clear();
     }
 
-    public void addCard(Card card){
+    public void addCard(Card card) {
         cards.add(card);
     }
 
-    public void addHint(String hint){
+    public void addHint(String hint) {
         hints.add(hint);
     }
 
-    public List<Card> getCards(){
+    public List<Card> getCards() {
         return cards;
     }
 
-    public List<String> getHints(){
+    public List<String> getHints() {
         return hints;
     }
 
-    public Boolean removeCard(String string){
-        return cards.removeIf(card -> card.getString().equals(string));
+    public void removeCard(String string) {
+        cards.removeIf(card -> card.getString().equals(string));
     }
-    
-    public void removeHint(String hint){
+
+    public void removeHint(String hint) {
         hints.remove(hint);
     }
 }

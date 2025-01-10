@@ -36,7 +36,7 @@ public class GameTwoTeams extends Game {
     public String generateColorsString() {
         StringBuilder colors = new StringBuilder();
 
-        deck.getCard().forEach(card -> colors.append(card.getColorCode()));
+        deck.getCards().forEach(card -> colors.append(card.getColorCode()));
 
         return colors.toString();
     }

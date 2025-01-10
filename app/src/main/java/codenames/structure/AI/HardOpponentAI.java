@@ -32,15 +32,18 @@ public class HardOpponentAI extends OpponentAI {
             boolean pickRedCard = random.nextDouble() < 0.7; // 70% chance of being right
 
             if (pickRedCard && !remainingRedCards.isEmpty()) {
-                System.out.println("The AI is going to pick a red card");
                 selectedCards.add(remainingRedCards.remove(random.nextInt(remainingRedCards.size())));
             } else if (!remainingNonRedCards.isEmpty()) {
-                System.out.println("The AI is going to pick a non-red card");
                 selectedCards.add(remainingNonRedCards.remove(random.nextInt(remainingNonRedCards.size())));
             }
         }
 
         for (PlayableCard card : selectedCards) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                System.out.println("Sleep interrupted");
+            }
             gameView.processCardSelection(card);
         }
     }

@@ -29,6 +29,11 @@ public class EasyOpponentAI extends OpponentAI {
         List<PlayableCard> selectedCards = remainingCards.subList(0, Math.min(cardsToGuess, remainingCards.size()));
 
         for (PlayableCard card : selectedCards) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                System.out.println("Sleep interrupted");
+            }
             gameView.processCardSelection(card);
         }
     }

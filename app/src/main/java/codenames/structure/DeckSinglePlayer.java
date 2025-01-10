@@ -10,10 +10,14 @@ public class DeckSinglePlayer implements Deck {
         cards = listCard;
     }
 
-    public List<PlayableCard> getCard() {
+    public List<PlayableCard> getCards() {
         return cards.stream()
                 .map(PlayableCardWithHints::getPlayableCard)
                 .collect(Collectors.toList());
+    }
+
+    public List<PlayableCardWithHints> getCardsWithHints() {
+        return cards;
     }
 
     public int size() {
