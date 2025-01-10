@@ -39,7 +39,7 @@ public class MenuBarView implements Observer {
 
     public MenuBarView(Game game) {
         this.game = game;
-        this.game.addObserver(this);
+        if (game != null) this.game.addObserver(this);
     }
 
     @FXML 
@@ -120,27 +120,29 @@ public class MenuBarView implements Observer {
 
     @FXML
     private void handleSaveGame() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Sauvegarder la partie");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Fichiers de sauvegarde", "*.save"));
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try {
-                game.saveGame(file);
+        if (game != null) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Sauvegarder la partie");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Fichiers de sauvegarde", "*.save"));
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                try {
+                    game.saveGame(file);
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Sauvegarde réussie");
-                alert.setHeaderText(null);
-                alert.setContentText("La partie a été sauvegardée avec succès.");
-                alert.showAndWait();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Sauvegarde réussie");
+                    alert.setHeaderText(null);
+                    alert.setContentText("La partie a été sauvegardée avec succès.");
+                    alert.showAndWait();
 
-            } catch (IOException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText("Erreur lors de la sauvegarde");
-                alert.setContentText("Impossible de sauvegarder la partie : " + e.getMessage());
-                alert.showAndWait();
+                } catch (IOException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText("Erreur lors de la sauvegarde");
+                    alert.setContentText("Impossible de sauvegarder la partie : " + e.getMessage());
+                    alert.showAndWait();
+                }
             }
         }
     }
