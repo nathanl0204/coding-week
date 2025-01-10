@@ -4,37 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ThemedDeck {
-    private List<String> words;
+    private List<Card> cards;
     private List<String> hints;
 
     public ThemedDeck() {
-        words = new ArrayList<>();
+        cards = new ArrayList<>();
         hints = new ArrayList<>();
     }
 
     public void clear() {
-        words.clear();
+        cards.clear();
         hints.clear();
     }
 
-    public void addWord(String word) {
-        words.add(word);
+    public void addCard(Card card) {
+        cards.add(card);
     }
 
     public void addHint(String hint) {
         hints.add(hint);
     }
 
-    public List<String> getWords() {
-        return words;
+    public List<Card> getCards() {
+        return cards;
     }
 
     public List<String> getHints() {
         return hints;
     }
 
-    public void removeWord(String word) {
-        words.remove(word);
+    public void removeCard(String string) {
+        cards.removeIf(card -> card.getString().equals(string));
     }
 
     public void removeHint(String hint) {

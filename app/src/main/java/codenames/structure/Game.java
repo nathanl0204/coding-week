@@ -1,6 +1,6 @@
 package codenames.structure;
 
-import codenames.controller.*;
+import codenames.observers.*;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,7 @@ public abstract class Game {
     protected Boolean blueTurn;
     protected int remainingCardGuess;
     protected int cols;
+    private boolean blitzMode;
     protected ArrayList<Observer> observers;
 
     public Game(int cols, int numberOfBlueCard, int numberOfRedCard) {
@@ -32,6 +33,14 @@ public abstract class Game {
         for (int i = 0; i < this.observers.size(); i++) {
             this.observers.get(i).react();
         }
+    }
+
+    public void setBlitzMode(boolean blitzMode) {
+        this.blitzMode = blitzMode;
+    }
+
+    public boolean getBlitzMode() {
+        return this.blitzMode;
     }
 
     public int getCols() {

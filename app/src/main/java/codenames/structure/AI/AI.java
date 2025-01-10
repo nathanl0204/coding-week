@@ -1,12 +1,12 @@
 package codenames.structure.AI;
 
-import codenames.controller.*;
+import codenames.observers.*;
 
 public abstract class AI {
-    public GameController gameController;
+    GameView gameView;
 
-    public AI(GameController gameController) {
-        this.gameController = gameController;
+    public AI(GameView gameView) {
+        this.gameView = gameView;
     }
 
     public abstract void play();

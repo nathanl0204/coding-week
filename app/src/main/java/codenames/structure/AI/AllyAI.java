@@ -1,20 +1,21 @@
 package codenames.structure.AI;
 
-import codenames.controller.GameSinglePlayerController;
+import codenames.observers.*;
 import codenames.structure.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import codenames.observers.GameView;
 
 public abstract class AllyAI extends AI {
-    public GameSinglePlayerController gameController;
+    public GameSinglePlayerView gameView;
 
-    public AllyAI(GameSinglePlayerController gameControllerSinglePlayer) {
-        super(gameControllerSinglePlayer);
-        this.gameController = gameControllerSinglePlayer;
+    public AllyAI(GameSinglePlayerView gameViewSinglePlayer) {
+        super(gameViewSinglePlayer);
+        this.gameView = gameViewSinglePlayer;
     }
 
     protected Map<String, Integer> getHintScores(CardType teamColor) {
-        Game game = gameController.getGame();
+        Game game = gameView.getGame();
         DeckSinglePlayer deck = (DeckSinglePlayer) game.getDeck();
         CardType opponentColor = (teamColor == CardType.Blue) ? CardType.Red : CardType.Blue;
 

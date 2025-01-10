@@ -1,19 +1,19 @@
 package codenames.structure.AI;
 
-import codenames.controller.*;
+import codenames.observers.*;
 import codenames.structure.*;
 
 import java.util.*;
 
 public class HardOpponentAI extends OpponentAI {
 
-    public HardOpponentAI(GameController gameController) {
-        super(gameController);
+    public HardOpponentAI(GameView gameView) {
+        super(gameView);
     }
 
     @Override
     public void play() {
-        Game game = gameController.getGame();
+        Game game = gameView.getGame();
         Deck deck = game.getDeck();
 
         List<PlayableCard> remainingRedCards = deck.getRemainingRedCards();
@@ -44,7 +44,7 @@ public class HardOpponentAI extends OpponentAI {
             } catch (InterruptedException e) {
                 System.out.println("Sleep interrupted");
             }
-            gameController.processCardSelection(card);
+            gameView.processCardSelection(card);
         }
     }
 }

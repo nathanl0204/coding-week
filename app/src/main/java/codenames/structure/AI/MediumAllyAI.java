@@ -1,6 +1,6 @@
 package codenames.structure.AI;
 
-import codenames.controller.GameSinglePlayerController;
+import codenames.observers.GameSinglePlayerView;
 import codenames.structure.CardType;
 
 import java.util.Map;
@@ -8,8 +8,8 @@ import java.util.List;
 
 public class MediumAllyAI extends AllyAI {
 
-    public MediumAllyAI(GameSinglePlayerController gameController) {
-        super(gameController);
+    public MediumAllyAI(GameSinglePlayerView gameView) {
+        super(gameView);
     }
 
     protected Map.Entry<String, Integer> getMedianHint(CardType teamColor) {
@@ -21,7 +21,7 @@ public class MediumAllyAI extends AllyAI {
     public void play() {
         Map.Entry<String, Integer> bestHint = getMedianHint(CardType.Blue);
 
-        gameController.alertAllyAIHint(bestHint.getKey(), bestHint.getValue());
+        gameView.alertAllyAIHint(bestHint.getKey(), bestHint.getValue());
 
     }
 }

@@ -7,49 +7,45 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codenames.controller.ManageWordController">
-   <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Manage list" />
-            <HBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="100.0">
-               <children>
-                  <Button onAction="#addNewList" mnemonicParsing="false" text="+" />
-                  <Button onAction="#removeList" mnemonicParsing="false" text="-" />
-               </children>
-            </HBox>
-            <ListView fx:id="listContainer" prefHeight="200.0" prefWidth="200.0" />
-         </children>
-      </VBox>
-   </left>
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="codenames.observers.ManageWordView">
+    <center>
 
-   <center>
-      <VBox prefHeight="400.0" prefWidth="145.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Manage hints in list" />
-            <HBox alignment="TOP_CENTER" prefHeight="53.0" prefWidth="123.0">
-               <children>
-                  <Button onAction="#addHintInList" mnemonicParsing="false" text="+" />
-                  <Button onAction="#removeHintInList" mnemonicParsing="false" text="-" />
-               </children>
-            </HBox>
-            <ListView fx:id="hintsContainer" prefHeight="200.0" prefWidth="152.0" />
-         </children>
-      </VBox>
-   </center>
+        <HBox spacing="10" >
+            
+            <VBox spacing="10" alignment="CENTER">
+         
+               <Label text="Manage list"/>
+               <ListView fx:id="listContainer" prefHeight="700" prefWidth="300"/>
+               <HBox alignment="CENTER" spacing="10">
+                  <Button onAction="#addNewList" text="+" />
+                  <Button onAction="#removeList" text="-" />
+               </HBox>
 
-   <right>
-      <VBox prefHeight="400.0" prefWidth="145.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Manage words in list" />
-            <HBox alignment="TOP_CENTER" prefHeight="53.0" prefWidth="123.0">
-               <children>
-                  <Button onAction="#addWordInList" mnemonicParsing="false" text="+" />
-                  <Button onAction="#removeWordInList" mnemonicParsing="false" text="-" />
-               </children>
-            </HBox>
-            <ListView fx:id="wordsContainer" prefHeight="200.0" prefWidth="152.0" />
-         </children>
-      </VBox>
-   </right>
+            </VBox>
+
+            <VBox spacing="10" alignment="CENTER">
+
+               <Label text="Manage hints in list"/>
+               <ListView fx:id="hintsContainer" prefHeight="700" prefWidth="300"/> 
+               <HBox alignment="CENTER" spacing="10">
+                  <Button onAction="#addHintInList" text="+" />
+                  <Button onAction="#removeHintInList" text="-" />
+               </HBox>
+
+            </VBox>
+
+            <VBox spacing="10" alignment="CENTER">
+                
+               <Label text="Manage words in list"/>
+               <ListView fx:id="wordsContainer" prefHeight="700" prefWidth="300"/>
+               <HBox alignment="CENTER" spacing="10">
+                  <Button onAction="#addWordInList" text="+" />
+                  <Button onAction="#removeWordInList" text="-" />
+               </HBox>
+
+            </VBox>
+
+        </HBox>
+
+    </center>
 </BorderPane>

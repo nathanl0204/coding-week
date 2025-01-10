@@ -40,6 +40,10 @@ public class PlayableCard {
         return cardType;
     }
 
+    public void setCardType(CardType cardType){
+        this.cardType = cardType;
+    }
+
     public Color getColor(){
         switch (cardType) {
             case Black:

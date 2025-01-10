@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Rectangle?>
 
-<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="codenames.controller.LoadingBarController">
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="codenames.observers.LoadingBarView">
     <Rectangle fx:id="background" fill="lightgray" arcWidth="15" arcHeight="15"/>
     <Rectangle fx:id="bar" fill="dodgerblue" arcWidth="15" arcHeight="15"/>
 </StackPane>
