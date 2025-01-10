@@ -30,7 +30,7 @@ public class EasyOpponentAI extends OpponentAI {
 
         for (PlayableCard card : selectedCards) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 System.out.println("Sleep interrupted");
             }
