@@ -15,7 +15,7 @@ public class PlayableCard implements Serializable {
     private Card card;
     private CardType cardType;
     private Boolean guessed;
-    private StackPane stackPane;
+    private transient StackPane stackPane;
 
     public PlayableCard(Card card, CardType cardType){
         this.card = card;
@@ -79,22 +79,29 @@ public class PlayableCard implements Serializable {
 
     // Méthode pour recréer le StackPane après désérialisation
     public void recreateStackPane() {
-        this.stackPane = new StackPane();
-        // Recréer l'apparence visuelle de la carte
-        if (card instanceof TextCard) {
-            Label label = new Label(((TextCard) card).getText());
-            label.setTextFill(getColor());
-            label.setPadding(new Insets(35, 0, 0, 0));
-            ImageView background = new ImageView(new Image(getClass().getResource("/card_back.jpg").toString()));
-            background.setFitWidth(100);
-            background.setFitHeight(80);
-            stackPane.getChildren().addAll(background, label);
-        }
-        // Ajouter la transparence si la carte a été devinée
-        if (guessed) {
-            Rectangle transparency = new Rectangle(stackPane.getWidth(), stackPane.getHeight());
-            transparency.setFill(getColor().deriveColor(0, 1, 1, 0.5));
-            stackPane.getChildren().add(transparency);
+        if (this.stackPane == null) {
+            this.stackPane = new StackPane();
+            // Recréer l'apparence visuelle de la carte
+            if (card instanceof TextCard) {
+                Label label = new Label(((TextCard) card).getText());
+                label.setTextFill(getColor());
+                label.setPadding(new Insets(35, 0, 0, 0));
+                String resourcePath = "/card_back.jpg";
+                Image backgroundImage = new Image(getClass().getResource(resourcePath).toString());
+                ImageView background = new ImageView(backgroundImage);
+                background.setFitWidth(100);
+                background.setFitHeight(80);
+                stackPane.getChildren().addAll(background, label);
+            } else if (card instanceof ImageCard) {
+                ImageView imgView = new ImageView(((ImageCard) card).getUrl());
+                stackPane.getChildren().add(imgView);
+            }
+
+            if (guessed) {
+                Rectangle transparency = new Rectangle(100, 80);
+                transparency.setFill(getColor().deriveColor(0, 1, 1, 0.5));
+                stackPane.getChildren().add(transparency);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package codenames.structure;
 
 import codenames.observers.*;
 
+import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -9,6 +10,9 @@ import java.util.stream.Collectors;
 import java.io.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 public abstract class Game implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -21,7 +25,7 @@ public abstract class Game implements Serializable {
     protected int remainingCardGuess;
     protected int cols;
     private boolean blitzMode;
-    protected ArrayList<Observer> observers;
+    protected transient ArrayList<Observer> observers;
 
     public Game(int cols, int numberOfBlueCard, int numberOfRedCard) {
         this.cols = cols;
@@ -167,21 +171,19 @@ public abstract class Game implements Serializable {
             return redStat.getNumberOfRemainingCardsToFind();
     }
 
-    private static class GameState implements Serializable {
-        private static final long serialVersionUID = 1L;
+    public static class GameState implements Serializable {
+        private final int id;
+        private final Boolean onGoing;
+        private final Statistics blueStat;
+        private final Statistics redStat;
+        private final Boolean blueTurn;
+        private final int remainingCardGuess;
+        private final int cols;
+        private final boolean blitzMode;
+        private final List<PlayableCard> cards;
+        private final String gameType; // "TwoTeams" ou "SinglePlayer"
 
-        int id;
-        Boolean onGoing;
-        Statistics blueStat;
-        Statistics redStat;
-        Boolean blueTurn;
-        int remainingCardGuess;
-        int cols;
-        boolean blitzMode;
-        List<PlayableCard> cards;
-        String gameType; // "TwoTeams" ou "SinglePlayer"
-
-        GameState(Game game) {
+        public GameState(Game game) {
             this.id = game.id;
             this.onGoing = game.onGoing;
             this.blueStat = game.blueStat;
@@ -193,13 +195,37 @@ public abstract class Game implements Serializable {
             this.cards = game.getDeck().getCard();
             this.gameType = (game instanceof GameTwoTeams) ? "TwoTeams" : "SinglePlayer";
         }
+
+        public int getId() { return id; }
+        public Boolean getOnGoing() { return onGoing; }
+        public Statistics getBlueStat() { return blueStat; }
+        public Statistics getRedStat() { return redStat; }
+        public Boolean getBlueTurn() { return blueTurn; }
+        public int getRemainingCardGuess() { return remainingCardGuess; }
+        public int getCols() { return cols; }
+        public boolean isBlitzMode() { return blitzMode; }
+        public List<PlayableCard> getCards() { return cards; }
+        public String getGameType() { return gameType; }
     }
 
     public void saveGame(File file) throws IOException {
         GameState state = new GameState(this);
 
         Gson gson = new GsonBuilder()
+                .excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT)
                 .setPrettyPrinting()
+                .registerTypeAdapter(Image.class, new TypeAdapter<Image>() {
+                    @Override
+                    public void write(JsonWriter out, Image image) throws IOException {
+                        out.nullValue();
+                    }
+
+                    @Override
+                    public Image read(JsonReader in) throws IOException {
+                        in.nextNull();
+                        return null;
+                    }
+                })
                 .create();
 
         try (FileWriter writer = new FileWriter(file)) {
@@ -208,43 +234,94 @@ public abstract class Game implements Serializable {
     }
 
     public static Game loadGame(File file) throws IOException {
-        Gson gson = new GsonBuilder().create();
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT | java.lang.reflect.Modifier.STATIC)
+                .registerTypeAdapter(Image.class, new TypeAdapter<Image>() {
+                    @Override
+                    public void write(JsonWriter out, Image image) throws IOException {
+                        out.nullValue();
+                    }
+
+                    @Override
+                    public Image read(JsonReader in) throws IOException {
+                        in.nextNull();
+                        return null;
+                    }
+                })
+                .registerTypeAdapter(Card.class, new CardTypeAdapter())
+                .create();
 
         try (FileReader reader = new FileReader(file)) {
             GameState state = gson.fromJson(reader, GameState.class);
 
             // Créer le bon type de jeu
             Game game;
-            if (state.gameType.equals("TwoTeams")) {
-                DeckTwoTeams deck = new DeckTwoTeams(state.cards);
-                game = new GameTwoTeams(deck, state.cols,
-                        state.blueStat.getNumberOfRemainingCardsToFind(),
-                        state.redStat.getNumberOfRemainingCardsToFind());
+            if (state.getGameType().equals("TwoTeams")) {
+                List<PlayableCard> newCards = state.getCards().stream()
+                        .map(card -> {
+                            Card newCard;
+                            if (card.getCard() instanceof TextCard) {
+                                newCard = new TextCard(((TextCard) card.getCard()).getText());
+                            } else {
+                                newCard = new ImageCard(((ImageCard) card.getCard()).getUrl());
+                            }
+                            return new PlayableCard(newCard, card.getCardType());
+                        })
+                        .collect(Collectors.toList());
+
+                DeckTwoTeams deck = new DeckTwoTeams(newCards);
+                game = new GameTwoTeams(deck, state.getCols(),
+                        state.getBlueStat().getNumberOfRemainingCardsToFind(),
+                        state.getRedStat().getNumberOfRemainingCardsToFind());
             } else {
                 // Conversion des cartes normales en cartes avec hints pour le mode solo
-                List<PlayableCardWithHints> cardsWithHints = state.cards.stream()
-                        .map(card -> new PlayableCardWithHints(card.getCard(), card.getCardType(),
-                                Arrays.asList("hint1", "hint2"))) // Vous devrez adapter ceci selon vos besoins
+                List<PlayableCardWithHints> newCardsWithHints = state.getCards().stream()
+                        .map(card -> {
+                            Card newCard;
+                            if (card.getCard() instanceof TextCard) {
+                                newCard = new TextCard(((TextCard) card.getCard()).getText());
+                            } else {
+                                newCard = new ImageCard(((ImageCard) card.getCard()).getUrl());
+                            }
+                            return new PlayableCardWithHints(newCard, card.getCardType(),
+                                    Arrays.asList("hint1", "hint2"));
+                        })
                         .collect(Collectors.toList());
-                DeckSinglePlayer deck = new DeckSinglePlayer(cardsWithHints);
-                game = new GameSinglePlayer(deck, state.cols,
-                        state.blueStat.getNumberOfRemainingCardsToFind(),
-                        state.redStat.getNumberOfRemainingCardsToFind());
+
+                DeckSinglePlayer deck = new DeckSinglePlayer(newCardsWithHints);
+                game = new GameSinglePlayer(deck, state.getCols(),
+                        state.getBlueStat().getNumberOfRemainingCardsToFind(),
+                        state.getRedStat().getNumberOfRemainingCardsToFind());
             }
 
             // Restaurer l'état
-            game.id = state.id;
-            game.onGoing = state.onGoing;
-            game.blueStat = state.blueStat;
-            game.redStat = state.redStat;
-            game.blueTurn = state.blueTurn;
+            game.id = state.getId();
+            game.onGoing = state.getOnGoing();
+            game.blueTurn = state.getBlueTurn();
+            game.blueStat = new Statistics(state.getBlueStat().getNumberOfRemainingCardsToFind());
+            game.redStat = new Statistics(state.getRedStat().getNumberOfRemainingCardsToFind());
             game.remainingCardGuess = state.remainingCardGuess;
-            game.setBlitzMode(state.blitzMode);
+            game.setBlitzMode(state.isBlitzMode());
+            copyStatistics(state.getBlueStat(), game.blueStat);
+            copyStatistics(state.getRedStat(), game.redStat);
 
             // Recréer les composants visuels
             game.getDeck().getCard().forEach(PlayableCard::recreateStackPane);
 
             return game;
+        }
+    }
+
+    private static void copyStatistics(Statistics source, Statistics target) {
+        target.addTimePerTurn(source.getAverageTimePerTurn() * source.getNumberOfTurns());
+        for (int i = 0; i < source.getNumberOfErrors(); i++) {
+            target.incrNumberOfErrors();
+        }
+        for (int i = 0; i < source.getNumberOfTurns(); i++) {
+            target.incrNumberOfTurns();
+        }
+        for (int i = 0; i < source.getNumberOfCorrectGuess(); i++) {
+            target.incrNumberOfCorrectGuess();
         }
     }
 }

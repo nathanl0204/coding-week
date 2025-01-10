@@ -70,6 +70,7 @@ public class MenuBarView implements Observer {
                 loadedGame.notifyObservers();
 
             } catch (Exception e) {
+                System.err.println(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur");
                 alert.setHeaderText("Erreur lors du chargement");

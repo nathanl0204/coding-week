@@ -1,3 +1,5 @@
 package codenames.structure;
 
-public interface Card {}
+import java.io.Serializable;
+
+public interface Card extends Serializable {}
