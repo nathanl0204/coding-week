@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
+import codenames.observers.ManageImageView;
 import codenames.observers.ManageWordView;
 import codenames.observers.view.ManageWordLoader;
 import codenames.structure.*;
@@ -20,7 +21,7 @@ public class Main extends Application {
         loader.setControllerFactory(iC->new LoadingGameView());
         GridPane root = loader.load();*/
 
-        ManageWordView rc = new ManageWordView();
+        ManageImageView rc = new ManageImageView();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("view/manageword.fxml"));
         loader.setControllerFactory(iC -> iC.equals(codenames.observers.ManageWordView.class) ? rc : null);

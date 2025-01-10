@@ -33,8 +33,8 @@ public class ThemedDeck {
         return hints;
     }
 
-    public void removeCard(String string){
-        cards.removeIf(card -> card.getString().equals(string));
+    public Boolean removeCard(String string){
+        return cards.removeIf(card -> card.getString().equals(string));
     }
     
     public void removeHint(String hint){
