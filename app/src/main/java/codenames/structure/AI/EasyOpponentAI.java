@@ -5,8 +5,6 @@ import java.util.List;
 
 import codenames.observers.*;
 import codenames.structure.*;
-import javafx.animation.PauseTransition;
-import javafx.util.Duration;
 
 public class EasyOpponentAI extends OpponentAI {
 
@@ -31,7 +29,7 @@ public class EasyOpponentAI extends OpponentAI {
         Collections.shuffle(remainingCards);
         List<PlayableCard> selectedCards = remainingCards.subList(0, Math.min(cardsToGuess, remainingCards.size()));
 
-        playNextCard(selectedCards, 0);
-        
+        playNextCard(getCardsUntilFirstNonRed(selectedCards), 0);
+
     }
 }

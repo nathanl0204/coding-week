@@ -38,6 +38,6 @@ public class HardOpponentAI extends OpponentAI {
             }
         }
 
-        playNextCard(selectedCards, 0);
+        playNextCard(getCardsUntilFirstNonRed(selectedCards), 0);
     }
 }

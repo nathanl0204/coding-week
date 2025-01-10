@@ -38,6 +38,6 @@ public class MediumOpponentAI extends OpponentAI {
             }
         }
 
-        playNextCard(selectedCards, 0);
+        playNextCard(getCardsUntilFirstNonRed(selectedCards), 0);
     }
 }
