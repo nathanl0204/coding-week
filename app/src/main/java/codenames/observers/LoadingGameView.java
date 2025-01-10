@@ -132,16 +132,16 @@ public class LoadingGameView {
 
                 switch (aiLevel.getSelectionModel().getSelectedItem()) {
                     case "Facile":
-                        allyAI = new EasyAllyAI(gameView);
-                        oppAI = new EasyOpponentAI(gameView);
+                        allyAI = new EasyAllyAI((GameSinglePlayerView) gameView);
+                        oppAI = new EasyOpponentAI((GameSinglePlayerView) gameView);
                         break;
                     case "Moyenne":
-                        allyAI = new MediumAllyAI(gameView);
-                        oppAI = new MediumOpponentAI(gameView);
+                        allyAI = new MediumAllyAI((GameSinglePlayerView) gameView);
+                        oppAI = new MediumOpponentAI((GameSinglePlayerView) gameView);
                         break;
                     case "Difficile":
-                        allyAI = new HardAllyAI(gameView);
-                        oppAI = new HardOpponentAI(gameView);
+                        allyAI = new HardAllyAI((GameSinglePlayerView) gameView);
+                        oppAI = new HardOpponentAI((GameSinglePlayerView) gameView);
                         break;
                     default:
                         break;
