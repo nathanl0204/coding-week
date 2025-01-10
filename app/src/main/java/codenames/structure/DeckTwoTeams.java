@@ -9,7 +9,7 @@ public class DeckTwoTeams implements Deck {
         cards = listCard;
     }
 
-    public List<PlayableCard> getCard() {
+    public List<PlayableCard> getCards() {
         return cards;
     }
 
