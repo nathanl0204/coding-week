@@ -219,6 +219,7 @@ abstract class AllyAI extends AI {
     + AllyAI(GameController gameController)
     + Map<String, Integer> getHintScores(CardType teamColor)
     + List<Map.Entry<String, Integer>> getSortedHintScores(CardType teamColor)
+    + int countMatchingCardsForHint(String hint, CardType teamColor)
 }
 
 abstract class OpponentAI extends AI {
