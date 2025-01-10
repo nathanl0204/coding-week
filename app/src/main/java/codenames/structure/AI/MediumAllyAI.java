@@ -19,7 +19,7 @@ public class MediumAllyAI extends AllyAI {
 
     @Override
     public void play() {
-        Map.Entry<String, Integer> bestHint = getMedianHint(CardType.Red);
+        Map.Entry<String, Integer> bestHint = getMedianHint(CardType.Blue);
 
         gameController.alertAllyAIHint(bestHint.getKey(), bestHint.getValue());
 

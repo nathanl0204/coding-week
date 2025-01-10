@@ -19,7 +19,7 @@ public class HardAllyAI extends AllyAI {
 
     @Override
     public void play() {
-        Map.Entry<String, Integer> bestHint = getWorstHint(CardType.Red);
+        Map.Entry<String, Integer> bestHint = getWorstHint(CardType.Blue);
 
         gameController.alertAllyAIHint(bestHint.getKey(), bestHint.getValue());
     }

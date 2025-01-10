@@ -132,7 +132,6 @@ public class GameSinglePlayerController extends GameController {
                 info.setText("Red Team win");
             button.setVisible(false);
         }
-
     }
 
     @FXML
