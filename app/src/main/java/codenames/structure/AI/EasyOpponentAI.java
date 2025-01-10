@@ -10,10 +10,13 @@ public class EasyOpponentAI extends OpponentAI {
 
     public EasyOpponentAI(GameView gameView) {
         super(gameView);
+    public EasyOpponentAI(GameView gameView) {
+        super(gameView);
     }
 
     @Override
     public void play() {
+        Game game = gameView.getGame();
         Game game = gameView.getGame();
         Deck deck = game.getDeck();
 

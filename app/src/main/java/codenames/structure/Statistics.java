@@ -1,6 +1,10 @@
 package codenames.structure;
 
-public class Statistics {
+import java.io.Serializable;
+
+public class Statistics implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private double sumTimePerTurn;
     private int numberOfErrors;
     private int numberOfTurns;

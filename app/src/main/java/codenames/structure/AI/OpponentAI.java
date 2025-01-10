@@ -12,6 +12,8 @@ public abstract class OpponentAI extends AI {
 
     public OpponentAI(GameView gameView) {
         super(gameView);
+    public OpponentAI(GameView gameView) {
+        super(gameView);
         this.random = new Random();
     }
 

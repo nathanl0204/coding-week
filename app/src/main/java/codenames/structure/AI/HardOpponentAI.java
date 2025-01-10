@@ -1,6 +1,7 @@
 package codenames.structure.AI;
 
 import codenames.observers.*;
+import codenames.observers.*;
 import codenames.structure.*;
 
 import java.util.*;
@@ -9,10 +10,13 @@ public class HardOpponentAI extends OpponentAI {
 
     public HardOpponentAI(GameView gameView) {
         super(gameView);
+    public HardOpponentAI(GameView gameView) {
+        super(gameView);
     }
 
     @Override
     public void play() {
+        Game game = gameView.getGame();
         Game game = gameView.getGame();
         Deck deck = game.getDeck();
 
