@@ -23,6 +23,7 @@
                 -fx-background-radius: 5px;
                 -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.0, 2, 2);
             " />
+        <Label fx:id="info" text="Time: 0" style="-fx-font-size: 20px; -fx-text-fill: white;"/>
         <fx:include source="LoadingBar.fxml"/>
     </children>
 </VBox>

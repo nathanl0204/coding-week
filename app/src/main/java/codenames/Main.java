@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 
-import codenames.controller.*;
+import codenames.observers.*;
 import codenames.structure.*;
 import codenames.structure.AI.*;
 import codenames.observers.ManageWordView;
@@ -35,18 +35,17 @@ public class Main extends Application {
 
                                 GameSinglePlayer game = testSPGame();
 
-                                LoadingBarController loadingBarController = new LoadingBarController(200,
-                                                                20);
+                                LoadingBarView loadingBarController = new LoadingBarView(game, 200, 20);
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoadingBar.fxml"));
                                 loader.setControllerFactory(iC -> loadingBarController);
-                                loader.load();
+                                BorderPane root = new BorderPane();
 
                                 // GameTwoTeamsController gc = new GameTwoTeamsController(game);
 
-                                GameSinglePlayerController gc = new GameSinglePlayerController(game);
+                                GameSinglePlayerView gc = new GameSinglePlayerView(game);
 
-                                gc.setLoadingBarController(loadingBarController);
-                                loadingBarController.setGameController(gc);
+                                gc.setLoadingBarView(loadingBarController);
+                                loadingBarController.setGameController(game);
 
                                 EasyAllyAI ai = new EasyAllyAI(gc);
                                 gc.setAllyAI(ai);
@@ -56,7 +55,8 @@ public class Main extends Application {
 
                                 FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/view/Game.fxml"));
                                 loader2.setControllerFactory(iC -> gc);
-                                BorderPane root = loader2.load();
+                                VBox temp = loader2.load();
+                                root.setCenter(temp);
 
                                 FXMLLoader loader3 = new FXMLLoader();
                                 loader3.setLocation(getClass().getResource("/view/BlueTeam.fxml"));
