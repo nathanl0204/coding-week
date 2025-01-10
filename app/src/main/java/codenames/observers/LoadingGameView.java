@@ -46,7 +46,7 @@ public class LoadingGameView {
 
     @FXML
     public void initialize() {
-        gameMode.setItems(FXCollections.observableArrayList("Joueur Seul", "Deux Equipes")); 
+        gameMode.setItems(FXCollections.observableArrayList("Joueur Seul", "Une Equipe" ,"Deux Equipes")); 
         gameMode.setValue("Deux Equipes");  
         
         cardMode.setItems(FXCollections.observableArrayList("Texte", "Image"));
@@ -61,7 +61,7 @@ public class LoadingGameView {
     @FXML
     public void updateGameMode() {
         
-        if (gameMode.getSelectionModel().getSelectedItem().equals("Joueur Seul")) {
+        if (!gameMode.getSelectionModel().getSelectedItem().equals("Deux Equipes")) {
             aiLevel.setVisible(true);
             aiLabel.setVisible(true);
         }
@@ -109,7 +109,40 @@ public class LoadingGameView {
                 }
                 game = new GameTwoTeams(deck, width, 7, 7);
                 gameView = new GameTwoTeamsView( (GameTwoTeams) game);
-                
+            } 
+            else if (selectedGameMode.endsWith("Une Equipe")){
+                DeckTwoTeams deck = null;
+                switch (cardMode.getSelectionModel().getSelectedItem()) {
+                    case "Texte":
+                        deck  = factory.createTextDeckTwoTeams(height*width);
+                        break;
+                    case "Image":
+                        deck = factory.createImageDeckTwoTeams(height*width);
+                        break;
+                    default:
+                        break;
+                }
+                game = new GameTwoTeams(deck, width, 7, 7);
+                gameView = new GameSingleTeamView( (GameTwoTeams) game);
+
+                OpponentAI oppAI = null;
+
+                switch (aiLevel.getSelectionModel().getSelectedItem()) {
+                    case "Facile":
+                        oppAI = new EasyOpponentAI((GameSingleTeamView) gameView);
+                        break;
+                    case "Moyenne":
+                        oppAI = new MediumOpponentAI((GameSingleTeamView) gameView);
+                        break;
+                    case "Difficile":
+                        oppAI = new HardOpponentAI((GameSingleTeamView) gameView);
+                        break;
+                    default:
+                        break;
+                }
+
+                ((GameSingleTeamView) gameView).setOpponentAI(oppAI);
+
             }
             else {
                 DeckSinglePlayer deck = null;

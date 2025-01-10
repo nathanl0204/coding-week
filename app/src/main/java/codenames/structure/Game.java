@@ -109,20 +109,6 @@ public abstract class Game {
 
     }
 
-    public void wrongGuess(CardType cardType) {
-        remainingCardGuess = 0;
-
-        if (blueTurn) {
-            blueStat.incrNumberOfErrors();
-            if (cardType == CardType.Red)
-                redStat.decrNumberOfRemainingCardsToFind();
-        } else {
-            redStat.incrNumberOfErrors();
-            if (cardType == CardType.Blue)
-                blueStat.decrNumberOfRemainingCardsToFind();
-        }
-    }
-
     public void majStatTemps(double time) {
         if (blueTurn)
             blueStat.addTimePerTurn(time);

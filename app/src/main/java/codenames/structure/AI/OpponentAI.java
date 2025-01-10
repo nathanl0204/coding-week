@@ -24,7 +24,7 @@ public abstract class OpponentAI extends AI {
 
         PlayableCard card = selectedCards.get(index);
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        PauseTransition pause = new PauseTransition(Duration.millis(500));
         pause.setOnFinished(e -> {
             gameView.processCardSelection(card);
             if (gameView.getGame().getRemainingCardGuess() > 0)
