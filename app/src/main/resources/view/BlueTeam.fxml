@@ -16,7 +16,7 @@
                                 <Insets />
                             </StackPane.margin>
                             <image>
-                                <Image url="@../blue_team.jpg" />
+                                <Image url="@../Blue2.jpg" />
                             </image>
                         </ImageView>
                         <Label fx:id="points" alignment="CENTER" text="0" textFill="WHITE">

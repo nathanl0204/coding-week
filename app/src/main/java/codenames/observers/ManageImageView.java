@@ -3,7 +3,6 @@ package codenames.observers;
 import codenames.observers.view.InputDialogView;
 import codenames.structure.Card;
 import codenames.structure.ImageCard;
-import codenames.structure.TextCard;
 import codenames.structure.ThemedDeck;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -19,8 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-
-import javax.swing.JFileChooser;
 
 
 public class ManageImageView {
@@ -283,36 +280,15 @@ public class ManageImageView {
     public void savecurrentDeck() {
         String fileName = listContainer.getSelectionModel().getSelectedItem();
 
-        // Chemins des fichiers
-        String dirPathWord = "resources/card/image/imageslist/";
-        String filePathWord = dirPathWord + fileName;
 
         String dirPathHint = "resources/card/image/hintslist/";
         String filePathHint = dirPathHint + fileName;
-
-        // Sauvegarde des mots
-        //saveCardsToFile(currentDeck.getCards(), filePathWord);
 
         // Sauvegarde des indices
         saveHintsToFile(currentDeck.getHints(), filePathHint);
 
         update();
         displaycurrentDeck();
-    }
-
-    // Sauvegarde des mots dans un fichier spécifique
-    private void saveCardsToFile(List<Card> cards, String filePath) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            for (Card card : cards) {
-                if (card.getString() != null && !card.getString().trim().isEmpty()) {
-                    bw.write(card.getString());
-                    bw.newLine();
-                }
-            }
-        } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR, "Error saving words data: " + e.getMessage(), ButtonType.OK).showAndWait();
-            e.printStackTrace();
-        }
     }
 
     // Sauvegarde des indices dans un fichier spécifique

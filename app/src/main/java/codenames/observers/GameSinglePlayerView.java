@@ -6,9 +6,15 @@ import codenames.structure.CardType;
 import codenames.structure.GameSinglePlayer;
 import codenames.structure.PlayableCard;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+
 import java.util.Optional;
+import java.util.Random;
+
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -49,65 +55,116 @@ public class GameSinglePlayerView extends GameView {
     public void processCardSelection(PlayableCard card) {
         if (game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
 
-            Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
-            transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
-            card.getStackPane().getChildren().add(transparency);
-            card.guessed();
+            String path = null;
+            Random rand = new Random();
 
             switch (card.getCardType()) {
                 case Black:
-                    game.wrongGuess(CardType.Black);
+                    path = String.valueOf(getClass().getResource("/assassin.jpg"));
+                    loadingBarView.stop();
+                    game.wrongGuess(CardType.Black, loadingBarView.getElapsedSeconds());
                     game.ends();
                     button.setVisible(false);
                     displayStatistics();
                     break;
                 case White:
-                    game.wrongGuess(CardType.White);
+                    if (rand.nextBoolean()) {
+                        path = String.valueOf(getClass().getResource("/White1.jpg"));
+                    } else {
+                        path = String.valueOf(getClass().getResource("/White2.jpg"));
+                    }
+                    loadingBarView.stop();
+                    game.wrongGuess(CardType.White, loadingBarView.getElapsedSeconds());
                     break;
                 case Blue:
+                    if (rand.nextBoolean()) {
+                        path = String.valueOf(getClass().getResource("/Blue1.jpg"));
+                    } else {
+                        path = String.valueOf(getClass().getResource("/Blue2.jpg"));
+                    }
                     game.correctGuess();
                     break;
                 case Red:
-                    game.wrongGuess(CardType.Red);
+                    if (rand.nextBoolean()) {
+                        path = String.valueOf(getClass().getResource("/Blue1.jpg"));
+                    } else {
+                        path = String.valueOf(getClass().getResource("/Blue2.jpg"));
+                    }
+                    loadingBarView.stop();
+                    game.wrongGuess(CardType.Red, loadingBarView.getElapsedSeconds());
                     break;
                 default:
                     break;
             }
+
+            ImageView cover = new ImageView(new Image(path));
+            cover.fitHeightProperty().bind(card.getStackPane().heightProperty());
+            cover.fitWidthProperty().bind(card.getStackPane().widthProperty());
+            StackPane.setAlignment(cover, Pos.CENTER);
+            card.getStackPane().getChildren().add(cover);
+            
+
+            card.guessed();
         }
 
         if (!game.isBlueTurn() && game.isOnGoing() && game.getRemainingCardGuess() > 0 && !card.isGuessed()) {
 
-            Rectangle transparency = new Rectangle(card.getStackPane().getWidth(), card.getStackPane().getHeight());
-            transparency.setFill(card.getColor().deriveColor(0, 1, 1, 0.5));
-            card.getStackPane().getChildren().add(transparency);
-            card.guessed();
+            String path = null;
+            Random rand = new Random();
 
             switch (card.getCardType()) {
                 case Black:
-                    game.wrongGuess(CardType.Black);
+                    path = String.valueOf(getClass().getResource("/assassin.jpg"));
+                    loadingBarView.stop();
+                    game.wrongGuess(CardType.Black, loadingBarView.getElapsedSeconds());
                     game.ends();
-                    alertWrongGuest("The AI chose the black card, blue team wins !");
                     button.setVisible(false);
                     displayStatistics();
                     break;
                 case White:
-                    game.wrongGuess(CardType.White);
+                    if (rand.nextBoolean()) {
+                        path = String.valueOf(getClass().getResource("/White1.jpg"));
+                    } else {
+                        path = String.valueOf(getClass().getResource("/White2.jpg"));
+                    }
+                    loadingBarView.stop();
+                    game.wrongGuess(CardType.White, loadingBarView.getElapsedSeconds());
                     break;
                 case Blue:
-                    game.wrongGuess(CardType.Blue);
+                    if (rand.nextBoolean()) {
+                        path = String.valueOf(getClass().getResource("/Blue1.jpg"));
+                    } else {
+                        path = String.valueOf(getClass().getResource("/Blue2.jpg"));
+                    }
+                    loadingBarView.stop();
+                    game.wrongGuess(CardType.Blue, loadingBarView.getElapsedSeconds());
                     break;
                 case Red:
+                    if (rand.nextBoolean()) {
+                        path = String.valueOf(getClass().getResource("/Red1.jpg"));
+                    } else {
+                        path = String.valueOf(getClass().getResource("/Red2.jpg"));
+                    }
                     game.correctGuess();
                     break;
                 default:
                     break;
             }
+
+            ImageView cover = new ImageView(new Image(path));
+            cover.fitHeightProperty().bind(card.getStackPane().heightProperty());
+            cover.fitWidthProperty().bind(card.getStackPane().widthProperty());
+            StackPane.setAlignment(cover, Pos.CENTER);
+            card.getStackPane().getChildren().add(cover);
+
+            card.guessed();
+
         }
-        if (game.getRemainingCardGuess() == 0 && game.isOnGoing()) {
-            if (game.isBlueTurn()) {
-                game.changeTurn(0);
-                opponentAI.play();
-            }
+        if (game.getRemainingCardGuess() == 0 && game.isOnGoing() && game.isBlueTurn()) {
+
+            game.changeTurn(0);
+            opponentAI.play();
+
         } else if (game.getNumberOfRemainingCardsToFind() == 0 && game.isOnGoing()) {
             game.ends();
             displayStatistics();

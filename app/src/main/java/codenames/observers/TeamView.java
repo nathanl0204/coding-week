@@ -12,9 +12,9 @@ public class TeamView implements Observer {
     @FXML
     private ImageView teamPicture;
     @FXML
-    private ListView spymastersList;
+    private ListView<String> spymastersList;
     @FXML
-    private ListView spyList;
+    private ListView<String> spyList;
     @FXML
     private Label info_zone;
     private boolean isRedTeam;

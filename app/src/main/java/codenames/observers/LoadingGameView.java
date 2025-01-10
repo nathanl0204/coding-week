@@ -13,22 +13,15 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import codenames.structure.CardType;
 import codenames.structure.DeckFactory;
 import codenames.structure.DeckSinglePlayer;
 import codenames.structure.DeckTwoTeams;
 import codenames.structure.Game;
 import codenames.structure.GameSinglePlayer;
 import codenames.structure.GameTwoTeams;
-import codenames.structure.PlayableCard;
-import codenames.structure.TextCard;
 import codenames.structure.AI.*;
 import codenames.structure.AI.OpponentAI;
 import javafx.collections.FXCollections;
-import codenames.observers.*;
 
 public class LoadingGameView {
 
@@ -46,7 +39,7 @@ public class LoadingGameView {
 
     @FXML
     public void initialize() {
-        gameMode.setItems(FXCollections.observableArrayList("Joueur Seul", "Deux Equipes")); 
+        gameMode.setItems(FXCollections.observableArrayList("Joueur Seul", "Une Equipe" ,"Deux Equipes")); 
         gameMode.setValue("Deux Equipes");  
         
         cardMode.setItems(FXCollections.observableArrayList("Texte", "Image"));
@@ -61,7 +54,7 @@ public class LoadingGameView {
     @FXML
     public void updateGameMode() {
         
-        if (gameMode.getSelectionModel().getSelectedItem().equals("Joueur Seul")) {
+        if (!gameMode.getSelectionModel().getSelectedItem().equals("Deux Equipes")) {
             aiLevel.setVisible(true);
             aiLabel.setVisible(true);
         }
@@ -109,7 +102,40 @@ public class LoadingGameView {
                 }
                 game = new GameTwoTeams(deck, width, 7, 7);
                 gameView = new GameTwoTeamsView( (GameTwoTeams) game);
-                
+            } 
+            else if (selectedGameMode.endsWith("Une Equipe")){
+                DeckTwoTeams deck = null;
+                switch (cardMode.getSelectionModel().getSelectedItem()) {
+                    case "Texte":
+                        deck  = factory.createTextDeckTwoTeams(height*width);
+                        break;
+                    case "Image":
+                        deck = factory.createImageDeckTwoTeams(height*width);
+                        break;
+                    default:
+                        break;
+                }
+                game = new GameTwoTeams(deck, width, 7, 7);
+                gameView = new GameSingleTeamView( (GameTwoTeams) game);
+
+                OpponentAI oppAI = null;
+
+                switch (aiLevel.getSelectionModel().getSelectedItem()) {
+                    case "Facile":
+                        oppAI = new EasyOpponentAI((GameSingleTeamView) gameView);
+                        break;
+                    case "Moyenne":
+                        oppAI = new MediumOpponentAI((GameSingleTeamView) gameView);
+                        break;
+                    case "Difficile":
+                        oppAI = new HardOpponentAI((GameSingleTeamView) gameView);
+                        break;
+                    default:
+                        break;
+                }
+
+                ((GameSingleTeamView) gameView).setOpponentAI(oppAI);
+
             }
             else {
                 DeckSinglePlayer deck = null;
@@ -181,7 +207,8 @@ public class LoadingGameView {
             root.setCenter(loader.load());
 
             FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/view/MenuBar.fxml"));
-            menuLoader.setControllerFactory(iC-> new MenuBarView(game));
+            MenuBarView menuBarView = new MenuBarView(game);
+            menuLoader.setControllerFactory(iC-> menuBarView);
             root.setTop(menuLoader.load());
 
             FXMLLoader loader3 = new FXMLLoader();
@@ -201,10 +228,6 @@ public class LoadingGameView {
             Stage currentStage = (Stage) blitzLabel.getScene().getWindow();
 
             currentStage.setScene(scene);
-            System.out.println("Mode Blitz: " + isBlitz);
-            System.out.println("Mode de jeu: " + selectedGameMode);
-            System.out.println("Largeur de la grille: " + width);
-            System.out.println("Hauteur de la grille: " + height);
 
         } catch (NumberFormatException e) {
             Alert alert = new Alert(AlertType.ERROR);
@@ -216,35 +239,4 @@ public class LoadingGameView {
         }
 
     }
-
-    private GameTwoTeams testGame() {
-        List<PlayableCard> listCard = new ArrayList<PlayableCard>();
-
-        String[] texts = {
-                "Apple", "Banana", "Cherry", "Dog", "Elephant", "Football",
-                "Guitar", "Helicopter", "Igloo", "Jacket", "Kangaroo", "Lemon",
-                "Monkey", "Notebook", "Octopus", "Penguin", "Quilt", "Rocket",
-                "Sunflower", "Tiger", "Umbrella", "Violin", "Whale", "Xylophone",
-                "Yacht"
-        };
-
-        CardType[] cardTypes = {
-                CardType.Red, CardType.Red, CardType.Blue, CardType.Black, CardType.White, CardType.Blue,
-                CardType.Blue, CardType.Red, CardType.White, CardType.Red, CardType.Blue, CardType.Black,
-                CardType.White, CardType.Red, CardType.Blue, CardType.Blue, CardType.Red, CardType.White,
-                CardType.Blue, CardType.Red, CardType.Red, CardType.White, CardType.Blue, CardType.Red,
-                CardType.Blue
-        };
-
-        int i = 0;
-
-        for (String text : texts) {
-            listCard.add(new PlayableCard(new TextCard(text), cardTypes[i]));
-            i++;
-        }
-
-        return new GameTwoTeams(new DeckTwoTeams(listCard), 5, 9, 9);
-
-    }
-    
 }
