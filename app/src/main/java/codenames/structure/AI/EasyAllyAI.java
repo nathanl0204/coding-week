@@ -4,7 +4,6 @@ import codenames.observers.GameSinglePlayerView;
 import codenames.structure.CardType;
 
 import java.util.Map;
-import java.util.List;
 
 public class EasyAllyAI extends AllyAI {
 
@@ -20,11 +19,6 @@ public class EasyAllyAI extends AllyAI {
     public void play() {
         Map.Entry<String, Integer> bestHint = getBestHint(CardType.Blue);
 
-        List<Map.Entry<String, Integer>> hintScores = getSortedHintScores(CardType.Blue);
-        // prints the list of score
-        for (Map.Entry<String, Integer> hintScore : hintScores) {
-            System.out.println(hintScore.getKey() + " " + hintScore.getValue());
-        }
-        gameView.alertAllyAIHint(bestHint.getKey(), bestHint.getValue());
+        gameView.alertAllyAIHint(bestHint.getKey(), countMatchingCardsForHint(bestHint.getKey(), CardType.Blue));
     }
 }

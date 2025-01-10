@@ -40,7 +40,7 @@ public class MediumOpponentAI extends OpponentAI {
 
         for (PlayableCard card : selectedCards) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 System.out.println("Sleep interrupted");
             }

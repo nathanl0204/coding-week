@@ -21,6 +21,6 @@ public class HardAllyAI extends AllyAI {
     public void play() {
         Map.Entry<String, Integer> bestHint = getWorstHint(CardType.Blue);
 
-        gameView.alertAllyAIHint(bestHint.getKey(), bestHint.getValue());
+        gameView.alertAllyAIHint(bestHint.getKey(), countMatchingCardsForHint(bestHint.getKey(), CardType.Blue));
     }
 }
