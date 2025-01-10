@@ -4,7 +4,6 @@ import codenames.observers.*;
 import codenames.structure.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import codenames.observers.GameView;
 
 public abstract class AllyAI extends AI {
     public GameSinglePlayerView gameView;
@@ -32,6 +31,9 @@ public abstract class AllyAI extends AI {
             }
 
             for (String hint : card.getHints()) {
+                if (countMatchingCardsForHint(hint, teamColor) == 0) {
+                    continue;
+                }
                 hintScores.putIfAbsent(hint, 0);
 
                 if (card.getCardType() == teamColor) {
@@ -51,5 +53,22 @@ public abstract class AllyAI extends AI {
                 .stream()
                 .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                 .collect(Collectors.toList());
+    }
+
+    public int countMatchingCardsForHint(String hint, CardType teamColor) {
+        if (hint == null || teamColor == null) {
+            return 0;
+        }
+
+        Game game = gameView.getGame();
+        DeckSinglePlayer deck = (DeckSinglePlayer) game.getDeck();
+        List<PlayableCardWithHints> cards = deck.getCardsWithHints();
+
+        return (int) cards.stream()
+                .filter(card -> card.getCardType() == teamColor)
+                .filter(card -> card.getHints()
+                        .stream()
+                        .anyMatch(cardHint -> cardHint.equalsIgnoreCase(hint)))
+                .count();
     }
 }

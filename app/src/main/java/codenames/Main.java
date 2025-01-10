@@ -47,7 +47,7 @@ public class Main extends Application {
                                 gc.setLoadingBarView(loadingBarController);
                                 loadingBarController.setGameController(game);
 
-                                EasyAllyAI ai = new EasyAllyAI(gc);
+                                HardAllyAI ai = new HardAllyAI(gc);
                                 gc.setAllyAI(ai);
 
                                 EasyOpponentAI ai2 = new EasyOpponentAI(gc);
