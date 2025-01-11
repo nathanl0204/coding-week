@@ -1,0 +1,10 @@
+Labrador Retriever
+Berger Allemand
+Bulldog
+Golden Retriever
+Beagle
+Chihuahua
+Yorkshire Terrier
+Boxer
+Cocker Spaniel
+Dachshund

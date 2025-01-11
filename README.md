@@ -2,5 +2,14 @@
 **TELECOM Nancy - 06/01 au 10/01**
 
 
-Les instructions sur l'organisation et les attendus de la semaine se trouve dans le fichier [INSTRUCTIONS.md](./INSTRUCTIONS.md).
 
+Pour que le fichier `.jar` fonctionne correctement, il faut télécharger et placer le dossier "ressources" dans le même répertoire.
+
+### Bugs actuels :
+- Lors du chargement d'une partie, les cartes rouges qui ont été trouvées sont affichées en bleu, à cause d'une erreur de copier/coller dans le chemin du fichier image à afficher.
+- Le mode blitz ne fonctionne pas en mode "Une équipe" et "Un joueur", en raison d'un oubli (une ligne manquante où le chronomètre n'est pas appelé).
+- Erreur dans l'affichage du temps.
+
+Le bon fonctionnement de l'IA repose sur la qualité des indices de chaque thème.
+
+Aucun test unitaire n'a été effectué, mais nous avons testé régulièrement les implémentations lors des merges, à l'aide de l'interface graphique.

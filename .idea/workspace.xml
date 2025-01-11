@@ -10,8 +10,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7f158f1b-0ab7-4125-b986-d2d6b628ee28" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/codenames/observers/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/image/hintslist/t.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/image/hintslist/test.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/image/imageslist/t/testRed2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/image/imageslist/test/pexels-bri-schneiter-28802-346529.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/image/imageslist/test/pexels-mikebirdy-116675.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/image/imageslist/test/pexels-mikebirdy-170811.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/image/imageslist/test/pexels-pixabay-147411.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/image/imageslist/test/pexels-pixabay-247599.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/image/imageslist/test/pexels-pixabay-462162.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/image/imageslist/test/pexels-yury-kim-181374-585419.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/text/hintslist/animaux.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/text/hintslist/metier.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/text/wordslist/animaux.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/resources/card/text/wordslist/metier.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classe.puml" beforeDir="false" afterPath="$PROJECT_DIR$/classes.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes.plantuml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

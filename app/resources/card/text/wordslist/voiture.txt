@@ -1,0 +1,10 @@
+Berline
+SUV (Sport Utility Vehicle)
+Coupé
+Hatchback
+Monospace
+Pick-up
+Convertible
+Roadster
+Crossover
+Limousine
