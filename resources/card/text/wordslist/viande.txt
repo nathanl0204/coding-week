@@ -1,0 +1,9 @@
+Boeuf
+Poulet
+Porc
+Agneau
+Veau
+Dinde
+Canard
+Chevreuil
+Lapin

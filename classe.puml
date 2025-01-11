@@ -1,0 +1,563 @@
+@startuml
+class codenames.structure.AI.MediumAllyAI {
+# Map.Entry<String,Integer> getMedianHint(CardType)
++ void play()
+}
+
+abstract class codenames.structure.ThemedDeckDB {
+# List<ThemedDeck> data
++ List<ThemedDeck> getData()
++ {abstract}void loadAll()
++ {abstract}ThemedDeck loadFromFile(String)
+}
+
+
+class codenames.structure.TextCard {
+- {static} long serialVersionUID
+- String text
++ String getString()
+}
+
+
+class codenames.structure.AI.HardOpponentAI {
++ void play()
+}
+
+class codenames.structure.GameSinglePlayer {
+- DeckSinglePlayer deck
++ DeckSinglePlayer getDeck()
+}
+
+
+class codenames.observers.GameSinglePlayerView {
+- AllyAI allyAI
+- OpponentAI opponentAI
++ void setAllyAI(AllyAI)
++ void setOpponentAI(OpponentAI)
++ AI getAllyAI()
++ AI getOpponentAI()
++ void alertAllyAIHint(String,int)
++ void processCardSelection(PlayableCard)
++ void handleButton()
+- Optional<String> askForNumberGuess()
++ void alertOpponentAIMove(String)
+}
+
+
+abstract class codenames.observers.view.ViewLoader {
+- T graphic
++ void loadGraphic(FXMLLoader)
++ T getGraphic()
+}
+
+
+class codenames.Main {
++ void start(Stage)
+}
+
+interface codenames.structure.Deck {
++ int size()
++ List<PlayableCard> getCards()
+~ List<PlayableCard> getRemainingCards()
+~ List<PlayableCard> getRemainingCardsByType(CardType)
+~ List<PlayableCard> getRemainingRedCards()
+~ List<PlayableCard> getRemainingBlueCards()
+}
+
+class codenames.observers.view.InputDialogView {
+- codenames.observers.InputDialogView idc
+- String value
++ String getValue()
+}
+
+
+class codenames.structure.DeckFactory {
+- List<ThemedDeck> allThemedDeck
++ DeckSinglePlayer createTextDeckSinglePlayer(int)
++ DeckSinglePlayer createImageDeckSinglePlayer(int)
+- DeckSinglePlayer createDeckSinglePlayer(int)
++ DeckTwoTeams createTextDeckTwoTeams(int)
++ DeckTwoTeams createImageDeckTwoTeams(int)
+- DeckTwoTeams createDeckTwoTeams(int)
+}
+
+
+class codenames.structure.DeckFactory$Tmp {
++ Card card
++ List<String> hints
+}
+
+class codenames.observers.GameTwoTeamsView {
++ void initialize()
++ void processCardSelection(PlayableCard)
++ void handleButton()
+- Optional<String> askForNumberGuess()
++ void react()
+}
+
+class codenames.observers.Chronometer {
+- double elapsedSeconds
++ void start()
++ void stop()
++ double getElapsedSeconds()
+}
+
+
+abstract class codenames.structure.AI.AllyAI {
++ GameSinglePlayerView gameView
+# Map<String,Integer> getHintScores(CardType)
+# List<Map.Entry<String,Integer>> getSortedHintScores(CardType)
++ int countMatchingCardsForHint(String,CardType)
+}
+
+
+interface codenames.structure.Card {
++ String getString()
+}
+
+class codenames.observers.ManageImageView {
++ ListView<ImageView> wordsContainer
++ ListView<String> listContainer
++ ListView<String> hintsContainer
+- ThemedDeck currentDeck
++ void initialize()
++ void loadLists()
++ void update()
++ void loadCurrentDeck()
++ void displaycurrentDeck()
++ void addNewList()
++ void removeList()
++ void savecurrentDeck()
+- void saveHintsToFile(List<String>,String)
++ void addWordInList()
++ void removeWordInList()
++ void addHintInList()
++ void removeHintInList()
+}
+
+
+class codenames.observers.StatisticsView {
+- Label blueAverageTimeLabel
+- Label blueAverageCardsLabel
+- Label blueNumberOfErrorsLabel
+- Label blueNumberOfGuessLabel
+- Label blueNumberOfTurnsLabel
+- Label blueRemainingCardsLabel
+- Label redAverageTimeLabel
+- Label redAverageCardsLabel
+- Label redNumberOfErrorsLabel
+- Label redNumberOfGuessLabel
+- Label redNumberOfTurnsLabel
+- Label redRemainingCardsLabel
+- Game game
++ void react()
+}
+
+
+class codenames.structure.ImageThemedDeckDB {
+# {static} ImageThemedDeckDB instance
++ {static} ImageThemedDeckDB getInstance()
++ void loadAll()
++ ThemedDeck loadFromFile(String)
+}
+
+
+class codenames.structure.AI.EasyOpponentAI {
++ void play()
+}
+
+class codenames.structure.AI.HardAllyAI {
+# Map.Entry<String,Integer> getWorstHint(CardType)
++ void play()
+}
+
+class codenames.observers.view.ManageWordLoader {
+- ManageWordView rc
+}
+
+class codenames.observers.MenuBarView {
+~ MenuBar tmp
+- RadioMenuItem classicMode
+- RadioMenuItem duoMode
+- RadioMenuItem soloMode
+- CheckMenuItem blitzMode
+- Game game
++ void initialize()
+- void handleNewGame()
+- void handleLoadGame()
+- void handleSaveGame()
+- void handleExit()
+- void handleEditTextCards()
+- void handleEditImageCards()
+- void handleRules()
++ void react()
+}
+
+
+abstract class codenames.structure.Game {
+- {static} long serialVersionUID
+# int id
+# Boolean onGoing
+# Statistics blueStat
+# Boolean blueTurn
+# int remainingCardGuess
+# int cols
+- boolean blitzMode
+# ArrayList<Observer> observers
++ void addObserver(Observer)
++ void notifyObservers()
++ void setBlitzMode(boolean)
++ boolean getBlitzMode()
++ int getCols()
++ Statistics getBlueStatistics()
++ Statistics getRedStatistics()
++ int getRemainingCardGuess()
++ void setRemainingCardGuess(int)
++ int getId()
++ {abstract}Deck getDeck()
++ Boolean isBlueTurn()
++ CardType getColorTurn()
++ void changeTurn(int)
++ void ends()
++ Boolean isOnGoing()
++ void correctGuess()
++ void majStatTemps(double)
++ void wrongGuess(CardType,double)
++ int getNumberOfOpponentRemainingCardsToFind()
++ int getNumberOfRemainingCardsToFind()
++ void saveGame(File)
++ {static} Game loadGame(File)
+- {static} void copyStatistics(Statistics,Statistics)
+}
+
+
+class codenames.structure.Game$GameState {
+- int id
+- Boolean onGoing
+- Statistics blueStat
+- Statistics redStat
+- Boolean blueTurn
+- int remainingCardGuess
+- int cols
+- boolean blitzMode
+- List<PlayableCard> cards
+- String gameType
++ int getId()
++ Boolean getOnGoing()
++ Statistics getBlueStat()
++ Statistics getRedStat()
++ Boolean getBlueTurn()
++ int getRemainingCardGuess()
++ int getCols()
++ boolean isBlitzMode()
++ List<PlayableCard> getCards()
++ String getGameType()
+}
+
+
+class codenames.observers.TeamView {
+- Label points
+- ImageView teamPicture
+- ListView<String> spymastersList
+- ListView<String> spyList
+- Label info_zone
+- boolean isRedTeam
+- Game game
++ void react()
+}
+
+
+class codenames.structure.ImageCard {
+- {static} long serialVersionUID
+- String url
++ String getString()
+}
+
+
+class codenames.observers.LoadingBarView {
+- Rectangle background
+- Rectangle bar
+- StackPane stackPane
+- Game game
+- Timeline timeline
+- boolean isComplete
+- int seconds
+- double height
++ void setGameController(Game)
++ void initialize()
++ void start()
+- Color interpolateColor(Color,Color,double)
++ void stop()
+}
+
+
+class codenames.structure.DeckTwoTeams {
+- List<PlayableCard> cards
++ List<PlayableCard> getCards()
++ int size()
+}
+
+
+class codenames.observers.LoadingGameView {
+- CheckBox blitzMode
+- ComboBox<String> gameMode
+- ComboBox<String> aiLevel
+- ComboBox<String> cardMode
+- TextField gridWidth
+- TextField gridHeight
+- TextField blitzTime
+- Label blitzLabel
+- Label aiLabel
++ void initialize()
++ void updateGameMode()
+- void toggleBlitzField()
+- void startGame()
+}
+
+
+class codenames.structure.PlayableCardAdapter {
+- {static} String CARD_KEY
+- {static} String CARD_TYPE_KEY
+- {static} String GUESSED_KEY
++ JsonElement serialize(PlayableCard,Type,JsonSerializationContext)
++ PlayableCard deserialize(JsonElement,Type,JsonDeserializationContext)
+}
+
+
+class codenames.observers.GameSingleTeamView {
+- OpponentAI opponentAI
++ void initialize()
++ void setOpponentAI(OpponentAI)
++ AI getOpponentAI()
++ void processCardSelection(PlayableCard)
++ void handleButton()
+- Optional<String> askForNumberGuess()
++ void alertOpponentAIMove(String)
+}
+
+
+class codenames.structure.DeckSinglePlayer {
+- List<PlayableCardWithHints> cards
++ List<PlayableCard> getCards()
++ List<PlayableCardWithHints> getCardsWithHints()
++ int size()
+}
+
+
+class codenames.observers.ManageWordView {
++ ListView<String> wordsContainer
++ ListView<String> listContainer
++ ListView<String> hintsContainer
+- ThemedDeck currentDeck
+- Integer selectedIndexListContainer
++ void initialize()
++ void loadLists()
++ void update()
++ void loadCurrentDeck()
++ void displaycurrentDeck()
++ void addNewList()
++ void removeList()
++ void savecurrentDeck()
+- void saveCardsToFile(List<Card>,String)
+- void saveHintsToFile(List<String>,String)
++ void addWordInList()
++ void removeWordInList()
++ void addHintInList()
++ void removeHintInList()
+}
+
+
+class codenames.structure.PlayableCardWithHints {
+- List<String> hints
++ PlayableCard getPlayableCard()
++ List<String> getHints()
+}
+
+
+class codenames.structure.Statistics {
+- {static} long serialVersionUID
+- double sumTimePerTurn
+- int numberOfErrors
+- int numberOfTurns
+- int numberOfCorrectGuess
+- int numberOfRemainingCardsToFind
++ int getNumberOfRemainingCardsToFind()
++ void decrNumberOfRemainingCardsToFind()
++ void addTimePerTurn(double)
++ double getAverageTimePerTurn()
++ double getAverageCardsPerTurn()
++ int getNumberOfErrors()
++ void incrNumberOfErrors()
++ int getNumberOfTurns()
++ void incrNumberOfTurns()
++ int getNumberOfCorrectGuess()
++ void incrNumberOfCorrectGuess()
+}
+
+
+class codenames.structure.AI.MediumOpponentAI {
++ void play()
+}
+
+class codenames.structure.TextThemedDeckDB {
+# {static} TextThemedDeckDB instance
++ {static} TextThemedDeckDB getInstance()
++ void loadAll()
++ ThemedDeck loadFromFile(String)
+}
+
+
+interface codenames.observers.Observer {
++ void react()
+}
+
+class codenames.observers.Image {
+}
+abstract class codenames.structure.AI.OpponentAI {
+# Random random
++ {abstract}void play()
+# void playNextCard(List<PlayableCard>,int)
++ List<PlayableCard> getCardsUntilFirstNonRed(List<PlayableCard>)
+}
+
+
+enum codenames.structure.CardType {
++  Black
++  White
++  Red
++  Blue
+}
+
+class codenames.structure.PlayableCard {
+- {static} long serialVersionUID
+- Card card
+- CardType cardType
+- Boolean guessed
+- StackPane stackPane
++ void setStackPane(StackPane)
++ StackPane getStackPane()
++ Card getCard()
++ void guessed()
++ Boolean isGuessed()
++ CardType getCardType()
++ void setCardType(CardType)
++ Color getColor()
++ char getColorCode()
++ void recreateStackPane()
+}
+
+
+abstract class codenames.structure.AI.AI {
+~ GameView gameView
++ {abstract}void play()
+}
+
+
+class codenames.structure.ThemedDeck {
+- List<Card> cards
+- List<String> hints
++ void clear()
++ void addCard(Card)
++ void addHint(String)
++ List<Card> getCards()
++ List<String> getHints()
++ void removeCard(String)
++ void removeHint(String)
+}
+
+
+class codenames.structure.CardTypeAdapter {
+- {static} String TYPE_KEY
+- {static} String DATA_KEY
+- {static} String TEXT_KEY
+- {static} String URL_KEY
++ JsonElement serialize(Card,Type,JsonSerializationContext)
++ Card deserialize(JsonElement,Type,JsonDeserializationContext)
+}
+
+
+class codenames.observers.InputDialogView {
++ TextField inputField
++ void initialize()
++ String getValue()
+}
+
+
+class codenames.structure.AI.EasyAllyAI {
+# Map.Entry<String,Integer> getBestHint(CardType)
++ void play()
+}
+
+class codenames.structure.GameTwoTeams {
+- Image QRCode
+- DeckTwoTeams deck
++ DeckTwoTeams getDeck()
++ Image getQRCode()
++ void setQRCode(Image)
++ String generateColorsString()
++ String generateURL()
++ void generateQRCode()
+}
+
+
+abstract class codenames.observers.GameView {
+~ GridPane gridPane
+~ Button button
+~ ImageView imageView
+# Boolean blitzMode
+# Game game
+# Chronometer loadingBarView
++ void react()
++ void setLoadingBarView(Chronometer)
++ Game getGame()
+# void handleTimerEnd()
++ void initialize()
++ {abstract}void processCardSelection(PlayableCard)
+# void alertWrongGuest(String)
++ {abstract}void handleButton()
+# void displayStatistics()
+}
+
+
+
+
+codenames.structure.AI.AllyAI <|-- codenames.structure.AI.MediumAllyAI
+codenames.structure.Card <|.. codenames.structure.TextCard
+codenames.structure.AI.OpponentAI <|-- codenames.structure.AI.HardOpponentAI
+codenames.structure.Game <|-- codenames.structure.GameSinglePlayer
+codenames.observers.GameView <|-- codenames.observers.GameSinglePlayerView
+javafx.application.Application <|-- codenames.Main
+javafx.scene.control.Dialog <|-- codenames.observers.view.InputDialogView
+codenames.structure.DeckFactory +.. codenames.structure.DeckFactory$Tmp
+codenames.observers.GameView <|-- codenames.observers.GameTwoTeamsView
+codenames.structure.AI.AI <|-- codenames.structure.AI.AllyAI
+java.io.Serializable <|-- codenames.structure.Card
+codenames.observers.Observer <|.. codenames.observers.StatisticsView
+codenames.structure.ThemedDeckDB <|-- codenames.structure.ImageThemedDeckDB
+codenames.structure.AI.OpponentAI <|-- codenames.structure.AI.EasyOpponentAI
+codenames.structure.AI.AllyAI <|-- codenames.structure.AI.HardAllyAI
+codenames.observers.view.ViewLoader <|-- codenames.observers.view.ManageWordLoader
+codenames.observers.Observer <|.. codenames.observers.MenuBarView
+codenames.structure.Serializable <|.. codenames.structure.Game
+codenames.structure.Game +.. codenames.structure.Game$GameState
+codenames.structure.Serializable <|.. codenames.structure.Game$GameState
+codenames.observers.Observer <|.. codenames.observers.TeamView
+codenames.structure.Card <|.. codenames.structure.ImageCard
+codenames.observers.Chronometer <|-- codenames.observers.LoadingBarView
+codenames.structure.Deck <|.. codenames.structure.DeckTwoTeams
+codenames.structure.JsonSerializer <|.. codenames.structure.PlayableCardAdapter
+codenames.structure.JsonDeserializer <|.. codenames.structure.PlayableCardAdapter
+codenames.observers.GameView <|-- codenames.observers.GameSingleTeamView
+codenames.structure.Deck <|.. codenames.structure.DeckSinglePlayer
+codenames.structure.PlayableCard <|-- codenames.structure.PlayableCardWithHints
+java.io.Serializable <|.. codenames.structure.Statistics
+codenames.structure.AI.OpponentAI <|-- codenames.structure.AI.MediumOpponentAI
+codenames.structure.ThemedDeckDB <|-- codenames.structure.TextThemedDeckDB
+codenames.structure.AI.AI <|-- codenames.structure.AI.OpponentAI
+java.io.Serializable <|.. codenames.structure.PlayableCard
+codenames.structure.JsonSerializer <|.. codenames.structure.CardTypeAdapter
+codenames.structure.JsonDeserializer <|.. codenames.structure.CardTypeAdapter
+codenames.structure.AI.AllyAI <|-- codenames.structure.AI.EasyAllyAI
+codenames.structure.Game <|-- codenames.structure.GameTwoTeams
+codenames.observers.Observer <|.. codenames.observers.GameView
+@enduml

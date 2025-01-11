@@ -147,9 +147,9 @@ public abstract class GameView implements Observer {
                         break;
                     case Red:
                         if (rand.nextBoolean()) {
-                            path = String.valueOf(getClass().getResource("/Blue1.jpg"));
+                            path = String.valueOf(getClass().getResource("/Red1.jpg"));
                         } else {
-                            path = String.valueOf(getClass().getResource("/Blue2.jpg"));
+                            path = String.valueOf(getClass().getResource("/Red2.jpg"));
                         }
                         break;
                     default:
