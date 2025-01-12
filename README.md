@@ -1,7 +1,7 @@
 # CodingWeek 2025
 **TELECOM Nancy - 06/01 au 10/01**
 
-
+Lien de la video : https://youtu.be/xc7H_Tv9wUU
 
 Pour que le fichier `.jar` fonctionne correctement, il faut télécharger et placer le dossier "ressources" dans le même répertoire.
 
