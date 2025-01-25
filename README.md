@@ -1,17 +1,46 @@
-# CodingWeek 2025
-**TELECOM Nancy - 06/01 au 10/01**
+# LinguaCrypt : Clone numérique de CodeNames™
 
-Lien de la video : https://youtu.be/xc7H_Tv9wUU
+## Présentation du Projet
 
-Pour que le fichier `.jar` fonctionne correctement, il faut télécharger et placer le dossier "ressources" dans le même répertoire.
+Développé avec mon groupe lors de la CodingWeek 2025 à TELECOM Nancy, LinguaCrypt est une implémentation numérique du jeu de société CodeNames™, réalisée en Java/JavaFX.
 
-La commande pour executer le `.jar` est la suivante :  java --module-path CHEMIN_VERS_JAVAFX_LIB --add-modules javafx.base,javafx.controls,javafx.fxml -jar grp05.jar
+## Fonctionnalités Principales
 
-### Bugs actuels :
-- Lors du chargement d'une partie, les cartes rouges qui ont été trouvées sont affichées en bleu, à cause d'une erreur de copier/coller dans le chemin du fichier image à afficher.
-- Le mode blitz ne fonctionne pas en mode "Une équipe" et "Un joueur", en raison d'un oubli (une ligne manquante où le chronomètre n'est pas appelé).
-- Erreur dans l'affichage du temps.
+- Paramétrage personnalisable de la partie (taille de grille, thèmes de mots, nombre de joueurs)
+- Respect strict des règles originales de CodeNames™
+- Sauvegarde et chargement de parties
+- Création et gestion de listes de mots personnalisées
+- Mécanisme de consultation de la carte des agents secrets
+- Minuteur intégré avec mode "blitz" optionnel
+- Mode de jeu avec images
+- Mode solo avec indices pré-programmés
+- Suivi des statistiques des joueurs et des parties
 
-Le bon fonctionnement de l'IA repose sur la qualité des indices de chaque thème.
+## Fonctionnalités Avancées
 
-Aucun test unitaire n'a été effectué, mais nous avons testé régulièrement les implémentations lors des merges, à l'aide de l'interface graphique.
+- Mode coopératif à deux joueurs
+- Mode solo contre une IA avec différents niveaux de difficulté
+
+## Aspects Techniques
+
+- Développé en Java 17 et JavaFX
+- Architecture modulaire
+- Gestion de version avec Git
+- Processus de build automatisé avec Gradle
+
+## Méthodologie de Projet
+
+Développement itératif et incrémental, avec une version fonctionnelle livrée à la fin de chaque journée de la CodingWeek.
+
+## Installation et Exécution
+
+### Prérequis
+- Java 17
+- JavaFX SDK
+
+### Lancement de l'Application
+```bash
+java --module-path CHEMIN_VERS_JAVAFX_LIB --add-modules javafx.base,javafx.controls,javafx.fxml -jar linguacrypt.jar
+```
+
+Si vous voulez générer une nouvelle archive jar avec IntelliJ par exemple, assurez-vous que le dossier `resources` est bien placé à la racine de l'archive.
